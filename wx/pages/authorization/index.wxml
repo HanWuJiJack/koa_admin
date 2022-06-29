@@ -1,0 +1,3 @@
+<view class="indexContainer">
+    <button bindgetuserinfo='handleGetUserInfo' open-type="getUserInfo">请点击授权</button>
+</view>

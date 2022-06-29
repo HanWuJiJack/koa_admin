@@ -1,0 +1,48 @@
+.item-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+.item-box .mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background-color: rgb(0, 0,0);
+}
+.item-box .content{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border:1rpx solid red; */
+}
+.item-box .self-box{
+   box-sizing: border-box;
+   width:627rpx;
+   background:rgba(255,255,255,1);
+   border-radius:13rpx;
+   position: relative;
+}
+.item-box .self-box .text-box{
+    position: absolute;
+    bottom: -80rpx;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+ }
+ .item-box .self-box .text-box .close{
+   width: 50rpx;
+   height: 50rpx;
+}

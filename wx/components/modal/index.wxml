@@ -1,0 +1,12 @@
+<view class="item-box" catchtouchmove="_stopMove">
+	<view class="mask" style=" opacity:{{propOpacity}}">
+	</view>
+	<view class="content">
+		<view class="self-box">
+			<slot/>
+			<view class="text-box" wx:if="{{propClose !== 'hidden'}}">
+				<image mode="aspectFit" class="close" src="http://202006library.dev.iwxh5.cn/core/image/vip/close.png" bindtap="_showOpenModel"></image>
+			</view>
+		</view>
+	</view>
+</view>

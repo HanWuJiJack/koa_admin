@@ -1,0 +1,8 @@
+<!--pages/latte_art/cropper/index.wxml-->
+<view class="cropper-wrap" hidden="{{bCropper}}">
+	<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" disable_width="{{true}}" disable_height="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{sUrl}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut" disable_rotate="{{true}}" export_scale="2"></image-cropper>
+	<view class="cropper-btn">
+		<view bindtap="cancelChange" class="cancel">取消</view>
+		<view bindtap="confirmChange" class="confirm">确定</view>
+	</view>
+</view>

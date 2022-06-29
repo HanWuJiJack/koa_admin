@@ -1,0 +1,42 @@
+{
+  "pages":[
+    "pages/login/index",
+    "pages/home/home",
+    "pages/authorization/index",
+    "pages/user/user",
+    "pages/jobs/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "wx",
+    "navigationBarBackgroundColor": "#e02e24",
+    "backgroundColor": "#e02e24"
+  },
+  "tabBar": {
+    "color": "#b7b7b7",
+    "selectedColor": "#ab956d",
+    "borderStyle": "white",
+    "backgroundColor": "#f5f5f5",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-s.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/jobs/index",
+        "iconPath": "images/jobs.png",
+        "selectedIconPath": "images/jobs-s.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my-s.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

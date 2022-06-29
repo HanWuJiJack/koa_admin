@@ -1,0 +1,27 @@
+<view class="container">
+    <image mode="widthFix" class="imgBG" src="./../../assets/home/bg.jpg" />
+    <view class="box">
+        <text class="title">功能区</text>
+        <view class="boxList">
+            <view class="item" bindtap="scan">
+                <image mode="widthFix" class="item-img" src="./../../assets/home/Scan.png" />
+                <text class="des">扫一扫</text>
+            </view>
+            <!-- <view class="item">
+                <image mode="widthFix" class="item-img" src="./../../assets/home/Scan.png" />
+                <text class="des">xxx</text>
+            </view>
+            <view class="item">
+                <image mode="widthFix" class="item-img" src="./../../assets/home/Scan.png" />
+                <text class="des">xxx</text>
+            </view>
+            <view class="item">
+                <image mode="widthFix" class="item-img" src="./../../assets/home/Scan.png" />
+                <text class="des">xxx</text>
+            </view> -->
+        </view>
+    </view>
+    <view class="box">
+        <text class="title">流程说明</text>
+    </view>
+</view>

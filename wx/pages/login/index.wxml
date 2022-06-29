@@ -1,0 +1,10 @@
+<view class="container">
+    <van-cell-group border>
+        <view class="form">
+            <van-field model:value="{{ username }}" required clearable label="用户名" placeholder="请输入用户名" bind:click-icon="onClickIcon" />
+
+            <van-field model:value="{{ password }}" type="password" label="密码" placeholder="请输入密码" required border="{{ false }}" />
+        </view>
+        <button bindgetuserinfo='handleGetUserInfo' open-type="getUserInfo" type="primary" formType="submit">绑定</button>
+    </van-cell-group>
+</view>

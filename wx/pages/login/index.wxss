@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 750rpx;
+    background-color: #f5f5ff;
+    padding: 0 50rpx;
+}
+.form{
+    width: 700rpx;
+    box-sizing: border-box;
+    display: block;
+    margin-top: -80rpx;
+    margin-bottom: 50rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+}

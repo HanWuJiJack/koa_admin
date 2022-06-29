@@ -1,0 +1,29 @@
+{
+  "name": "manager",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/vue",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.6",
+    "@vueuse/core": "^8.7.4",
+    "axios": "^0.26.1",
+    "codemirror-editor-vue3": "^2.1.7",
+    "element-plus": "^2.1.11",
+    "jsencrypt": "^3.2.1",
+    "lodash": "^4.17.21",
+    "vue": "^3.2.33",
+    "vue-codemirror-lite": "^1.0.4",
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "less": "^4.1.1",
+    "sass": "^1.35.1",
+    "vite": "^2.1.5"
+  }
+}

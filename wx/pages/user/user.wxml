@@ -1,0 +1,10 @@
+<view class="container">
+    <van-cell-group border>
+        <view class="box">
+            <van-image class="avatarUrl" fit="fill" round width="200rpx" height="200rpx" src="{{userInfo.avatarUrl}}" />
+            <text class="userName">{{userInfo.nickName}}</text>
+        </view>
+        <van-cell is-link title="关于我们" link-type="navigateTo" url="/pages/dashboard/index" />
+        <van-cell title="版本号" value="v1.0.1" />
+    </van-cell-group>
+</view>

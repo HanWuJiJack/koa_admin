@@ -1,0 +1,40 @@
+/* pages/latte_art/cropper/index.wxss */
+cropper-wrap {
+    position: relative;
+    height: 100vh;
+}
+
+.cropper-btn {
+    width: 100%;
+    padding: 0 50rpx;
+    height: 80rpx;
+    position: absolute;
+    bottom:20rpx;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.cropper-btn .cancel {
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10rpx;
+    font-size: 30rpx;
+    color: #333333;
+}
+
+.cropper-btn .confirm {
+    min-width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10rpx;
+    font-size: 30rpx;
+    color: #1AAD19;
+}
