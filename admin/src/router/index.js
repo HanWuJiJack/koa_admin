@@ -104,7 +104,11 @@ router.beforeEach((to, from, next) => {
                     next({ path: 'login', replace: true }) // hack方法 确保addRoutes已完成
                 })
             } else {
-                next()
+                if (to.matched.length > 0) {
+                    next()
+                } else {
+                    next('/404')
+                }
             }
         }
     } else {
