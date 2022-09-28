@@ -86,7 +86,7 @@ module.exports = {
     message: '禁止登录'
   },
   TOKEN_FAILED: {
-    code: 1019,
+    code: 1003,
     message: 'token过期'
   },
   // RESTFUL

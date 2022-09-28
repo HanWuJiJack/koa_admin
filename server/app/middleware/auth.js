@@ -27,6 +27,7 @@ module.exports = async (ctx, next) => {
         if (ctx.state.userInfo.state === 2) {
             throw ExceptionCode.DISABLE_LOGIN
         }
+        // throw ExceptionCode.DISABLE_LOGIN
         // console.log("ctx.state", ctx.state)
         await next();
     } catch (err) {

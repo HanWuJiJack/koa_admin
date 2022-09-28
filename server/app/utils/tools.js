@@ -135,6 +135,7 @@ const code2Session = (code) => {
             .then((res) => {
                 resolve(res.data)
             }, (err) => {
+                console.log("code2Session",err)
                 reject(err)
             })
     })

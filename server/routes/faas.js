@@ -31,7 +31,7 @@ module.exports = app => {
                 method: 'delete',
             },
             {
-                api: '/faas/:code/:id',
+                api: '/faas/:code',
                 fn: (ctx, next) => faas(ctx, next, "get"),
                 method: 'get',
             },

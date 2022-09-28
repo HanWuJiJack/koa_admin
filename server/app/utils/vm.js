@@ -3,9 +3,11 @@ const lodash = require("lodash")
 const moment = require("moment")
 const mongoose = require('mongoose')
 const Tools = require("./tools")
-const modelSchemas = Object.create({})
+const defaultSchemas = require('./../model/index')
+const { modelSchemas } = require('./modelSchemas')
 
-function VM2(ctx, next, info) {
+
+function VM2(ctx, next, text) {
     const vm = new NodeVM({
         console: 'inherit',
         timeout: 1000,
@@ -21,6 +23,7 @@ function VM2(ctx, next, info) {
             mongoose,
             modelSchemas,
             Tools,
+            defaultSchemas,
         },
         require: {
             external: true,
@@ -33,19 +36,8 @@ function VM2(ctx, next, info) {
             }
         }
     });
-    const { fn } = info
-    const Fnmodels = vm.run(`module.exports = async() =>{
-        const Fnmodels=${info.model}
-        return Fnmodels()
-       }`);
-
-    const FN = vm.run(`module.exports = async() =>{
-        const  FN=${fn}
-        return FN()
-       }`);
-    return {
-        Fnmodels,
-        FN
-    }
+    return vm.run(text)
 }
 module.exports = VM2
+
+

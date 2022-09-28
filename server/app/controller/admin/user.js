@@ -13,7 +13,16 @@ class UserAdminController extends BaseController {
         this.ctx = ctx;
         this.userInfo = ctx.state.userInfo;
     }
-
+    async getUserOpen() {
+        try {
+            const list = await Schema.usersSchema.find({},'',{
+                projection:"_id userName"
+            }) //查询所有数据
+            this.ctx.body = list
+        } catch (error) {
+            this.ctx.body = super.fail({ msg: `查询异常:${error.stack}` })
+        }
+    }
     async list() {
         const {
             userId,
@@ -176,6 +185,19 @@ class UserAdminController extends BaseController {
         }
         this.ctx.body = super.fail({ msg: '删除失败' });
     }
+
+    // 永久删除
+    async remove_() {
+        try {
+           const {
+            userIds
+        } = this.ctx.request.body;
+            let res = await Schema.usersSchema.deleteMany({ userId: { $in: userIds } })
+            this.ctx.body = super.success({ data: res, msg: `删除成功` })
+        } catch (error) {
+            this.ctx.body = super.fail({ msg: error.stack })
+        }
+    }
     async all() {
         try {
             const list = await Schema.usersSchema.find({}) //查询所有数据
@@ -194,14 +216,11 @@ class UserAdminController extends BaseController {
                 userEmail,
                 userPwd
             } = this.ctx.request.body;
-            // const list = await Schema.usersSchema.find({}) //查询所有数据
-            // console.log("list7777")
             const res = await Schema.usersSchema.findOne({
                 userEmail,
                 userPwd: hash(userPwd),
-                // state: 1,
+                state: 1,
             });
-            // console.log("res", res)
             if (res) {
                 var token = encode(res._doc.userId)
                 var data = res._doc;

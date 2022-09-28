@@ -8,6 +8,7 @@ const faasSchema = mongoose.Schema({
         type: String,
         unique: false
     },//字典类型
+    schemaCode: String,
     "state": {
         type: Number,
         default: 1

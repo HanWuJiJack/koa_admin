@@ -66,12 +66,12 @@ class UserAdminController extends BaseController {
         }
     }
     async login() {
+        this.ctx.verifyParams({
+            userEmail: 'string',
+            userPwd: 'string',
+            code: 'string',
+        })
         try {
-            this.ctx.verifyParams({
-                userEmail: 'string',
-                userPwd: 'string',
-                code: 'string',
-            })
             const {
                 userEmail,
                 userPwd,
@@ -81,9 +81,13 @@ class UserAdminController extends BaseController {
                 userEmail,
                 userPwd: hash(userPwd),
                 state: 1,
-            }, 'userId userName userEmail state');
+            });
             if (res) {
                 const { session_key, openid } = await code2Session(code)
+                if (res._doc.openid) {
+                    this.ctx.body = super.fail({ data: {}, msg: '账号已经被绑定！' });
+                    return
+                }
                 await Schema.usersSchema.findOneAndUpdate({
                     userEmail,
                     userPwd: hash(userPwd)
@@ -113,11 +117,6 @@ class UserAdminController extends BaseController {
                 openid,
                 state: 1,
             });
-            // const res = await Schema.usersSchema.findOne({
-            //     openid,
-            //     state: 1,
-            // }, 'userId userName userEmail state role deptId roleList session_key');
-            // projection:'userId userName userEmail state role deptId roleList session_key'
             if (res) {
                 await Schema.usersSchema.findOneAndUpdate({ openid }, { session_key }, { new: true });
                 var token = encode(res._doc.userId)

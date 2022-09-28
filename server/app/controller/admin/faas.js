@@ -45,7 +45,7 @@ class UserAdminController extends BaseController {
 
     async create() {
         try {
-            const { method, fn, code, state, path, isAuth, remark } = this.ctx.request.body;
+            const { method, fn, code, schemaCode, state, path, isAuth, remark } = this.ctx.request.body;
             if (!method || !fn || !code) {
                 this.ctx.body = super.fail({ msg: '请填写完整再进行新增提交' })
                 return;
@@ -57,6 +57,7 @@ class UserAdminController extends BaseController {
                 // }
                 const add = new Schema.faasSchema({
                     method, fn, code, path, isAuth,
+                    schemaCode,
                     state: state ? state : undefined,
                     remark: remark ? remark : ''
                 });
@@ -73,7 +74,7 @@ class UserAdminController extends BaseController {
             const { id } = this.ctx.params
             const { ...params } = this.ctx.request.body;
             params.updateTime = new Date();
-            const res = await Schema.faasSchema.findOneAndUpdate({ _id: id }, params,{ new: true });
+            const res = await Schema.faasSchema.findOneAndUpdate({ _id: id }, params, { new: true });
             this.ctx.body = super.success({ data: res, msg: '修改成功！' })
         } catch (error) {
             this.ctx.body = super.fail({ msg: error.stack })

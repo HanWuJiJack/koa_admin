@@ -17,11 +17,13 @@ class UserAdminController extends BaseController {
     async list() {
         try {
             // console.log("params")
-            const { state, dictId } = this.ctx.request.query
+            const { state, dictId, dictLabel, dictValue } = this.ctx.request.query
             const { page, skipIndex } = super.pager(this.ctx.request.query)
             const params = {}
             if (dictId) params.dictId = parseInt(dictId);
             if (state && state != '0') params.state = parseInt(state);
+            if (dictLabel) params.dictLabel = new RegExp(`${dictLabel}`, 'ig')
+            if (dictValue) params.dictValue = new RegExp(`${dictValue}`, 'ig')
             const query = Schema.dictTypeSchema.find(params) // 查询所有数据
             const list = await query.skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据
             const total = await Schema.dictTypeSchema.countDocuments(params);
@@ -42,7 +44,7 @@ class UserAdminController extends BaseController {
 
     async create() {
         try {
-            const { dictId, dictLabel, dictValue, dictSort, state } = this.ctx.request.body;
+            const { dictId, dictLabel, dictValue, dictSort, state, remark } = this.ctx.request.body;
             if (!dictId || !dictLabel || !dictValue || !state) {
                 this.ctx.body = super.fail({ msg: '请填写完整再进行新增提交' })
                 return;
@@ -58,6 +60,7 @@ class UserAdminController extends BaseController {
                 });
                 const add = new Schema.dictTypeSchema({
                     id: countDoc.currentIndex,
+                    remark,
                     dictId,
                     dictLabel,
                     dictValue,
@@ -77,7 +80,7 @@ class UserAdminController extends BaseController {
             const { id } = this.ctx.params
             const { ...params } = this.ctx.request.body;
             params.updateTime = new Date();
-            const res = await Schema.dictTypeSchema.findOneAndUpdate({ id: parseInt(id) }, params,{ new: true });
+            const res = await Schema.dictTypeSchema.findOneAndUpdate({ id: parseInt(id) }, params, { new: true });
             this.ctx.body = super.success({ data: res, msg: '修改成功！' })
         } catch (error) {
             this.ctx.body = super.fail({ msg: error.stack })
@@ -99,6 +102,16 @@ class UserAdminController extends BaseController {
             let dictInfo = await Schema.dictSchema.findOne({ nameCode: type })
             const query = await Schema.dictTypeSchema.find({ dictId: dictInfo.id }) // 查询所有数据
             this.ctx.body = super.success({ data: query, msg: `删除成功` })
+        } catch (error) {
+            this.ctx.body = super.fail({ msg: error.stack })
+        }
+    }
+    async getOpenType() {
+        try {
+            const { type } = this.ctx.params
+            let dictInfo = await Schema.dictSchema.findOne({ nameCode: type })
+            const query = await Schema.dictTypeSchema.find({ dictId: dictInfo.id }) // 查询所有数据
+            this.ctx.body = query
         } catch (error) {
             this.ctx.body = super.fail({ msg: error.stack })
         }

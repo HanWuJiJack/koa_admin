@@ -36,6 +36,21 @@ module.exports = app => {
                 method: 'post',
             },
             {
+                api: '/goods/file',
+                fn: (ctx, next) => new FileController(ctx, next).goodsUpload(),
+                method: 'post',
+            },
+            {
+                api: '/goods/zip',
+                fn: (ctx, next) => new FileController(ctx, next).getZip(),
+                method: 'post',
+            },
+            {
+                api: '/goods/file',
+                fn: (ctx, next) => new FileController(ctx, next).goodsRemoveUpload(),
+                method: 'delete',
+            },
+            {
                 api: '/excel/file',
                 fn: (ctx, next) => new FileExcelController(ctx, next).upload(),
                 method: 'post',
@@ -45,6 +60,17 @@ module.exports = app => {
                 fn: (ctx, next) => new publicRas(ctx, next).get(),
                 method: 'get',
             },
+            {
+                api: '/dictType/dict/open/:type',
+                fn: (ctx) => new DictType(ctx).getOpenType(),
+                method: 'get',
+            },
+            {
+                api: '/user/open',
+                fn: (ctx) => new User(ctx).getUserOpen(),
+                method: 'get',
+            },
+            
         ],
         prefix: '/api',
         app
@@ -67,6 +93,11 @@ module.exports = app => {
                 api: '/users/delete',
                 fn: (ctx) => new User(ctx).remove(),
                 method: 'post',
+            },
+            {
+                api: '/users/delete',
+                fn: (ctx) => new User(ctx).remove_(),
+                method: 'delete',
             },
             {
                 api: '/users/operate',
@@ -148,7 +179,7 @@ module.exports = app => {
                 fn: (ctx) => new Leaves(ctx).count(),
                 method: 'get',
             },
-
+            
             //--------------------------字典类型--------------------------
             // 全部
             {
@@ -181,7 +212,6 @@ module.exports = app => {
                 fn: (ctx) => new DictType(ctx).get(),
                 method: 'get',
             },
-
             //--------------------------字典--------------------------
             {
                 api: '/dict/list',
