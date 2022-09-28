@@ -1,9 +1,12 @@
 # admin_node_wx功能介绍
-后台管理系统主要功能：权限管理、OA、token验权、node-rsa加密、云函数
 
-基础框架：后端：koa+mongodb、前端：vue3+Element Plus
+基础框架：
 
-数据库mongodb
+后端主要技术：koa+mongodb
+
+前端主要技术：vue3+Element Plus
+
+主要功能：权限管理、OA审批、token验权、node-rsa加密、云函数、动态表单
 
 # 云函数使用流程
 
@@ -18,4 +21,5 @@
 [后台管理系统链接](https://s1.z100.vip:8555/vue/welcome)
 
 账户：admin@qq.com
+
 密码：123456
