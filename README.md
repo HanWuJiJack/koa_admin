@@ -11,6 +11,6 @@
 
 # 数据库基础数据 查看db文件夹
 
-[后台管理系统](https://s1.z100.vip:8555/vue/welcome))
+[后台管理系统](https://s1.z100.vip:8555/vue/welcome)
 账户：admin@qq.com
 密码：123456
