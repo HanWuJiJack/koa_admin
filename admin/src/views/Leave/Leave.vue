@@ -74,14 +74,14 @@
       <!-- 申请休假弹窗 -->
       <el-dialog title="申请休假" v-model="isShow" width="40%">
         <el-form
-          :model="applyForm"
+          :model="applyForm.data.form"
           :rules="rules"
           ref="applyRuleForm"
           label-width="100px"
         >
           <el-form-item label="休假类型" prop="applyType">
             <el-select
-              v-model="applyForm.applyType"
+              v-model="applyForm.data.form.applyType"
               placeholder="请选择休假类型"
             >
               <el-option label="事假" :value="1"></el-option>
@@ -91,7 +91,7 @@
           </el-form-item>
           <el-form-item label="休假时间" prop="date">
             <el-date-picker
-              v-model="applyForm.date"
+              v-model="applyForm.data.form.date"
               @change="leaveTimeChange"
               type="daterange"
               range-separator="至"
@@ -101,10 +101,13 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="休假时长" prop="leaveTime">
-            {{ applyForm.leaveTime }}
+            {{ applyForm.data.form.leaveTime }}
           </el-form-item>
           <el-form-item label="休假原因" prop="reasons">
-            <el-input type="textarea" v-model="applyForm.reasons"></el-input>
+            <el-input
+              type="textarea"
+              v-model="applyForm.data.form.reasons"
+            ></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -237,11 +240,16 @@ export default {
     // 申请弹出显示开关
     const isShow = ref(false);
     // 申请请假表单
+
     const applyForm = reactive({
-      applyType: 1,
-      date: "",
-      leaveTime: "",
-      reasons: "",
+      data: {
+        form: {
+          applyType: 1,
+          date: "",
+          leaveTime: "",
+          reasons: "",
+        },
+      },
     });
     //表单验证规则
     const rules = reactive({
@@ -291,6 +299,12 @@ export default {
     // 申请请假按钮事假
     const applyHandler = () => {
       isShow.value = true;
+      applyForm.data.form = {
+        applyType: 1,
+        date: "",
+        leaveTime: "",
+        reasons: "",
+      };
     };
     // 弹窗取消按钮事件
     const dialogCancelHandler = () => {
@@ -302,9 +316,9 @@ export default {
         try {
           if (valid) {
             let params = {
-              ...applyForm,
-              startTime: applyForm.date[0],
-              endTime: applyForm.date[1],
+              ...applyForm.data.form,
+              startTime: applyForm.data.form.date[0],
+              endTime: applyForm.data.form.date[1],
             };
             params.action = action.value;
             await postLeave_C(params);
@@ -325,7 +339,8 @@ export default {
     // 休假时间下拉选中事件
     const leaveTimeChange = (val) => {
       const [startTime, endTime] = [val[0], val[1]];
-      applyForm.leaveTime = (endTime - startTime) / (24 * 60 * 60 * 1000) + 1;
+      applyForm.data.form.leaveTime =
+        (endTime - startTime) / (24 * 60 * 60 * 1000) + 1;
     };
     // 表格每行查看按钮事件
     const handleSee = (row) => {

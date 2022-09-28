@@ -1,13 +1,14 @@
 /**
  * 环境变量配置
  */
-const env = import.meta.env.MODE;
+const env = import.meta.env.VITE_MODE;
 const EnvConfig = {
     development:{
-        baseUrl:'/',
+        baseUrl:'/OA/',
+        // baseUrl:'/',
     },
     production:{
-        baseUrl:'/OA',
+        baseUrl:'/OA/',
     }
 }
 export default {

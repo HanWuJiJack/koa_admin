@@ -6,7 +6,7 @@
         <el-form-item label="字典名称" prop="name">
           <el-input
             v-model="selectData.name"
-            placeholder="请输入字典类型"
+            placeholder="请输入字典名称"
           ></el-input>
         </el-form-item>
         <el-form-item label="字典类型" prop="nameCode">
@@ -44,7 +44,7 @@
         >
       </div>
       <div class="bottom-table">
-        <el-table ref="Table" :data="Data" @select="selectHandler">
+        <el-table ref="Table" :data="Data" @selection-change="selectHandler">
           <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
           <el-table-column
@@ -94,26 +94,26 @@
       <!-- 新增用户弹窗 -->
       <el-dialog title="新增" v-model="dialogVisible" width="30%">
         <el-form
-          :model="form"
+          :model="form.data.form"
           :rules="rules"
           ref="ruleForm"
           label-width="100px"
         >
           <el-form-item label="字典名称" prop="name">
             <el-input
-              v-model="form.name"
+              v-model="form.data.form.name"
               placeholder="请输入字典名称"
             ></el-input>
           </el-form-item>
           <el-form-item label="字典类型" prop="nameCode">
             <el-input
-              v-model="form.nameCode"
+              v-model="form.data.form.nameCode"
               placeholder="请输入字典类型"
             ></el-input>
           </el-form-item>
 
           <el-form-item label="状态" prop="state">
-            <el-select v-model="form.state" placeholder="请选择">
+            <el-select v-model="form.data.form.state" placeholder="请选择">
               <el-option label="正常" :value="1"></el-option>
               <el-option label="停用" :value="2"></el-option>
             </el-select>
@@ -206,8 +206,13 @@ export default {
     //新增用户弹窗显示开关
     const dialogVisible = ref(false);
     //新增用户表单对象
+
     const form = reactive({
-      state: 1,
+      data: {
+        form: {
+          state: 1,
+        },
+      },
     });
     //表单验证规则
     const rules = reactive({
@@ -284,16 +289,17 @@ export default {
       pageData.pageNum = current;
       getListRequest();
     };
-    //新增用户弹窗取消按钮事件
+    //取消
     const dialogCancelHandler = () => {
       dialogVisible.value = false;
+      // form.data.form = { state: 1 };
       onResetHandler("ruleForm");
     };
     //新增用户弹窗确定按钮事件
     const dialogSubmitHandler = () => {
       proxy.$refs["ruleForm"].validate(async (valid) => {
         if (valid) {
-          let params = { ...form };
+          let params = { ...form.data.form };
           params.action = action.value;
           if (params.action === "add") {
             await addDict(params);
@@ -315,16 +321,18 @@ export default {
       dialogVisible.value = true;
       action.value = "edit";
       proxy.$nextTick(() => {
-        Object.assign(form, row);
+        Object.assign(form.data.form, row);
       });
     };
     //添加用户按钮事件
     const addHandler = () => {
       dialogVisible.value = true;
       action.value = "add";
+      form.data.form = {
+        state: 1,
+      };
     };
     const handleDetail = (row) => {
-      // console.log(`/system/dictType/${row.id}`);
       router.push(`/system/dictType/${row.id}`);
     };
     return {

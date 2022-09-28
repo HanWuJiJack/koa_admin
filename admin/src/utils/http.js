@@ -43,6 +43,7 @@ const errorHandler = (status,msg)=>{
     }
 }
 instace.interceptors.response.use(res=>{
+    console.log(777)
     if(res.status === 200){
         if(res.data.code === 200){
             return res.data.data;

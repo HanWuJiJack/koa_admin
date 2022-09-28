@@ -28,10 +28,7 @@
   </div>
 </template>
 <script>
-import publicFn from "../../utils/publicFn";
 import { postLogin, getPublicras } from "@/api/syetem/login";
-import { getPermissonMenuList } from "@/api/syetem/menu";
-import stroage from "@/utils/stroage.js";
 export default {
   name: "Login",
   data() {
@@ -44,7 +41,16 @@ export default {
         userEmail: [{ required: true, message: "请输入账号", trigger: "blur" }],
         passWord: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
+      redirect: undefined,
     };
+  },
+  watch: {
+    $route: {
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
+      },
+      immediate: true,
+    },
   },
   methods: {
     loginHandler() {
@@ -55,29 +61,14 @@ export default {
             userPwd: this.formData.passWord,
           });
           this.$store.commit("SET_USERINFO", res);
-          await this.loadAsyncRoutes();
-          this.$router.replace("/");
+          this.$router.push({ path: this.redirect || "/" });
         } else {
           return false;
         }
       });
     },
-    async loadAsyncRoutes() {
-      try {
-        const { menuList } = await getPermissonMenuList();
-        // console.log("menuList", menuList);
-        const routes = publicFn.gennerateRoutes(menuList);
-        routes.forEach((item) => {
-          this.$router.addRoute("Home", item);
-        });
-      } catch (error) {
-        console.log(error.stack);
-      }
-    },
   },
-  mounted() {
-    
-  },
+  mounted() {},
 };
 </script>
 <style lang="less" scoped>

@@ -17,6 +17,14 @@ export function postDelUser(data) {
         data: data
     })
 }
+
+export function removeUser(data) {
+    return request({
+        url: 'api/users/delete',
+        method: 'delete',
+        data: data
+    })
+}
 // 获取所有用户列表
 export function getAllUserList(query) {
     return request({

@@ -1,6 +1,20 @@
-﻿
-import JSEncrypt from 'jsencrypt'
-
+﻿import JSEncrypt from 'jsencrypt'
+import request from "@/utils/request";
+import publicFn from "@/utils/publicFn";
+import ENConfig from './../config/index'
+import axios from 'axios'
+import stroage from './stroage'
+import {
+	onMounted,
+	reactive,
+	ref,
+	getCurrentInstance,
+	toRefs,
+	// useRouter,
+	toRaw,
+	computed,
+	markRaw,
+} from "vue";
 // 加密
 export function encrypt(publicKey, txt) {
 	const encryptor = new JSEncrypt()
@@ -128,4 +142,128 @@ export function handleTree(data, id, parentId, children) {
 		}
 	}
 	return tree;
+}
+
+export function GenerateColumList(state, columList) {
+	const userInfo = stroage.getItem('userInfo');
+	return Promise.allSettled(
+		state.widgetForm.list.map(
+			(item, index) =>
+				new Promise((resolve, reject) => {
+					if (item.type == "select" && item.options.remote) {
+						console.log(item.options.remoteFunc)
+						axios(item.options.remoteFunc, {
+							method: 'GET',
+							cache: 'no-cache',
+							headers: {
+								'Content-Type': 'application/json',
+								Authorization: 'Bearer ' + userInfo.token
+							},
+						})
+							.then((res) => {
+								console.log('axios=>', res)
+								if (res.data instanceof Array) {
+									item.options.remoteOptions = res.data.map((
+										data
+									) => {
+										return {
+											label: data[item.options.props.label],
+											value: data[item.options.props.value],
+											children: data[item.options.props.children],
+										};
+									});
+								}
+								resolve({
+									prop: item.model,
+									label: item.label,
+									formatter(row, col, value) {
+										let arr = toRaw(state.widgetForm.list[index])
+											.options.remoteOptions;
+										for (const key in arr) {
+											if (Object.hasOwnProperty.call(arr, key)) {
+												if (value == arr[key].value) {
+													return arr[key].label;
+												}
+											}
+										}
+										return "";
+									},
+								});
+							});
+					} else if (item.type == "select" && !item.options.remote) {
+						resolve({
+							prop: item.model,
+							label: item.label,
+							formatter(row, col, value) {
+								let arr = state.widgetForm.list[index].options.options
+								for (const key in arr) {
+									if (Object.hasOwnProperty.call(arr, key)) {
+										if (value == arr[key].value) {
+											return arr[key].label;
+										}
+									}
+								}
+								return "";
+							}
+						});
+					} else if (item.type == "date") {
+						resolve({
+							prop: item.model,
+							label: item.label,
+							formatter(row, col, value) {
+								return publicFn.formateDate(new Date(value), "yyyy-MM-dd");
+							}
+						});
+					} else {
+						resolve({
+							prop: item.model,
+							label: item.label,
+						});
+					}
+				})
+		)
+	).then((res) => {
+		columList.value = res.map((item) => item.value)
+		columList.value = [...columList.value, {
+			prop: "createTime",
+			label: "创建时间",
+			formatter(row, col, value) {
+				return publicFn.formateDate(new Date(value));
+			},
+		}]
+
+	});
+}
+
+export function antiShake(callback, dely) {
+	let timer;
+	let that = this
+	return function () {
+		if (timer) {
+			// clearTimeout(timer)
+			// timer = null
+			// timer = setTimeout(() => {
+			//     callback.call(that)
+			//     clearTimeout(timer)
+			//     timer = null
+			// }, dely)
+		} else {
+			timer = setTimeout(() => {
+				callback.call(that)
+				clearTimeout(timer)
+				timer = null
+			}, dely)
+		}
+	}
+}
+export function handCopyText(text) {
+	return new Promise((resolve, reject) => {
+		const content = document.createElement("textarea");
+		document.getElementsByTagName("body")[0].appendChild(content);
+		content.value = text;
+		content.select();
+		document.execCommand("Copy");
+		content.remove();
+		resolve()
+	})
 }

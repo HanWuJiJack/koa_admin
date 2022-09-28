@@ -6,6 +6,8 @@ import NotFound from '../views/404.vue'
 import publicFn from '../utils/publicFn'
 import storage from '../utils/stroage'
 import store from '../store'
+import NProgress from 'nprogress' // 引入nprogress插件
+import { getPermissonMenuList } from "@/api/syetem/menu";
 const routes = [
     {
         path: '/',
@@ -13,7 +15,7 @@ const routes = [
         component: Home,
         redirect: '/welcome',
         meta: {
-            name: '欢迎使用本产品'
+            name: '首页'
         },
         children: [
             {
@@ -21,7 +23,7 @@ const routes = [
                 name: 'Welcome',
                 component: Welcome,
                 meta: {
-                    name: '欢迎页'
+                    name: '首页'
                 }
             },
             // {
@@ -80,37 +82,44 @@ const router = createRouter({
     routes
 })
 
-// 加载动态路由
-function loadAsyncRoutes() {
-    try {
-        // 有登录再进行路由表动态加载
-        if (storage.getItem('userInfo') && storage.getItem('userInfo').token) {
-            // const { menuList } = await api.getPermissonMenuList()
-            const menuList = store.state.menuList || storage.getItem('menuList')
-            // console.log("menuList11",menuList)
-            const routes = publicFn.gennerateRoutes(menuList)
-            // console.log("routes",routes)
-            routes.forEach(item => {
-                router.addRoute('Home', item)
-            })
+router.beforeEach((to, from, next) => {
+    NProgress.start()
+    if (storage.getItem('userInfo') && storage.getItem('userInfo').token) {
+        if (to.path === '/login') {
+            next({ path: '/' })
+        } else {
+            if (store.state.menuList.length === 0) {
+                getPermissonMenuList().then(res => {
+                    store.commit("SET_MENULIST", res.menuList);
+                    store.commit("SET_BTNLIST", res.btnList);
+                    const routes = publicFn.gennerateRoutes(res.menuList)
+                    routes.forEach(item => {
+                        router.addRoute('Home', item)
+                    })
+                    next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+                }).catch(err => {
+                    store.commit("SET_USERINFO", {});
+                    store.commit("SET_MENULIST", []);
+                    store.commit("SET_BTNLIST", []);
+                    next({ path: 'login', replace: true }) // hack方法 确保addRoutes已完成
+                })
+            } else {
+                next()
+            }
         }
-    } catch (error) {
-        console.log(error.stack);
-    }
-}
-
-// 进入路由守卫前，路由表必须加载完，否则如果在守卫里再加 即使添加成功了，也不生效了
-loadAsyncRoutes()
-// 判断是否具备当前路由页面权限
-// function checkPermisson(path) {
-
-// }
-router.beforeEach(async (to, from, next) => {
-    if (to.matched.length > 0) {
-        next()
     } else {
-        next('/404')
+        // 没有token
+        if (['/login'].indexOf(to.path) !== -1) {
+            // 在免登录白名单，直接进入
+            next()
+        } else {
+            next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
+        }
     }
 })
 
+router.afterEach(() => {
+    // document.title = '综合&检测管理'
+    NProgress.done()
+})
 export default router;

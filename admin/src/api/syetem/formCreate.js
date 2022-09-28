@@ -2,44 +2,45 @@ import request from '@/utils/request'
 
 
 //获取详情
-export function getDict(id) {
+export function getFormCreate(query) {
     return request({
-        url: `api/dict/${id}`,
+        url: `custom/faas/100002`,
         method: 'get',
         params: query
     })
 }
 
 // 获取列表
-export function getDictList(query) {
+export function getFormCreateList(query) {
     return request({
-        url: 'api/dict/list',
+        url: 'custom/faas/list/100002',
         method: 'get',
         params: query
     })
 }
 //新建
-export function addDict(data) {
+export function addFormCreate(data) {
     return request({
-        url: 'api/dict/add',
+        url: 'custom/faas/100002',
         method: 'post',
         data: data
     })
 }
 
 //编辑
-export function updataDict(data) {
+export function updataFormCreate(data) {
     return request({
-        url: `api/dict/edit/${data.id}`,
+        url: `custom/faas/100002`,
         method: 'put',
         data: data
     })
 }
 
 //删除
-export function removeDict(ids) {
+export function removeFormCreate(data) {
     return request({
-        url: `api/dict/remove/${ids}`,
+        url: `custom/faas/100002`,
         method: 'delete',
+        data: data
     })
 }

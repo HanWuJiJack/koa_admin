@@ -3,16 +3,16 @@
     <!-- 头部查询功能区域 -->
     <div class="top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
-        <el-form-item label="字典标签" prop="name">
+        <el-form-item label="字典标签" prop="dictLabel">
           <el-input
-            v-model="selectData.name"
+            v-model="selectData.dictLabel"
             placeholder="请输入字典类型"
           ></el-input>
         </el-form-item>
-        <el-form-item label="字典类型" prop="nameCode">
+        <el-form-item label="字典键值" prop="dictValue">
           <el-input
-            v-model="selectData.nameCode"
-            placeholder="请输入字典类型"
+            v-model="selectData.dictValue"
+            placeholder="请输入字典键值"
           ></el-input>
         </el-form-item>
         <el-form-item label="字典状态" prop="state">
@@ -44,7 +44,7 @@
         > -->
       </div>
       <div class="bottom-table">
-        <el-table ref="Table" :data="Data" @select="selectHandler">
+        <el-table ref="Table" :data="Data" @selection-change="selectHandler">
           <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
           <el-table-column
@@ -88,32 +88,38 @@
       <!-- 新增用户弹窗 -->
       <el-dialog title="新增" v-model="dialogVisible" width="30%">
         <el-form
-          :model="form"
+          :model="form.data.form"
           :rules="rules"
           ref="ruleForm"
           label-width="100px"
         >
           <el-form-item label="字典标签" prop="dictLabel">
             <el-input
-              v-model="form.dictLabel"
+              v-model="form.data.form.dictLabel"
               placeholder="请输入字典标签"
             ></el-input>
           </el-form-item>
           <el-form-item label="字典键值" prop="dictValue">
             <el-input
-              v-model="form.dictValue"
+              v-model="form.data.form.dictValue"
               placeholder="请输入字典键值"
             ></el-input>
           </el-form-item>
-           <el-form-item label="排序" prop="dictSort">
+          <el-form-item label="排序" prop="dictSort">
             <el-input
-              v-model="form.dictSort"
+              v-model="form.data.form.dictSort"
               type="Number"
               placeholder="请输入排序"
             ></el-input>
           </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input
+              v-model="form.data.form.remark"
+              placeholder="请输入备注"
+            ></el-input>
+          </el-form-item>
           <el-form-item label="状态" prop="state">
-            <el-select v-model="form.state" placeholder="请选择">
+            <el-select v-model="form.data.form.state" placeholder="请选择">
               <el-option label="正常" :value="1"></el-option>
               <el-option label="停用" :value="2"></el-option>
             </el-select>
@@ -208,8 +214,11 @@ export default {
     const dialogVisible = ref(false);
     //新增用户表单对象
     const form = reactive({
-      state: 1,
-      // dictId: parseInt(router.params.id),
+      data: {
+        form: {
+          state: 1,
+        },
+      },
     });
     //表单验证规则
     const rules = reactive({
@@ -227,13 +236,20 @@ export default {
           trigger: "blur",
         },
       ],
+      state: [
+        {
+          required: true,
+          message: "请选择状态",
+          trigger: "blur",
+        },
+      ],
     });
 
     //操作类型
     const action = ref("add");
     onMounted(() => {
-      selectData.dictId = parseInt(router.currentRoute._value.params.id)
-      form.dictId = parseInt(router.currentRoute._value.params.id)
+      selectData.dictId = parseInt(router.currentRoute._value.params.id);
+      form.data.form.dictId = parseInt(router.currentRoute._value.params.id);
       getListRequest();
     });
     //获取用户列表数据
@@ -297,7 +313,7 @@ export default {
     const dialogSubmitHandler = () => {
       proxy.$refs["ruleForm"].validate(async (valid) => {
         if (valid) {
-          let params = { ...form };
+          let params = { ...form.data.form };
           params.action = action.value;
           if (params.action === "add") {
             await addDictType(params);
@@ -319,13 +335,21 @@ export default {
       dialogVisible.value = true;
       action.value = "edit";
       proxy.$nextTick(() => {
-        Object.assign(form, row);
+        Object.assign(form.data.form, row);
       });
     };
     //添加用户按钮事件
     const addHandler = () => {
       dialogVisible.value = true;
       action.value = "add";
+      form.data.form = {
+        ...form.data.form,
+        dictLabel: "",
+        dictSort: "",
+        dictValue: "",
+        remark: "",
+        state: 1,
+      };
     };
     return {
       selectData,

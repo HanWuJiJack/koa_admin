@@ -188,7 +188,6 @@
 </template>
 <script>
 import publicFn from "../../utils/publicFn";
-
 import { postMenuList, postMenuC_U_D } from "@/api/syetem/menu";
 export default {
   name: "Menu",

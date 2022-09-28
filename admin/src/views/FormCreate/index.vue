@@ -3,10 +3,10 @@
     <!-- 头部查询功能区域 -->
     <div class="top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
-        <el-form-item label="函数类型" prop="method">
+        <el-form-item label="表单名称" prop="name">
           <el-input
-            v-model="selectData.method"
-            placeholder="请输入函数类型"
+            v-model="selectData.name"
+            placeholder="请输入表单名称"
           ></el-input>
         </el-form-item>
         <el-form-item label="code" prop="code">
@@ -14,12 +14,6 @@
             v-model="selectData.code"
             placeholder="请输入code"
           ></el-input>
-        </el-form-item>
-        <el-form-item label="函数状态" prop="state">
-          <el-select v-model="selectData.state" placeholder="请选择">
-            <el-option label="正常" :value="1"></el-option>
-            <el-option label="停用" :value="2"></el-option>
-          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSearchHandler">查询</el-button>
@@ -33,13 +27,13 @@
         <el-button
           type="primary"
           @click="addHandler"
-          v-permisson="'faas-create'"
+          v-permisson="'FormCreate-create'"
           >新增</el-button
         >
         <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
-          v-permisson="'faas-deletes'"
+          v-permisson="'FormCreate-deletes'"
           >批量删除</el-button
         >
       </div>
@@ -62,14 +56,20 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'faas-edit'"
+                v-permisson="'FormCreate-edit'"
                 >编辑</el-button
               >
+              <!-- <el-button
+                size="small"
+                @click="handleDetail(scope.row)"
+                v-permisson="'FormCreate-ditail'"
+                >详情</el-button
+              > -->
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'faas-delete'"
+                v-permisson="'FormCreate-delete'"
                 >删除</el-button
               >
             </template>
@@ -85,80 +85,29 @@
         >
         </el-pagination>
       </div>
-      <!-- 新增用户弹窗 -->
-      <el-dialog title="新增" v-model="dialogVisible" width="90%">
+      <!-- 新增 -->
+      <el-dialog title="新增" v-model="dialogVisible" width="80%">
         <el-form
-          :model="form.data"
+          :model="form.data.form"
           :rules="rules"
           ref="ruleForm"
           label-width="100px"
         >
-          <el-form-item label="函数类型" prop="method">
-            <el-select
-              v-model="form.data.method"
-              @change="onChangeFaasMethod"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in local.FAAS_Method_type"
-                :label="item.dictLabel"
-                :value="item.dictValue"
-                :key="item.id"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="函数类型" prop="method">
+          <el-form-item label="表单名称" prop="name">
             <el-input
-              v-model="form.data.method"
-              placeholder="请输入函数类型"
-              :disabled="true"
+              v-model="form.data.form.name"
+              placeholder="请输入表单名称"
             ></el-input>
           </el-form-item>
-          <el-form-item label="数据模型code" prop="schemaCode">
+          <el-form-item label="code" prop="code">
             <el-input
-              v-model="form.data.schemaCode"
-              placeholder="请输入数据模型code"
+              v-model="form.data.form.code"
+              :disabled="action == 'edit'"
+              placeholder="请输入code"
             ></el-input>
           </el-form-item>
-          <el-form-item label="函数code" prop="code">
-            <el-input
-              v-model="form.data.code"
-              placeholder="请输入函数code"
-              @change="onChangeFaasCode"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="请求路径" prop="path">
-            <el-input v-model="form.data.path" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="状态" prop="state">
-            <el-select v-model="form.data.state" placeholder="请选择">
-              <el-option label="正常" :value="1"></el-option>
-              <el-option label="停用" :value="2"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="是否需要登录" prop="isAuth">
-            <el-switch
-              v-model="form.data.isAuth"
-              style="
-                --el-switch-on-color: #ff4949;
-                --el-switch-off-color: #13ce66;
-              "
-              active-value="2"
-              inactive-value="1"
-            />
-          </el-form-item>
-
-          <Codemirror
-            style="font-size: 16px"
-            v-model:value="form.data.fn"
-            :options="cmOptions"
-            border
-            placeholder="测试 placeholder"
-            :height="500"
-            @change="onChange"
-            ref="Codemirror"
-          />
         </el-form>
+        <el-design-form ref="elDesign" style="height: 500px" />
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogCancelHandler">取 消</el-button>
@@ -182,56 +131,38 @@ import {
 } from "vue";
 import { useRouter } from "vue-router";
 import publicFn from "../../utils/publicFn";
-import Codemirror from "codemirror-editor-vue3";
-// language
-import "codemirror/mode/javascript/javascript.js";
-// theme
-import "codemirror/theme/dracula.css";
+
+import { ElDesignForm, ElGenerateForm } from "vue-form-create";
+
 import {
-  getFaasList,
-  addFaas,
-  updataFaas,
-  removeFaas,
-} from "@/api/syetem/faas";
-import { getDictTypes } from "@/api/syetem/dictType";
+  getFormCreate,
+  getFormCreateList,
+  addFormCreate,
+  updataFormCreate,
+  removeFormCreate,
+} from "@/api/syetem/formCreate";
+
 export default {
-  name: "faas",
-  components: { Codemirror },
+  name: "dict",
+  components: { ElDesignForm },
   setup() {
     const { proxy } = getCurrentInstance();
     const selectData = reactive({
       state: 1,
     }); //查询功能表单对象
     const router = useRouter();
-    // router.push('/lowcode/project/codeManagement')
-    //  console.log(route.query.type); // 第二步
-
+    const elDesign = ref();
     // 动态表格数据对象
     var Data = ref([]);
-    // const fn = ref(``);
-    const Codemirror = ref(null);
-    const local = reactive({
-      FAAS_Method_type: [],
-    });
     //动态表格字段格式
     const columList = reactive([
       {
-        prop: "method",
-        label: "函数类型",
+        prop: "name",
+        label: "表单名称",
       },
       {
         prop: "code",
-        label: "函数code",
-      },
-      {
-        prop: "state",
-        label: "状态",
-        formatter(row, col, value) {
-          return {
-            1: "正常",
-            2: "停用",
-          }[value];
-        },
+        label: "code",
       },
       {
         prop: "createTime",
@@ -252,7 +183,13 @@ export default {
     //新增用户弹窗显示开关
     const dialogVisible = ref(false);
     //新增用户表单对象
-    let form = reactive({ data: { state: 1 } });
+    const form = reactive({
+      data: {
+        form: {
+          state: 1,
+        },
+      },
+    });
     //表单验证规则
     const rules = reactive({
       name: [
@@ -262,10 +199,10 @@ export default {
           trigger: "blur",
         },
       ],
-      nameCode: [
+      code: [
         {
           required: true,
-          message: "请选择字典类型",
+          message: "请输入code",
           trigger: "blur",
         },
       ],
@@ -275,16 +212,15 @@ export default {
     const action = ref("add");
     onMounted(() => {
       getListRequest();
-      getDictTypes("FAAS_Method_type").then((res) => {
-        local.FAAS_Method_type = res;
-        // console.log(res);
-      });
+      // getFormCreate({ id: "62bc040c32a9460c40f773e7" }).then((res) => {
+      //   console.log("test", res);
+      // });
     });
     //获取用户列表数据
     const getListRequest = async () => {
       const params = { ...selectData, ...pageData };
       try {
-        const res = await getFaasList(params);
+        const res = await getFormCreateList(params);
         Data.value = res.list;
         pageData.total = res.page.total;
       } catch (error) {
@@ -310,10 +246,12 @@ export default {
     //删除用户事件
     const handleDelete = async (row, action) => {
       if (action === "del") {
-        var res = await removeFaas(row._id);
+        var res = await removeFormCreate({ ids: row._id });
       } else {
         if (selectArr.value.length > 0) {
-          var res = await removeFaas([...selectArr.value].join(","));
+          var res = await removeFormCreate({
+            ids: [...selectArr.value].join(","),
+          });
         } else {
           proxy.$message.error("您还没选中需要删除的数据");
           return;
@@ -341,13 +279,14 @@ export default {
     const dialogSubmitHandler = () => {
       proxy.$refs["ruleForm"].validate(async (valid) => {
         if (valid) {
-          let params = { ...form.data };
+          form.data.form.config = elDesign.value.getJson();
+          let params = { ...form.data.form };
           params.action = action.value;
           if (params.action === "add") {
-            await addFaas(params);
+            await addFormCreate(params);
             proxy.$message.success("添加信息成功");
           } else {
-            await updataFaas(params);
+            await updataFormCreate(params);
             proxy.$message.success("修改信息成功");
           }
           dialogVisible.value = false;
@@ -362,24 +301,26 @@ export default {
     const handleEdit = (row) => {
       dialogVisible.value = true;
       action.value = "edit";
-      form.data = {};
       proxy.$nextTick(() => {
-        Object.assign(form.data, row);
+        Object.assign(form.data.form, row);
+        if (row.config) {
+          elDesign.value.setJson(row.config);
+        }
       });
     };
     //添加用户按钮事件
     const addHandler = () => {
       dialogVisible.value = true;
       action.value = "add";
-      form.data = {};
-      // 处理行数问题
-      setTimeout(() => {
-        Codemirror.value.refresh();
-      }, 0);
+      form.data.form = { state: 1 };
+      if (elDesign.value) {
+        // console.log("elDesign.value", elDesign.value);
+        elDesign.value.clear();
+      }
     };
     const handleDetail = (row) => {
       // console.log(`/system/dictType/${row.id}`);
-      // router.push(`/system/dictType/${row.id}`);
+      router.push(`/system/dictType/${row.id}`);
     };
     return {
       selectData,
@@ -390,42 +331,6 @@ export default {
       form,
       rules,
       action,
-      // fn,
-      Codemirror,
-      local,
-      cmOptions: {
-        mode: "text/javascript", // 语言模式
-        theme: "dracula", // 主题
-        lineNumbers: true, // 显示行号
-        smartIndent: true, // 智能缩进
-        indentUnit: 2, // 智能缩进单位为4个空格长度
-        foldGutter: true, // 启用行槽中的代码折叠
-        styleActiveLine: true, // 显示选中行的样式
-      },
-      onChange(val, cm) {
-        //  console.log(7878, Codemirror);
-        // console.log(val, cm);
-        cm.refresh();
-      },
-      onChangeFaasCode(val, e) {
-        if (form.data.method == "list") {
-          form.data.path = "/custom/faas/list/" + val;
-        } else {
-          form.data.path = "/custom/faas/" + val;
-        }
-      },
-      onChangeFaasMethod(val, e) {
-        if (!form.data.code) {
-          return;
-        }
-        if (val == "list") {
-          form.data.path = "/custom/faas/list/" + form.data.code;
-        } else if (val == "get") {
-          form.data.path = "/custom/faas/" + form.data.code + "/:id";
-        } else {
-          form.data.path = "/custom/faas/" + form.data.code;
-        }
-      },
       getListRequest,
       onSearchHandler,
       onResetHandler,
@@ -437,6 +342,7 @@ export default {
       addHandler,
       handleCurrentChange,
       handleDetail,
+      elDesign,
     };
   },
 };

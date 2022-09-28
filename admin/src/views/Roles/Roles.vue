@@ -255,6 +255,7 @@ export default {
     createHandler() {
       this.addShow = true;
       this.action = "create";
+      this.addForm = {};
     },
     // 重置表单
     resetForm() {

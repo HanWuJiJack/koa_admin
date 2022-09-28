@@ -46,7 +46,11 @@
         >
       </div>
       <div class="users-bottom-table">
-        <el-table ref="userTable" :data="userData" @select="selectHandler">
+        <el-table
+          ref="userTable"
+          :data="userData"
+          @selection-change="selectHandler"
+        >
           <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
           <el-table-column
@@ -59,7 +63,7 @@
           >
           </el-table-column>
           <!-- 操作 -->
-          <el-table-column label="操作" width="180" align="center">
+          <el-table-column label="操作" width="300" align="center">
             <template #default="scope">
               <el-button
                 size="small"
@@ -80,6 +84,13 @@
                 v-permisson="'user-delete'"
                 >删除</el-button
               >
+              <el-button
+                size="small"
+                type="danger"
+                @click="handleDelete(scope.row, 'del_')"
+                v-permisson="'user-delete'"
+                >永久删除</el-button
+              >
               <!-- <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
                             <el-button size="mini" type="danger" @click="handleDelete(scope.row,'del')">删除</el-button> -->
             </template>
@@ -98,26 +109,26 @@
       <!-- 新增用户弹窗 -->
       <el-dialog title="新增用户" v-model="userDialogVisible" width="80%">
         <el-form
-          :model="userForm"
+          :model="userForm.data.form"
           :rules="rules"
           ref="userRuleForm"
           label-width="150px"
         >
           <el-form-item label="品牌" prop="brand">
             <el-input
-              v-model="userForm.brand"
+              v-model="userForm.data.form.brand"
               placeholder="请输入品牌"
             ></el-input>
           </el-form-item>
           <el-form-item label="用户名" prop="userName">
             <el-input
-              v-model="userForm.userName"
+              v-model="userForm.data.form.userName"
               placeholder="请输入用户名称"
             ></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="userEmail">
             <el-input
-              v-model="userForm.userEmail"
+              v-model="userForm.data.form.userEmail"
               placeholder="请输入用户邮箱"
               :disabled="action == 'edit'"
             >
@@ -125,7 +136,10 @@
             </el-input>
           </el-form-item>
           <el-form-item label="公司" prop="company">
-            <el-select v-model="userForm.company" placeholder="请选择">
+            <el-select
+              v-model="userForm.data.form.company"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in local.companyType"
                 :label="item.dictLabel"
@@ -136,61 +150,61 @@
           </el-form-item>
           <el-form-item label="公司地址" prop="companyAddress">
             <el-input
-              v-model="userForm.companyAddress"
+              v-model="userForm.data.form.companyAddress"
               placeholder="请输入公司地址"
             ></el-input>
           </el-form-item>
           <el-form-item label="发票抬头" prop="InvoiceTitle">
             <el-input
-              v-model="userForm.InvoiceTitle"
+              v-model="userForm.data.form.InvoiceTitle"
               placeholder="请输入发票抬头"
             ></el-input>
           </el-form-item>
           <el-form-item label="税号" prop="dutyParagraph">
             <el-input
-              v-model="userForm.dutyParagraph"
+              v-model="userForm.data.form.dutyParagraph"
               placeholder="请输入税号"
             ></el-input>
           </el-form-item>
           <el-form-item label="快递地址" prop="expressAddress">
             <el-input
-              v-model="userForm.expressAddress"
+              v-model="userForm.data.form.expressAddress"
               placeholder="请输入快递地址"
             ></el-input>
           </el-form-item>
           <el-form-item label="快递联系人" prop="expressName">
             <el-input
-              v-model="userForm.expressName"
+              v-model="userForm.data.form.expressName"
               placeholder="请输入快递联系人"
             ></el-input>
           </el-form-item>
           <el-form-item label="快递联系人手机号" prop="expressPhone">
             <el-input
-              v-model="userForm.expressPhone"
+              v-model="userForm.data.form.expressPhone"
               placeholder="请输入快递联系人手机号"
             ></el-input>
           </el-form-item>
           <el-form-item label="用户手机号" prop="mobile">
             <el-input
-              v-model="userForm.mobile"
+              v-model="userForm.data.form.mobile"
               placeholder="请输入用户手机号码"
             ></el-input>
           </el-form-item>
           <el-form-item label="岗位" prop="job">
             <el-input
-              v-model="userForm.job"
+              v-model="userForm.data.form.job"
               placeholder="请输入岗位"
             ></el-input>
           </el-form-item>
           <el-form-item label="状态" prop="state">
-            <el-select v-model="userForm.state" placeholder="请选择">
+            <el-select v-model="userForm.data.form.state" placeholder="请选择">
               <el-option label="启用" :value="1"></el-option>
               <el-option label="禁用" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="系统角色" prop="roleList">
             <el-select
-              v-model="userForm.roleList"
+              v-model="userForm.data.form.roleList"
               placeholder="请选择"
               multiple
             >
@@ -213,7 +227,7 @@
                 children: 'children',
               }"
               clearable
-              v-model="userForm.deptId"
+              v-model="userForm.data.form.deptId"
               placeholder="请选择"
             >
             </el-cascader>
@@ -233,7 +247,7 @@
         <el-form
           :model="pswForm.data"
           :rules="pswForm.rules"
-          ref="pswForm"
+          ref="pswFormRef"
           label-width="100px"
         >
           <el-form-item label="密码" prop="userPwd">
@@ -246,7 +260,7 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogCancelHandler('psw')">取 消</el-button>
-            <el-button type="primary" @click="dialogSubmitHandler"
+            <el-button type="primary" @click="dialogSubmitChangePWS"
               >确 定</el-button
             >
           </span>
@@ -266,6 +280,7 @@ import {
   postDelUser,
   postUserC_U,
   changePWS,
+  removeUser,
 } from "@/api/syetem/users";
 import { getDictTypes } from "@/api/syetem/dictType";
 export default {
@@ -280,10 +295,11 @@ export default {
     const local = reactive({
       companyType: [],
     });
+    const pswFormRef = ref();
     const pswForm = reactive({
       rules: {},
       show: false,
-      data: {},
+      data: { userPwd: "" },
     });
     //动态表格字段格式
     const columList = reactive([
@@ -346,7 +362,11 @@ export default {
     const userDialogVisible = ref(false);
     //新增用户表单对象
     const userForm = reactive({
-      state: 1,
+      data: {
+        form: {
+          state: 1,
+        },
+      },
     });
     //表单验证规则
     const rules = reactive({
@@ -405,13 +425,25 @@ export default {
     };
     //删除用户事件
     const handleDelete = async (row, action) => {
+      let res = undefined;
       if (action === "del") {
-        var res = await postDelUser({
+        res = await postDelUser({
           userIds: [row.userId],
         });
+      } else if (action === "del_") {
+        res = await removeUser({
+          userIds: [row.userId],
+        });
+        if (res.deletedCount >= 1) {
+          proxy.$message.success("删除成功");
+          getUserListRequest();
+        } else {
+          proxy.$message.error("删除失败");
+        }
+        return;
       } else {
         if (selectUserArr.value.length > 0) {
-          var res = await postDelUser({
+          res = await postDelUser({
             userIds: [...selectUserArr.value],
           });
         } else {
@@ -446,11 +478,26 @@ export default {
       userDialogVisible.value = false;
       onResetHandler("userRuleForm");
     };
+
+    const dialogSubmitChangePWS = async () => {
+      if (pswForm.data.userPwd) {
+        await changePWS({
+          userPwd: pswForm.data.userPwd,
+          userId: pswForm.data.userId,
+        });
+        proxy.$message.success("您的新密码为：" + pswForm.data.userPwd);
+        pswForm.show = false;
+        getUserListRequest();
+      } else {
+        proxy.$message.error("您填写的信息不符合规则，请重新输入");
+        return false;
+      }
+    };
     //新增用户弹窗确定按钮事件
     const dialogSubmitHandler = () => {
       proxy.$refs["userRuleForm"].validate(async (valid) => {
         if (valid) {
-          let params = { ...userForm };
+          let params = { ...userForm.data.form };
           params.action = action.value;
           await postUserC_U(params);
           if (params.action === "add") {
@@ -472,13 +519,14 @@ export default {
         userDialogVisible.value = true;
         action.value = "edit";
         proxy.$nextTick(() => {
-          Object.assign(userForm, row);
+          Object.assign(userForm.data.form, row);
         });
       }
       if (type === "psw") {
+        pswForm.data = {};
         pswForm.show = true;
         proxy.$nextTick(() => {
-          Object.assign(pswForm.data, row);
+          Object.assign(pswForm.data, row, { userPwd: "" });
         });
       }
     };
@@ -486,6 +534,7 @@ export default {
     const addUserHandler = () => {
       userDialogVisible.value = true;
       action.value = "add";
+      userForm.data.form = { state: 1 };
     };
     return {
       selectData,
@@ -500,6 +549,7 @@ export default {
       action,
       local,
       pswForm,
+      pswFormRef,
       getUserListRequest,
       onSearchHandler,
       onResetHandler,
@@ -509,6 +559,7 @@ export default {
       getDeptListRequest,
       dialogCancelHandler,
       dialogSubmitHandler,
+      dialogSubmitChangePWS,
       handleEdit,
       addUserHandler,
       handleCurrentChange,
