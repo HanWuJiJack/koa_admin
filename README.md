@@ -1,16 +1,9 @@
-# admin_node_wx功能介绍
+# 功能介绍 
+基础框架：后端：koa+mongodb;前端：vue3+Element Plus  
+系统核心功能：权限管理、OA审批、token验权、Rsa加密登录账户信息、功能即服务（FaaS）、接口权限控制、动态表单等。  
+## 本项目（约定优于配置）有以下约定 
 
-基础框架：
-
-后端主要技术：koa+mongodb
-
-前端主要技术：vue3+Element Plus
-
-主要功能：权限管理、OA审批、token验权、Rsa加密登录账户信息、云函数、动态表单
-
-## 本项目（约定优于配置）有以下约定
-
-#### 类内部函数方法名包含以下 如：list、get、create、update、remove、del等会默认使用以下对应的method进行请求
+#### 类内部函数方法名包含以下 如：list、get、create、update、remove、del等会默认使用以下对应的method进行请求 
 ```
 if (key.indexOf('list') > -1) {
         return 'get'
@@ -50,11 +43,11 @@ if (key.indexOf('list') > -1) {
 
 # 云函数使用流程
 
-将model 加入Schema_type字典中
-约定-例如：
-字典键值：model100001-test1（请严格遵守此格式）
+将model 加入Schema_type字典中  
+约定-例如： 
+字典键值：model100001-test1（请严格遵守此格式） 
 
-字典标签：
+字典标签： 
 ```
 module.exports = async () => {
     if (!modelSchemas.model100001) {
@@ -196,9 +189,9 @@ async list() {
 # 数据库基础数据
 数据库基础数据 查看db文件夹
 
-### mongoose.Schema 支持类型
+### mongoose.Schema 支持类型  
  [https://mongoosejs.com/docs/guide.html]
-String
+<!-- String
 Number
 Date
 Buffer
@@ -207,7 +200,7 @@ Mixed
 ObjectId
 Array
 Decimal128
-Map
+Map -->
 
 ###  Controller写法
     // async list(){}
@@ -244,8 +237,12 @@ Map
         method: put 
 
 # 体验
-[后台管理系统链接](https://s1.z100.vip:8555/vue/welcome)
+<!-- [后台管理系统链接](https://s1.z100.vip:8555/vue/welcome) -->
 
 账户：admin@qq.com
 
 密码：123456
+
+## 运行
+yarn dev : 单线程线程运行模式
+yarn cluster : 多线程运行模式（默认本地电脑cpu线程数/2） (具体查看cluster.js)
