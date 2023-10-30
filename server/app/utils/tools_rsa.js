@@ -1,8 +1,9 @@
 const NodeRSA = require('node-rsa')
-// const fs = require("fs")
 const path = require("path")
 const fs = require('fs-extra')
-
+const {
+    logger
+} = require(path.join(process.cwd(), "./config/logger"))
 
 
 //512bit支持的最长明文长度是：512/8 - 11 = 53
@@ -16,11 +17,11 @@ exports.generator = function generator() {
         var publicPem = key.exportKey('pkcs8-public-pem')
         fs.writeFile(path.resolve(__dirname, './public.pem'), publicPem, (err) => {
             if (err) throw err
-            console.log('公钥已保存！')
+            logger.systemLogger.info('公钥已保存！')
         })
         fs.writeFile(path.resolve(__dirname, './private.pem'), privatePem, (err) => {
             if (err) throw err
-            console.log('私钥已保存！')
+            logger.systemLogger.info('私钥已保存！')
         })
     }
 }

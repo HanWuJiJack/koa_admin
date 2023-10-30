@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getDict(id) {
     return request({
-        url: `api/dict/${id}`,
+        url: `auth/admin/dict/get/${id}`,
         method: 'get',
         params: query
     })
@@ -13,7 +13,7 @@ export function getDict(id) {
 // 获取列表
 export function getDictList(query) {
     return request({
-        url: 'api/dict/list',
+        url: 'auth/admin/dict/list',
         method: 'get',
         params: query
     })
@@ -21,7 +21,7 @@ export function getDictList(query) {
 //新建
 export function addDict(data) {
     return request({
-        url: 'api/dict/add',
+        url: '/auth/admin/dict/create',
         method: 'post',
         data: data
     })
@@ -30,7 +30,7 @@ export function addDict(data) {
 //编辑
 export function updataDict(data) {
     return request({
-        url: `api/dict/edit/${data.id}`,
+        url: `/auth/admin/dict/update/${data.id}`,
         method: 'put',
         data: data
     })
@@ -39,7 +39,7 @@ export function updataDict(data) {
 //删除
 export function removeDict(ids) {
     return request({
-        url: `api/dict/remove/${ids}`,
+        url: `/auth/admin/dict/remove/${ids}`,
         method: 'delete',
     })
 }

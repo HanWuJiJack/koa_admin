@@ -4,10 +4,7 @@
     <div class="menu-top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
         <el-form-item label="菜单名称" prop="menuName">
-          <el-input
-            v-model="selectData.menuName"
-            placeholder="请输入菜单名称"
-          ></el-input>
+          <el-input v-model="selectData.menuName" placeholder="请输入菜单名称"></el-input>
         </el-form-item>
         <el-form-item label="菜单状态" prop="menuState">
           <el-select v-model="selectData.menuState" placeholder="请选择">
@@ -24,10 +21,7 @@
     <!-- 表格区域 -->
     <div class="menu-bottom">
       <div class="menu-bottom-top">
-        <el-button
-          type="primary"
-          @click="addMenuHandler(1)"
-          v-permisson="'menu-create'"
+        <el-button type="primary" @click="addMenuHandler(1)" v-permisson="'menu-create'"
           >新增菜单</el-button
         >
         <!-- <el-button type="primary" @click="addMenuHandler(1)" >新增菜单</el-button> -->
@@ -46,7 +40,7 @@
           :formatter="item.formatter"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column label="操作" width="250">
+        <el-table-column label="操作" width="250" align="left">
           <template #default="scope">
             <!-- <el-button size="mini" @click="addMenuHandler(2, scope.row)" type="primary" >添加</el-button>
                         <el-button size="mini" @click="handleEdit(scope.row)" >编辑</el-button>
@@ -82,12 +76,7 @@
       :close-on-click-modal="false"
       @close="closeHandler"
     >
-      <el-form
-        :model="menuForm"
-        :rules="rules"
-        ref="menuRuleForm"
-        label-width="100px"
-      >
+      <el-form :model="menuForm" :rules="rules" ref="menuRuleForm" label-width="100px">
         <el-form-item label="父级菜单" prop="parentId">
           <el-cascader
             :options="menuListData"
@@ -97,9 +86,7 @@
             placeholder="请选择"
           >
           </el-cascader>
-          <span style="color: #999; margin-left: 10px"
-            >如果不选创建一级菜单</span
-          >
+          <span style="color: #999; margin-left: 10px">如果不选创建一级菜单</span>
         </el-form-item>
         <el-form-item label="菜单类型" prop="menuType">
           <el-radio v-model="menuForm.menuType" :label="1">菜单</el-radio>
@@ -111,71 +98,40 @@
         >
           <el-input
             v-model="menuForm.menuName"
-            :placeholder="
-              menuForm.menuType == 1 ? '请输入菜单名称' : '输入按钮名称'
-            "
+            :placeholder="menuForm.menuType == 1 ? '请输入菜单名称' : '输入按钮名称'"
           ></el-input>
         </el-form-item>
-        <el-form-item
-          label="权限标识"
-          prop="menuCode"
-          v-if="menuForm.menuType == 2"
-        >
-          <el-input
-            v-model="menuForm.menuCode"
-            placeholder="请输入唯一标识"
-          ></el-input>
+        <el-form-item label="权限标识" prop="menuCode" v-if="menuForm.menuType == 2">
+          <el-input v-model="menuForm.menuCode" placeholder="请输入唯一标识"></el-input>
         </el-form-item>
-        <el-form-item
-          label="菜单路由"
-          prop="path"
-          v-if="menuForm.menuType == 1"
-        >
-          <el-input
-            v-model="menuForm.path"
-            placeholder="请输入菜单路由"
-          ></el-input>
+        <el-form-item label="菜单路由" prop="path" v-if="menuForm.menuType == 1">
+          <el-input v-model="menuForm.path" placeholder="请输入菜单路由"></el-input>
         </el-form-item>
-        <el-form-item
-          label="菜单图标"
-          prop="icon"
-          v-if="menuForm.menuType == 1"
-        >
+        <el-form-item label="菜单图标" prop="icon" v-if="menuForm.menuType == 1">
           <el-input
             v-model="menuForm.icon"
             placeholder="请输入图标(element-ui的图标库)"
           ></el-input>
         </el-form-item>
-        <el-form-item
-          label="组件路径"
-          prop="component"
-          v-if="menuForm.menuType == 1"
-        >
-          <el-input
-            v-model="menuForm.component"
-            placeholder="请输入组件路径"
-          ></el-input>
+        <el-form-item label="组件路径" prop="component" v-if="menuForm.menuType == 1">
+          <el-input v-model="menuForm.component" placeholder="请输入组件路径"></el-input>
         </el-form-item>
-        <el-form-item
-          label="菜单状态"
-          prop="menuState"
-          v-if="menuForm.menuType == 1"
-        >
+        <el-form-item label="code" prop="code">
+          <el-input v-model="menuForm.code" placeholder="请输入code"></el-input>
+        </el-form-item>
+        <el-form-item label="菜单状态" prop="menuState" v-if="menuForm.menuType == 1">
           <el-radio-group v-model="menuForm.menuState">
             <el-radio :label="1">正常</el-radio>
             <el-radio :label="2">停用</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          label="显示菜单"
-          prop="isShow"
-          v-if="menuForm.menuType == 1"
-        >
+        <el-form-item label="显示菜单" prop="isShow" v-if="menuForm.menuType == 1">
           <el-radio-group v-model="menuForm.isShow">
             <el-radio :label="1">显示</el-radio>
             <el-radio :label="2">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
+        
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -253,13 +209,13 @@ export default {
       menuForm: {
         menuType: 1,
         menuState: 1,
+        isShow: 1,
         parentId: [null],
       },
       //表单验证规则
       rules: {
-        menuName: [
-          { required: true, message: "请输入菜单名称", trigger: "blur" },
-        ],
+        menuName: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
+        code: [{ required: true, message: "请输入code", trigger: "blur" }],
       },
       action: "create",
     };
@@ -321,9 +277,7 @@ export default {
       } else {
         //每行的添加按钮
         this.$nextTick(() => {
-          this.menuForm.parentId = [...row.parentId, row._id].filter(
-            (item) => item
-          );
+          this.menuForm.parentId = [...row.parentId, row._id].filter((item) => item);
           this.menuForm.menuType = 1;
         });
       }

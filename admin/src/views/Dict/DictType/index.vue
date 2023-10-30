@@ -36,12 +36,12 @@
           v-permisson="'dictType-create'"
           >新增</el-button
         >
-        <!-- <el-button
+        <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
           v-permisson="'user-deletes'"
           >批量删除</el-button
-        > -->
+        >
       </div>
       <div class="bottom-table">
         <el-table ref="Table" :data="Data" @selection-change="selectHandler">
@@ -57,7 +57,7 @@
           >
           </el-table-column>
           <!-- 操作 -->
-          <el-table-column label="操作" width="180" align="center">
+          <el-table-column label="操作" width="180" align="left">
             <template #default="scope">
               <el-button
                 size="small"
@@ -272,12 +272,8 @@ export default {
       proxy.$refs[name].resetFields();
     };
     //表格选中事件
-    const selectHandler = (selection, row) => {
-      var arr = [];
-      selection.map((item) => {
-        arr.push(item.userId);
-      });
-      selectArr.value = arr;
+    const selectHandler = (selection, row) => {      
+      selectArr.value = selection.map((item) => item.id);
     };
     //删除用户事件
     const handleDelete = async (row, action) => {
@@ -285,6 +281,7 @@ export default {
         var res = await removeDictType(row.id);
       } else {
         if (selectArr.value.length > 0) {
+          console.log("selectArr",selectArr)
           var res = await removeDictType([...selectArr.value].join(","));
         } else {
           proxy.$message.error("您还没选中需要删除的数据");

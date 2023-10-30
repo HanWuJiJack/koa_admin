@@ -3,17 +3,20 @@
  */
 const env = import.meta.env.VITE_MODE;
 const EnvConfig = {
-    development:{
-        baseUrl:'/OA/',
-        // baseUrl:'/',
+    development: {
+        url: "http://localhost:3001/",
+        baseUrl: '/OA/',
+        wordTemUrl: '/public/doc/',
     },
-    production:{
-        baseUrl:'/OA/',
+    production: {
+        url: "http://localhost:3001/",
+        baseUrl: '/OA/',
+        wordTemUrl: '/vue/doc/',
     }
 }
 export default {
     env,
-    mock:true,
-    stroageSpace:'manger',//本地存储的命名空间
+    mock: true,
+    stroageSpace: 'manger',//本地存储的命名空间
     ...EnvConfig[env]//根据不同的环境变量解构出对应的地址参数
 }

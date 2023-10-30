@@ -12,7 +12,7 @@
         <div class="bullshit__info">All rights reserved
         </div>
         <div class="bullshit__headline">{{ message }}</div>
-        <a href="" class="bullshit__return-home">回到首页</a>
+        <router-link to="/welcome" class="bullshit__return-home">回到首页</router-link>
       </div>
     </div>
   </div>

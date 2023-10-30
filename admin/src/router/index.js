@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+    createRouter,
+    createWebHashHistory,
+    createWebHistory
+} from 'vue-router'
 import Home from '../layout/Home.vue'
 import Welcome from '../views/Welcome/Welcome.vue'
 import Login from '../views/Login/Login.vue'
@@ -7,9 +11,10 @@ import publicFn from '../utils/publicFn'
 import storage from '../utils/stroage'
 import store from '../store'
 import NProgress from 'nprogress' // 引入nprogress插件
-import { getPermissonMenuList } from "@/api/syetem/menu";
-const routes = [
-    {
+import {
+    getPermissonMenuList
+} from "@/api/syetem/menu";
+const routes = [{
         path: '/',
         name: 'Home',
         component: Home,
@@ -17,47 +22,15 @@ const routes = [
         meta: {
             name: '首页'
         },
-        children: [
-            {
+        children: [{
                 path: '/welcome',
                 name: 'Welcome',
                 component: Welcome,
                 meta: {
-                    name: '首页'
+                    name: '首页',
+                    code: "000"
                 }
             },
-            // {
-            //     path:'/system/users',
-            //     name:'Users',
-            //     component:() => import('../views/Users/Users.vue'),
-            //     meta:{
-            //         name:'用户管理'
-            //     }
-            // },
-            // {
-            //     path:'/system/menu',
-            //     name:'Menu',
-            //     component:() => import('../views/Menu/Menu.vue'),
-            //     meta:{
-            //         name:'菜单管理'
-            //     }
-            // },
-            // {
-            //     path:'/system/roles',
-            //     name:'Roles',
-            //     component:() => import('../views/Roles/Roles.vue'),
-            //     meta:{
-            //         name:'角色管理'
-            //     }
-            // },
-            // {
-            //     path:'/system/dept',
-            //     name:'Dept',
-            //     component:() => import('../views/Dept/Dept.vue'),
-            //     meta:{
-            //         name:'部门管理'
-            //     }
-            // }
         ]
     },
     {
@@ -78,7 +51,9 @@ const routes = [
 const router = createRouter({
     // history: createWebHashHistory("/vue"),
     history: createWebHistory("/vue"),
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: () => ({
+        y: 0
+    }),
     routes
 })
 
@@ -86,9 +61,11 @@ router.beforeEach((to, from, next) => {
     NProgress.start()
     if (storage.getItem('userInfo') && storage.getItem('userInfo').token) {
         if (to.path === '/login') {
-            next({ path: '/' })
+            next({
+                path: '/'
+            })
         } else {
-            if (store.state.menuList.length === 0) {
+            if (store.state.menuList.length === 0 && !store.state.isRq) {
                 getPermissonMenuList().then(res => {
                     store.commit("SET_MENULIST", res.menuList);
                     store.commit("SET_BTNLIST", res.btnList);
@@ -96,12 +73,18 @@ router.beforeEach((to, from, next) => {
                     routes.forEach(item => {
                         router.addRoute('Home', item)
                     })
-                    next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+                    next({
+                        ...to,
+                        replace: true
+                    }) // hack方法 确保addRoutes已完成
                 }).catch(err => {
                     store.commit("SET_USERINFO", {});
                     store.commit("SET_MENULIST", []);
                     store.commit("SET_BTNLIST", []);
-                    next({ path: 'login', replace: true }) // hack方法 确保addRoutes已完成
+                    next({
+                        path: 'login',
+                        replace: true
+                    }) // hack方法 确保addRoutes已完成
                 })
             } else {
                 if (to.matched.length > 0) {

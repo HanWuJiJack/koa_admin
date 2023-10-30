@@ -25,13 +25,13 @@ export default {
     },
     //金钱格式化 number_format(1234567.089, 2, ".", ",");//1,234,567.09
     /*
-    * 参数说明：
-    * number：要格式化的数字
-    * decimals：保留几位小数
-    * dec_point：小数点符号
-    * thousands_sep：千分位符号
-    * 
-    */
+     * 参数说明：
+     * number：要格式化的数字
+     * decimals：保留几位小数
+     * dec_point：小数点符号
+     * thousands_sep：千分位符号
+     * 
+     */
     number_format(number, decimals, dec_point, thousands_sep) {
         number = (number + '').replace(/[^0-9+-Ee.]/g, '');
         var n = !isFinite(+number) ? 0 : +number,
@@ -78,7 +78,8 @@ export default {
 
     // 递归遍历生成路由表
     gennerateRoutes(list) {
-        const modules = import.meta.glob('../views/**/*.vue')
+        const modules =
+            import.meta.glob('../views/**/*.vue')
         // console.log("modules", modules)
         var result = []
         list.forEach(item => {
@@ -89,7 +90,8 @@ export default {
                 name: item.component,
                 component: modules['../views/' + comPath + '.vue'],
                 meta: {
-                    name: item.menuName
+                    name: item.menuName,
+                    code: item.code,
                 }
             })
 

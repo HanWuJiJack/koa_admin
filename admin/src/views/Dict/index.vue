@@ -36,16 +36,9 @@
           v-permisson="'dict-create'"
           >新增</el-button
         >
-        <el-button
-          type="danger"
-          @click="handleDelete(null, 'dels')"
-          v-permisson="'dict-deletes'"
-          >批量删除</el-button
-        >
       </div>
       <div class="bottom-table">
         <el-table ref="Table" :data="Data" @selection-change="selectHandler">
-          <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
           <el-table-column
             v-for="item in columList"
@@ -57,7 +50,7 @@
           >
           </el-table-column>
           <!-- 操作 -->
-          <el-table-column label="操作" width="240" align="center">
+          <el-table-column label="操作" width="240" align="left">
             <template #default="scope">
               <el-button
                 size="small"

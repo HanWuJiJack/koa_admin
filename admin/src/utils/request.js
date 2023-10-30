@@ -1,11 +1,18 @@
 import axios from 'axios'
-import { ElNotification, ElMessage, ElMessageBox, ElLoading } from 'element-plus'
+import {
+  ElNotification,
+  ElMessage,
+  ElMessageBox,
+  ElLoading
+} from 'element-plus'
 import stroage from './stroage'
 import router from '../router'
 import errorCode from './errorCode'
 import config from '../config/index'
 import store from './../store'
-import { encrypt } from './tools'
+import {
+  encrypt
+} from './tools'
 import _ from 'lodash'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -14,12 +21,15 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 const debounceToken = _.debounce(function () {
   ElMessage.error('认证失败或TOKEN过期');
   router.push('/login');
-}, 2000, { leading: true, trailing: false });
+}, 2000, {
+  leading: true,
+  trailing: false
+});
 
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: config.baseUrl,
+  baseURL: config.url,
   // 超时
   timeout: 5000
 })
@@ -73,21 +83,23 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-  // 未设置状态码则默认成功状态
-  const code = res.data.code || 200;
-  // 获取错误信息
-  const msg = errorCode[code] || res.data.msg || errorCode['default']
-  if (code !== 200) {
-    ElNotification.error({
-      title: msg
-    })
-    return Promise.reject('error')
-  } else {
-    return res.data
-  }
-},
+    // 未设置状态码则默认成功状态
+    const code = res.data.code || 200;
+    // 获取错误信息
+    const msg = res.data.message || errorCode[code] || errorCode['default']
+    if (code !== 200) {
+      ElNotification.error({
+        title: msg
+      })
+      return Promise.reject('error')
+    } else {
+      return res.data
+    }
+  },
   error => {
-    let { message } = error;
+    let {
+      message
+    } = error;
     const userInfo = stroage.getItem('userInfo');
     if (error.response.status === 401 && userInfo && userInfo.token) {
       debounceToken()
@@ -100,11 +112,9 @@ service.interceptors.response.use(res => {
       return Promise.reject(new Error(message))
     } else if (message == "Network Error") {
       message = "后端接口连接异常";
-    }
-    else if (message.includes("timeout")) {
+    } else if (message.includes("timeout")) {
       message = "系统接口请求超时";
-    }
-    else if (message.includes("Request failed with status code")) {
+    } else if (message.includes("Request failed with status code")) {
       message = "系统接口" + message.substr(message.length - 3) + "异常";
     }
     ElMessage({
@@ -116,7 +126,15 @@ service.interceptors.response.use(res => {
   }
 )
 
-function request({ method = 'get', url, data, params, headers, config = {}, autoCancel = false }) {
+function request({
+  method = 'get',
+  url,
+  data,
+  params,
+  headers,
+  config = {},
+  autoCancel = false
+}) {
   method = method.toLowerCase()
   let loading = undefined
   if (method === 'post') {

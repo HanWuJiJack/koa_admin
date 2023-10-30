@@ -1,7 +1,7 @@
 <template>
   <template v-for="item in menuList" :key="item._id">
     <el-sub-menu
-      :index="item.path"
+      :index="item.code"
       v-if="
         item.children &&
         item.children.length > 0 &&
@@ -18,7 +18,7 @@
       <!-- 递归组件，再次循环判断子菜单 -->
       <MenuTree :menuList="item.children" />
     </el-sub-menu>
-    <el-menu-item v-else :index="item.path">
+    <el-menu-item v-else :index="item.code">
       <el-icon :size="16" color="#333">
         <component v-bind:is="item.icon"></component>
       </el-icon>

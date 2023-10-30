@@ -1,4 +1,8 @@
 const qiniu = require("qiniu");
+const path = require("path")
+const {
+    logger
+} = require(path.join(process.cwd(), "./config/logger"))
 
 let mac = new qiniu.auth.digest.Mac(process.env.QINIU_CONFIG_ACCESS_KEY, process.env.QINIU_CONFIG_SECRET_KEY);
 
@@ -17,7 +21,7 @@ async function uploadFile(uptoken, key, localFile) {
             if (respInfo.statusCode == 200) {
                 resolve(respBody);
             } else {
-                console.log(respInfo)
+                logger.systemLogger.info(respInfo)
                 reject(new Error("上传服务器失败，错误代码：" + respInfo.statusCode));
             }
         });
@@ -49,9 +53,9 @@ function deleteFile(bucket, key) {
     let bucketManager = new qiniu.rs.BucketManager(mac, config);
     bucketManager.delete(bucket, key, function (err, respBody, respInfo) {
         if (err) {
-            console.log(err);
+            logger.systemLogger.error(err);
         } else {
-            console.log(respInfo.statusCode);
+            logger.systemLogger.info(respInfo.statusCode);
         }
     });
 }

@@ -15,17 +15,6 @@ export default defineConfig({
   },
   plugins: [vue()],
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:3336',
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, '')
-      },
-      '/custom': {
-        target: 'http://127.0.0.1:3336',
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, '')
-      },
-    }
+   
   }
 })

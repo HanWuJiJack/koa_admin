@@ -1,3 +1,0 @@
-<scroll bind:scroll="scroll" bind:lower="lower" bind:refresh="refresh">
-    <van-empty description="暂无数据" />
-</scroll>

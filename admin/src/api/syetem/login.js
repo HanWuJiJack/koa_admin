@@ -4,16 +4,21 @@ import request from '@/utils/request'
 export function postLogin(data) {
     data.isEncrypt = true
     return request({
-        url: 'api/users/login',
+        url: '/open/admin/p/login/create',
         method: 'post',
         data: data
     })
+    // return request({
+    //     url: 'auth/admin/user/create',
+    //     method: 'post',
+    //     data: data
+    // })
 }
 
 //获取公钥
 export function getPublicras(query) {
     return request({
-        url: 'api/publicras',
+        url: 'open/admin/p/ras/list_one',
         method: 'get',
         params: query
     })

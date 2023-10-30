@@ -1,8 +1,5 @@
-const Auth = require(process.cwd() + '/app/middleware/auth');
-// process.cwd() 方法返回 Node.js 进程的当前工作目录。
-const { faas } = require('../app/faas/index');
-const Route = require('./faas_base_route')
-const path = require('path');
+const { faas } = require('../app/faas/Faas');
+const Route = require('./BaseRoute')
 
 /**
  * 后端api接口组
@@ -31,7 +28,7 @@ module.exports = app => {
                 method: 'delete',
             },
             {
-                api: '/faas/:code',
+                api: '/faas/get/:code',
                 fn: (ctx, next) => faas(ctx, next, "get"),
                 method: 'get',
             },

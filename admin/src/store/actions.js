@@ -3,5 +3,4 @@ export default {
     SET_USERINFO(context, userInfo){
         context.commit('increment',userInfo)
     }
-    // store.dispatch('SET_USERINFO')
 }

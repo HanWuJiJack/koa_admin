@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getProject(query) {
     return request({
-        url: `custom/faas/100003`,
+        url: `custom/faas/get/100003`,
         method: 'get',
         params: query
     })

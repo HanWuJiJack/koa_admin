@@ -11,10 +11,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="用户名" prop="userName">
-          <el-input
-            v-model="selectData.userName"
-            placeholder="请输入用户名"
-          ></el-input>
+          <el-input v-model="selectData.userName" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="用户状态" prop="state">
           <el-select v-model="selectData.state" placeholder="请选择">
@@ -32,10 +29,7 @@
     <!-- 表格区域 -->
     <div class="users-bottom">
       <div class="users-bottom-top">
-        <el-button
-          type="primary"
-          @click="addUserHandler"
-          v-permisson="'user-create'"
+        <el-button type="primary" @click="addUserHandler" v-permisson="'user-create'"
           >新增用户</el-button
         >
         <el-button
@@ -46,11 +40,7 @@
         >
       </div>
       <div class="users-bottom-table">
-        <el-table
-          ref="userTable"
-          :data="userData"
-          @selection-change="selectHandler"
-        >
+        <el-table ref="userTable" :data="userData" @selection-change="selectHandler">
           <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
           <el-table-column
@@ -63,7 +53,7 @@
           >
           </el-table-column>
           <!-- 操作 -->
-          <el-table-column label="操作" width="300" align="center">
+          <el-table-column label="操作" width="300" align="left">
             <template #default="scope">
               <el-button
                 size="small"
@@ -78,21 +68,13 @@
                 >修改密码</el-button
               >
               <el-button
+              v-if="scope.row.state === 1"
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
                 v-permisson="'user-delete'"
                 >删除</el-button
               >
-              <el-button
-                size="small"
-                type="danger"
-                @click="handleDelete(scope.row, 'del_')"
-                v-permisson="'user-delete'"
-                >永久删除</el-button
-              >
-              <!-- <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-                            <el-button size="mini" type="danger" @click="handleDelete(scope.row,'del')">删除</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -136,10 +118,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="公司" prop="company">
-            <el-select
-              v-model="userForm.data.form.company"
-              placeholder="请选择"
-            >
+            <el-select v-model="userForm.data.form.company" placeholder="请选择">
               <el-option
                 v-for="item in local.companyType"
                 :label="item.dictLabel"
@@ -236,9 +215,7 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogCancelHandler">取 消</el-button>
-            <el-button type="primary" @click="dialogSubmitHandler"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="dialogSubmitHandler">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -251,18 +228,13 @@
           label-width="100px"
         >
           <el-form-item label="密码" prop="userPwd">
-            <el-input
-              v-model="pswForm.data.userPwd"
-              placeholder="请输入密码"
-            ></el-input>
+            <el-input v-model="pswForm.data.userPwd" placeholder="请输入密码"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogCancelHandler('psw')">取 消</el-button>
-            <el-button type="primary" @click="dialogSubmitChangePWS"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="dialogSubmitChangePWS">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -281,6 +253,7 @@ import {
   postUserC_U,
   changePWS,
   removeUser,
+  putUserInfo
 } from "@/api/syetem/users";
 import { getDictTypes } from "@/api/syetem/dictType";
 export default {
@@ -427,23 +400,12 @@ export default {
     const handleDelete = async (row, action) => {
       let res = undefined;
       if (action === "del") {
-        res = await postDelUser({
-          userIds: [row.userId],
-        });
-      } else if (action === "del_") {
         res = await removeUser({
           userIds: [row.userId],
         });
-        if (res.deletedCount >= 1) {
-          proxy.$message.success("删除成功");
-          getUserListRequest();
-        } else {
-          proxy.$message.error("删除失败");
-        }
-        return;
       } else {
         if (selectUserArr.value.length > 0) {
-          res = await postDelUser({
+          res = await removeUser({
             userIds: [...selectUserArr.value],
           });
         } else {
@@ -451,7 +413,7 @@ export default {
           return;
         }
       }
-      if (res.nModified >= 1) {
+      if (res.n >= 1) {
         proxy.$message.success("删除成功");
         getUserListRequest();
       } else {
@@ -499,10 +461,11 @@ export default {
         if (valid) {
           let params = { ...userForm.data.form };
           params.action = action.value;
-          await postUserC_U(params);
           if (params.action === "add") {
+            await postUserC_U(params);
             proxy.$message.success("添加用户信息成功");
           } else {
+            await putUserInfo(params);
             proxy.$message.success("修改用户信息成功");
           }
           userDialogVisible.value = false;

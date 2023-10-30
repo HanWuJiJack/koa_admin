@@ -2,26 +2,28 @@ import axios from 'axios'
 import router from '../router'
 import { ElMessage } from 'element-plus'
 import stroage from '../utils/stroage'
+import ENConfig from './../config/index'
 //创建axios实例
 const instace = axios.create({
-    timeout:5000
+    timeout: 5000,
+    baseURL: ENConfig.url
 });
 
 // instace.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 //设置拦截器
-instace.interceptors.request.use(config=>{
+instace.interceptors.request.use(config => {
     const localStroage = stroage.getItem('userInfo');
-    if(localStroage){
+    if (localStroage) {
         config.headers.Authorization = 'Bearer ' + localStroage.token;
     }
     return config;
-},error=>{
+}, error => {
     return Promise.reject(error);
 });
 //设置请求成功后的拦截器
-const errorHandler = (status,msg)=>{
-    switch(status){
+const errorHandler = (status, msg) => {
+    switch (status) {
         case 400:
             ElMessage.error("请求语法有问题，服务器无法识别");
             break;
@@ -42,30 +44,30 @@ const errorHandler = (status,msg)=>{
             break;
     }
 }
-instace.interceptors.response.use(res=>{
-    console.log(777)
-    if(res.status === 200){
-        if(res.data.code === 200){
+instace.interceptors.response.use(res => {
+    // console.log(777)
+    if (res.status === 200) {
+        if (res.data.code === 200) {
             return res.data.data;
-        }else if(res.data.code === 40001){//认证失败或TOKEN过期
+        } else if (res.data.code === 40001) {//认证失败或TOKEN过期
             ElMessage.error('认证失败或TOKEN过期');
-            setTimeout(()=>{
+            setTimeout(() => {
                 router.push('/login');
-            },1500)
+            }, 1500)
             return Promise.reject("认证失败或TOKEN过");
-        }else{
+        } else {
             ElMessage.error(res.data.msg);
             return Promise.reject(res.data.msg);
         }
-    }else{
+    } else {
         return Promise.reject(res);
     }
-},error=>{
-    const {response} = error;
-    if(response){
-        errorHandler(response.status,response.data);
+}, error => {
+    const { response } = error;
+    if (response) {
+        errorHandler(response.status, response.data);
         return Promise.reject(error);
-    }else{
+    } else {
         ElMessage.error('网络连接中断！');
     }
 });

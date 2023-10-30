@@ -38,7 +38,7 @@
             show-overflow-tooltip :formatter="item.formatter">
           </el-table-column>
           <!-- 操作 -->
-          <el-table-column label="操作" width="450" fixed="right" align="center">
+          <el-table-column label="操作" width="450" fixed="right" align="left">
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.row)" v-permisson="'project-edit'">编辑</el-button>
               <el-button v-show="scope.row.state === '1'" size="small" @click="handleEdit(scope.row, 'communicate')"

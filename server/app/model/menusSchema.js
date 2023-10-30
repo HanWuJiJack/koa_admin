@@ -6,6 +6,7 @@ const menusSchema = mongoose.Schema({
     path: String,//路由地址
     icon: String,//图标
     component: String,//组件地址
+    code: String,//code
     menuState: Number,//菜单状态
     isShow: Number,//菜单是否展示
     parentId: [mongoose.Types.ObjectId],

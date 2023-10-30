@@ -6,7 +6,11 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken")
 const axios = require("axios")
 var WXBizDataCrypt = require('./WXBizDataCrypt')
-const ExceptionCode = require('../exception/code');
+const ExceptionCode = require('./ExceptionCode');
+const path = require("path")
+const {
+    logger
+} = require(path.join(process.cwd(), "./config/logger"))
 
 function getRandom(min, max) {
     if (arguments.length === 2) {
@@ -43,7 +47,6 @@ const cacheEmailCode = (() => {
         if (time) {
             setTimeout(() => {
                 delete obj[key]
-                // console.log("delete")
             }, 1000 * 60 * time)
         }
     }
@@ -116,7 +119,6 @@ function encode(key) {
 
 function decode(token) {
     let payload = jwt.decode(token, process.env.APP_KEY);
-    // console.log("payload", payload)
     if (payload == null) throw ExceptionCode.AUTH_FAILED;
     if ((payload.exp > 0) && (Date.now() >= payload.exp)) throw ExceptionCode.TOKEN_FAILED;
     return {
@@ -135,7 +137,7 @@ const code2Session = (code) => {
             .then((res) => {
                 resolve(res.data)
             }, (err) => {
-                console.log("code2Session",err)
+                logger.systemLogger.error("code2Session",err)
                 reject(err)
             })
     })

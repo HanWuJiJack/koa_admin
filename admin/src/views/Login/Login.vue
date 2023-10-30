@@ -4,24 +4,14 @@
       <h1 class="login-title">后台管理系统</h1>
       <el-form :model="formData" :rules="rules" ref="ruleForm" status-icon>
         <el-form-item prop="userEmail">
-          <el-input
-            v-model="formData.userEmail"
-            prefix-icon="el-icon-user"
-            placeholder="请输入账号"
-          ></el-input>
+          <el-input v-model="formData.userEmail" prefix-icon="el-icon-user" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item prop="passWord">
-          <el-input
-            v-model="formData.passWord"
-            placeholder="请输入密码"
-            prefix-icon="el-icon-view"
-            type="password"
-          ></el-input>
+          <el-input v-model="formData.passWord" placeholder="请输入密码" prefix-icon="el-icon-view" type="password">
+          </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="login-btn" @click="loginHandler"
-            >登录</el-button
-          >
+          <el-button type="primary" class="login-btn" @click="loginHandler">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -29,6 +19,8 @@
 </template>
 <script>
 import { postLogin, getPublicras } from "@/api/syetem/login";
+import exportExcel from "@/utils/exportExcel.js"
+import exportWordDocx from "@/utils/exportWordDocx.js"
 export default {
   name: "Login",
   data() {
@@ -68,7 +60,7 @@ export default {
       });
     },
   },
-  mounted() {},
+  mounted() { },
 };
 </script>
 <style lang="less" scoped>
@@ -79,17 +71,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .login-modal {
     width: 500px;
     padding: 50px;
     background-color: #fff;
     box-shadow: 0 0 14px 7px #c7c9cb4d;
+
     .login-title {
       text-align: center;
       font-size: 26px;
       font-weight: 400;
       margin-bottom: 30px;
     }
+
     .login-btn {
       width: 100%;
     }

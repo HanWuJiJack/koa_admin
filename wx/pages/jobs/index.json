@@ -1,6 +1,0 @@
-{
-    "usingComponents": {
-        "van-empty": "@vant/weapp/empty/index",
-        "scroll":"./../../components/scroll/index"
-    }
-}

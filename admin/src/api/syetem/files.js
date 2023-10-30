@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //删除
 export function removeFiles(data) {
     return request({
-        url: `api/goods/file`,
+        url: `auth/admin/file/remove`,
         method: 'delete',
         data: data
     })
@@ -12,7 +12,7 @@ export function removeFiles(data) {
 //新建
 export function getZip(data) {
     return request({
-        url: 'api/goods/zip',
+        url: 'auth/admin/file/create_goods',
         method: 'post',
         data: data
     })

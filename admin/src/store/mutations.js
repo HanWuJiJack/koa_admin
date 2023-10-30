@@ -3,11 +3,14 @@ export default {
     // 设置用户信息
     SET_USERINFO(state, userInfo) {
         state.userInfo = userInfo;
+        state.isRq = false
         stroage.setItem('userInfo', userInfo);
     },
     // 设置用户菜单权限列表
     SET_MENULIST(state, menuList) {
         state.menuList = menuList
+        // console.log("menuList", menuList)
+        state.isRq = true
     },
     // 设置用户按钮权限列表
     SET_BTNLIST(state, btnList) {

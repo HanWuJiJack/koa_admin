@@ -6,8 +6,16 @@
         <span>综合管理系统</span>
       </div>
       <!-- 菜单 -->
-      <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#001529" text-color="#fff"
-        active-text-color="#409eff" router :collapse="isCollapse">
+      <!-- router -->
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-vertical-demo"
+        background-color="#001529"
+        text-color="#fff"
+        active-text-color="#409eff"
+        :collapse="isCollapse"
+        @select="handleSelect"
+      >
         <MenuTree :menuList="menuList" />
       </el-menu>
     </div>
@@ -26,19 +34,16 @@
         </div>
         <!-- 用户信息 -->
         <div class="top-userinfo">
-          <!-- <el-badge
-            :is-dot="noticeCount > 0 ? true : false"
-            class="item"
-            @click="$router.push('/audit/approve')"
-            style="cursor: pointer"
-            ><i class="el-icon-bell bellicon"></i
-          ></el-badge> -->
           <el-dropdown @command="dropMenuHandler">
             <span class="userinfo-name">{{ userInfo.userName }}</span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="emain">邮箱：{{ userInfo.userEmail }}</el-dropdown-item>
-                <el-dropdown-item command="userMain" @click="$router.push('/system/my')">个人中心</el-dropdown-item>
+                <el-dropdown-item command="emain"
+                  >邮箱：{{ userInfo.userEmail }}</el-dropdown-item
+                >
+                <el-dropdown-item command="userMain" @click="$router.push('/system/my')"
+                  >个人中心</el-dropdown-item
+                >
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -68,6 +73,7 @@ export default {
   },
   data() {
     return {
+      activeIndex: "",
       isCollapse: false, // 菜单是否折叠
       userInfo: this.$store.state.userInfo, // 用户信息
       menuList: [], // 菜单列表数据
@@ -79,6 +85,8 @@ export default {
     getDictTypes("environment_form").then((res) => {
       this.$store.commit("SET_ENVIRONMENT_FORM", res);
     });
+    // console.log("this.$route.matched", this.$route,this.menuList);
+    this.activeIndex = this.$route.meta.code;
   },
   computed: {
     noticeCount() {
@@ -86,6 +94,21 @@ export default {
     },
   },
   methods: {
+    handleSelect(key, keyPath) {
+      this.getRouteInfo(key, this.menuList);
+      this.$router.push({ path: this.routeInfo.path || "/" });
+    },
+    getRouteInfo(code, arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].code === code) {
+          this.routeInfo = arr[i];
+          return;
+        }
+        if (arr[i].children && arr[i].children.length > 0) {
+          this.getRouteInfo(code, arr[i].children);
+        }
+      }
+    },
     //收缩菜单
     toggleMenue() {
       this.isCollapse = !this.isCollapse;
@@ -110,6 +133,12 @@ export default {
     //获取菜单列表数据
     async getMenuListRequest() {
       this.menuList = publicFn.genneratePath(_.cloneDeep(this.$store.state.menuList));
+      this.menuList.unshift({
+        code: "000",
+        icon: "House",
+        menuName: "首页",
+        path: "/welcome",
+      });
     },
   },
 };
@@ -242,4 +271,4 @@ export default {
     height: 0;
   }
 }
-</style> 
+</style>

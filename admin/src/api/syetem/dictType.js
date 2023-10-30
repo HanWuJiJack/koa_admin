@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getDictType(id) {
     return request({
-        url: `api/dictType/${id}`,
+        url: `auth/admin/dict-type/get/${id}`,
         method: 'get',
         params: query
     })
@@ -13,7 +13,7 @@ export function getDictType(id) {
 // 获取列表
 export function getDictTypeList(query) {
     return request({
-        url: 'api/dictType/list',
+        url: '/auth/admin/dict-type/list',
         method: 'get',
         params: query
     })
@@ -22,14 +22,14 @@ export function getDictTypeList(query) {
 // 获取列表
 export function getDictTypes(type) {
     return request({
-        url: 'api/dictType/dict/' + type,
+        url: 'auth/admin/dict-type/get_type/' + type,
         method: 'get',
     })
 }
 //新建
 export function addDictType(data) {
     return request({
-        url: 'api/dictType/add',
+        url: 'auth/admin/dict-type/create',
         method: 'post',
         data: data
     })
@@ -38,7 +38,7 @@ export function addDictType(data) {
 //编辑
 export function updataDictType(data) {
     return request({
-        url: `api/dictType/edit/${data.id}`,
+        url: `auth/admin/dict-type/update/${data.id}`,
         method: 'put',
         data: data
     })
@@ -47,7 +47,7 @@ export function updataDictType(data) {
 //删除
 export function removeDictType(ids) {
     return request({
-        url: `api/dictType/remove/${ids}`,
+        url: `/auth/admin/dict-type/remove/${ids}`,
         method: 'delete',
     })
 }

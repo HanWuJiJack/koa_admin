@@ -151,8 +151,7 @@ export function GenerateColumList(state, columList) {
 			(item, index) =>
 				new Promise((resolve, reject) => {
 					if (item.type == "select" && item.options.remote) {
-						console.log(item.options.remoteFunc)
-						axios(item.options.remoteFunc, {
+						axios(ENConfig.baseUrl + item.options.remoteFunc, {
 							method: 'GET',
 							cache: 'no-cache',
 							headers: {

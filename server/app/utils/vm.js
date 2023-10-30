@@ -2,9 +2,9 @@ const { NodeVM, VMScript } = require('vm2');
 const lodash = require("lodash")
 const moment = require("moment")
 const mongoose = require('mongoose')
-const Tools = require("./tools")
-const defaultSchemas = require('./../model/index')
-const { modelSchemas } = require('./modelSchemas')
+const Tools = require("./Tools")
+const defaultSchemas = require('../model/Model')
+const { modelSchemas } = require('./ModelSchemas')
 
 
 function VM2(ctx, next, text) {

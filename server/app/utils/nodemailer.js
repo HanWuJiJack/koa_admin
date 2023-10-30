@@ -10,8 +10,6 @@ const sendEmail = async (email,code) => {
       pass: process.env.SMTP_PASSWORD
     }
   })
-  // console.log('=>mailAll',2)
-  // send mail with defined transport object
   const message = {
     from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`, // sender address
     to: email, // list of receivers

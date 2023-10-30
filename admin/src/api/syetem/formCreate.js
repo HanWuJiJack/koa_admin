@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getFormCreate(query) {
     return request({
-        url: `custom/faas/100002`,
+        url: `custom/faas/get/100002`,
         method: 'get',
         params: query
     })
