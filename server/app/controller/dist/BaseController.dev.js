@@ -116,7 +116,8 @@ function () {
       for (var i = 0; i < rootList.length; i++) {
         // 取出parentID数组你最后一项，如果是null 那就证明它是第一级菜单-这里String强制转换是因为 断点调试发现取出来的其实是一个数据对象类型，不是一个基本类型的
         // 所以给他来个强制转换成字符串，才能正常对比他是否相等
-        if (String(rootList[i]._doc.parentId[rootList[i]._doc.parentId.length - 1]) == String(id) && rootList[i]._doc.isShow == 1) {
+        // 过滤条件 isShow = 1  menuType != 3
+        if (String(rootList[i]._doc.parentId[rootList[i]._doc.parentId.length - 1]) == String(id) && rootList[i]._doc.isShow == 1 && rootList[i]._doc.menuType != 3) {
           result.push(_objectSpread({}, rootList[i]._doc));
         }
       } // 把遍历出来的一级菜单 加children字段，然后把属于其的菜单往children里加
