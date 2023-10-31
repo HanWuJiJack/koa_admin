@@ -33,7 +33,6 @@ class MenuAdminController extends BaseController {
             const params = {}
             if (menuName) params.menuName = menuName;
             if (menuState) params.menuState = parseInt(menuState);
-
             var rootList
             if (ueserInfo.role === 0) { // 0是超级管理员
                 rootList = await Schema.menusSchema.find(params) || []
@@ -106,8 +105,6 @@ class MenuAdminController extends BaseController {
             menuList,
             routeList
         } = await this.list_menu(ueserInfo.role, ueserInfo.roleList)
-        // logger.info("menuList=>", menuList)
-        // const btnList = this.getBtnPermissonList(menuList)
         this.ctx.body = super.success({
             data: {
                 menuList,
@@ -120,11 +117,8 @@ class MenuAdminController extends BaseController {
         var rootList
         if (role === 0) { // 0是超级管理员
             rootList = await Schema.menusSchema.find({
-                menuState: 1,
-                isShow: 1
+                menuState: 1,//状态值：正常 | 停用
             }) || []
-
-
         } else { // 1普通用户
             // 先根据用户的角色列表字段查出对应角色数据
             var roleData = await Schema.rolesSchema.find({
@@ -142,13 +136,13 @@ class MenuAdminController extends BaseController {
                 _id: {
                     $in: resultPermissonList
                 },
-                menuState: 1,
-                isShow: 1
+                menuState: 1,//状态值：正常 | 停用
             }) || []
         }
         const btnList = rootList.map(item => item.menuCode).filter(item => item)
         const routeList = rootList.filter(item => item.menuType == 2)
-        const menuList = super.TreeMenu(rootList, null)
+        // isShow 显示|隐藏 过滤掉隐藏
+        const menuList = super.TreeMenuShow(rootList, null)
         return {
             btnList,
             routeList,

@@ -96,6 +96,11 @@ const menuList = computed(() => {
 });
 
 const handleSelect = (key, keyPath) => {
+  // 处理首页逻辑
+  if(key === "000"){
+    router.push({ path: "/welcome" || "/" });
+    return
+  }
   getRouteInfo(key, store.state.auth.routerList);
   router.push({ path: data.routeInfo.path || "/" });
 };

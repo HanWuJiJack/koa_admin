@@ -269,8 +269,6 @@ function (_BaseController) {
               btnList = _ref2.btnList;
               menuList = _ref2.menuList;
               routeList = _ref2.routeList;
-              // logger.info("menuList=>", menuList)
-              // const btnList = this.getBtnPermissonList(menuList)
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 data: {
                   menuList: menuList,
@@ -301,8 +299,8 @@ function (_BaseController) {
 
               _context4.next = 3;
               return regeneratorRuntime.awrap(Schema.menusSchema.find({
-                menuState: 1,
-                isShow: 1
+                menuState: 1 //状态值：正常 | 停用
+
               }));
 
             case 3:
@@ -342,8 +340,8 @@ function (_BaseController) {
                 _id: {
                   $in: resultPermissonList
                 },
-                menuState: 1,
-                isShow: 1
+                menuState: 1 //状态值：正常 | 停用
+
               }));
 
             case 17:
@@ -367,8 +365,9 @@ function (_BaseController) {
               });
               routeList = rootList.filter(function (item) {
                 return item.menuType == 2;
-              });
-              menuList = _get(_getPrototypeOf(MenuAdminController.prototype), "TreeMenu", this).call(this, rootList, null);
+              }); // isShow 显示|隐藏 过滤掉隐藏
+
+              menuList = _get(_getPrototypeOf(MenuAdminController.prototype), "TreeMenuShow", this).call(this, rootList, null);
               return _context4.abrupt("return", {
                 btnList: btnList,
                 routeList: routeList,
