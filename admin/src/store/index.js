@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import stroage from '../utils/stroage'
+import stroage from '@/utils/stroage'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
@@ -8,9 +8,6 @@ import modules from './modules'
 const state = () => {
     return {
         userInfo: stroage.getItem('userInfo') || {},
-        menuList: [],
-        isRq: false,//是否已经请求
-        btnList: [],
         environmentForm: stroage.getItem('environmentForm') || [],
         noticeCount: 0
     }

@@ -142,9 +142,9 @@ class DictAdminController extends BaseController {
                     $in: arrId
                 }
             })
-            logger.httplog.info(`1dictTypes=>:${dictTypes[0]}`)
+            logger.info(`1dictTypes=>:${dictTypes[0]}`)
             if (!dictTypes[0]) {
-                logger.httplog.info(`2dictTypes=>:${dictTypes}`)
+                logger.info(`2dictTypes=>:${dictTypes}`)
                 let res = await Schema.dictSchema.deleteMany({
                     id: {
                         $in: arrId
@@ -155,7 +155,7 @@ class DictAdminController extends BaseController {
                     msg: `删除成功`
                 })
             } else {
-                logger.httplog.info(`3dictTypes=>:${dictTypes}`)
+                logger.info(`3dictTypes=>:${dictTypes}`)
                 this.ctx.body = super.fail({
                     msg: "请先删除字典类型"
                 })

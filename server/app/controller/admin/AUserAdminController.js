@@ -26,11 +26,11 @@ class UserAdminController extends BaseController {
     }
     async list() {
         // 接口级别权限判断
-        apiAuth({
-            ctx: this.ctx,
-            next: this.next,
-            code: "list2"
-        })
+        // apiAuth({
+        //     ctx: this.ctx,
+        //     next: this.next,
+        //     code: "list2"
+        // })
         
         try {
             const {
@@ -188,7 +188,7 @@ class UserAdminController extends BaseController {
                 msg: '更新用户数据成功'
             });
         } catch (error) {
-            logger.systemLogger.error(error)
+            logger.error(error)
             this.ctx.body = super.fail({
                 msg: '更新用户数据失败'
             });

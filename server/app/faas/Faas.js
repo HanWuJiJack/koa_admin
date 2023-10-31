@@ -18,7 +18,7 @@ exports.faas = async (ctx, next, method) => {
         try {
             ctx.body = await vm2(ctx, next, faasInfo.fn)()
         } catch (error) {
-            logger.systemLogger.error('Failed to compile script.', error);
+            logger.error('Failed to compile script.', error);
             next(error)
         }
     }

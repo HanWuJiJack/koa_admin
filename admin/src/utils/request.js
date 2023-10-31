@@ -100,25 +100,34 @@ service.interceptors.response.use(res => {
     let {
       message
     } = error;
+    let msg = error.response.data.message || message
+    console.log(error.response)
     const userInfo = stroage.getItem('userInfo');
     if (error.response.status === 401 && userInfo && userInfo.token) {
       debounceToken()
       return Promise.reject('令牌验证失败')
     } else if (error.response.status > 500) {
       ElMessage({
-        message: message,
+        message: msg,
         type: 'error'
       })
-      return Promise.reject(new Error(message))
+      return Promise.reject(new Error(msg))
+    } else if (error.response.status === 403) {
+      ElMessage({
+        message: msg,
+        type: 'error'
+      })
+      return Promise.reject(new Error(msg))
     } else if (message == "Network Error") {
-      message = "后端接口连接异常";
+      msg = "后端接口连接异常";
     } else if (message.includes("timeout")) {
-      message = "系统接口请求超时";
-    } else if (message.includes("Request failed with status code")) {
-      message = "系统接口" + message.substr(message.length - 3) + "异常";
-    }
+      msg = "系统接口请求超时";
+    } 
+    // else if (message.includes("Request failed with status code")) {
+    //   msg = "系统接口" + message.substr(message.length - 3) + "异常";
+    // }
     ElMessage({
-      message: message,
+      message: msg,
       type: 'error',
       duration: 5 * 1000
     })

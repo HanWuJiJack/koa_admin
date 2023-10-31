@@ -25,7 +25,7 @@ if (cluster.isMaster) {
   })
 
   cluster.on('listening', (worker) => {
-    logger.httplog.info(`创建成功worker${worker.id}=>pid:${worker.process.pid}`)
+    logger.info(`创建成功worker${worker.id}=>pid:${worker.process.pid}`)
   })
   // 创建子进程
   function createWorker() {
@@ -38,7 +38,7 @@ if (cluster.isMaster) {
       // 三次没回应，杀之
       if (missed == 3) {
         clearInterval(timer);
-        logger.httplog.error(worker.process.pid + '：此线程已经挂了');
+        logger.error(worker.process.pid + '：此线程已经挂了');
         process.kill(worker.process.pid);
         return;
       }
@@ -65,7 +65,7 @@ if (cluster.isMaster) {
   // 当进程出现会崩溃的错误
   process.on('uncaughtException', function (err) {
     // 这里可以做写日志的操作
-    logger.httplog.error(err);
+    logger.error(err);
     // 退出进程
     process.exit(1);
   });
@@ -114,11 +114,11 @@ function onError(error) {
 
   switch (error.code) {
     case 'EACCES':
-      logger.httplog.error(bind + ' requires elevated privileges');
+      logger.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      logger.httplog.error(bind + ' is already in use');
+      logger.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:
@@ -128,7 +128,7 @@ function onError(error) {
 
 // 开始监听
 function onListening() {
-  logger.httplog.info(`http://${ip.address()}:${port}`)
+  logger.info(`http://${ip.address()}:${port}`)
   var addr = server.address();
   var bind = typeof addr === 'string' ?
     'pipe ' + addr :

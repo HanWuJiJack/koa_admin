@@ -11,23 +11,28 @@
         <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__info">All rights reserved
         </div>
-        <div class="bullshit__headline">{{ message }}</div>
+        <div class="bullshit__headline">{{ data.message }}</div>
         <router-link to="/welcome" class="bullshit__return-home">回到首页</router-link>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-
 export default {
-  name: 'Page404',
-  computed: {
-    message() {
-      return '您不具备访问当前页面的权限'
-    }
-  }
-}
+  name: "Page404",
+  inheritAttrs: false,
+  customOptions: {},
+};
+</script>
+<script setup>
+import { computed, defineProps, onMounted, ref, reactive} from "vue";
+const data = reactive({
+  message: '您不具备访问当前页面的权限',
+ 
+});
+onMounted(() => {
+  
+});
 </script>
 
 <style lang="less" scoped>

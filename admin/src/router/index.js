@@ -3,6 +3,7 @@ import {
     createWebHashHistory,
     createWebHistory
 } from 'vue-router'
+import _ from "lodash";
 import Home from '../layout/Home.vue'
 import Welcome from '../views/Welcome/Welcome.vue'
 import Login from '../views/Login/Login.vue'
@@ -23,15 +24,14 @@ const routes = [{
             name: '首页'
         },
         children: [{
-                path: '/welcome',
-                name: 'Welcome',
-                component: Welcome,
-                meta: {
-                    name: '首页',
-                    code: "000"
-                }
-            },
-        ]
+            path: '/welcome',
+            name: 'Welcome',
+            component: Welcome,
+            meta: {
+                name: '首页',
+                code: "000"
+            }
+        }, ]
     },
     {
         path: '/login',
@@ -47,7 +47,7 @@ const routes = [{
         component: NotFound
     }
 ];
-
+let removeRoutes = []
 const router = createRouter({
     // history: createWebHashHistory("/vue"),
     history: createWebHistory("/vue"),
@@ -56,6 +56,30 @@ const router = createRouter({
     }),
     routes
 })
+export const getPermissonMenuList_ = async () => {
+    const res = await getPermissonMenuList()
+    res.menuList.unshift({
+        code: "000",
+        icon: "House",
+        menuType: 2,
+        menuName: "首页",
+        parentId: [],
+        isShow: 1,
+        path: "/welcome",
+    });
+    store.commit("auth/SET_MENULIST", res.menuList);
+    store.commit("auth/SET_BTNLIST", res.btnList);
+    store.commit("auth/SET_ROUTER_LIST", res.routeList);
+    for (let i = 0; i < removeRoutes.length; i++) {
+        removeRoutes.pop()()
+    }
+    const routes = publicFn.gennerateRoutes(res.routeList)
+    routes.forEach(item => {
+        let route = router.addRoute('Home', item)
+        removeRoutes.push(route)
+    })
+    return routes
+}
 
 router.beforeEach((to, from, next) => {
     NProgress.start()
@@ -65,22 +89,18 @@ router.beforeEach((to, from, next) => {
                 path: '/'
             })
         } else {
-            if (store.state.menuList.length === 0 && !store.state.isRq) {
-                getPermissonMenuList().then(res => {
-                    store.commit("SET_MENULIST", res.menuList);
-                    store.commit("SET_BTNLIST", res.btnList);
-                    const routes = publicFn.gennerateRoutes(res.menuList)
-                    routes.forEach(item => {
-                        router.addRoute('Home', item)
-                    })
+            if (store.state.auth.routerList.length === 0 && store.state.auth.isRq) {
+                getPermissonMenuList_().then((routes) => {
                     next({
                         ...to,
                         replace: true
                     }) // hack方法 确保addRoutes已完成
                 }).catch(err => {
+                    console.error(err)
                     store.commit("SET_USERINFO", {});
-                    store.commit("SET_MENULIST", []);
-                    store.commit("SET_BTNLIST", []);
+                    store.commit("auth/SET_MENULIST", []);
+                    store.commit("auth/SET_BTNLIST", []);
+                    store.commit("auth/SET_ROUTER_LIST", []);
                     next({
                         path: 'login',
                         replace: true
@@ -95,6 +115,7 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
+        // console.log(5)
         // 没有token
         if (['/login'].indexOf(to.path) !== -1) {
             // 在免登录白名单，直接进入

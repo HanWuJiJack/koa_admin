@@ -7,6 +7,7 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
+
 exports.initFaas = async () => {
     let models = []
     let dictInfo = await Schema.dictSchema.findOne({
@@ -23,5 +24,5 @@ exports.initFaas = async () => {
             await vm2({}, {}, models[key])()
         }
     }
-    logger.httplog.info(`modelSchemas:`, modelSchemas)
+    // logger.info(`modelSchemas:`, modelSchemas)
 }

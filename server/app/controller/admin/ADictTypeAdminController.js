@@ -91,7 +91,7 @@ class DictTypeAdminController extends BaseController {
                 }, {
                     new: true
                 });
-                logger.httplog.info(`countDoc:${countDoc}`)
+                logger.info(`countDoc:${countDoc}`)
                 const add = new Schema.dictTypeSchema({
                     id: countDoc.currentIndex,
                     remark,
@@ -138,7 +138,7 @@ class DictTypeAdminController extends BaseController {
             const par = {}
             par.id = parseInt(res._doc.dictId)
             const query = await Schema.dictSchema.findOne(par)
-            logger.httplog.info(`res._doc.dictId:${res._doc.dictId}`)
+            logger.info(`res._doc.dictId:${res._doc.dictId}`)
 
             if (query._doc.nameCode === "Schema_type") {
                 await initFaas()
@@ -165,7 +165,7 @@ class DictTypeAdminController extends BaseController {
                     $in: arrId
                 }
             })
-            logger.httplog.info(dictTypes)
+            logger.info(dictTypes)
             let res = await Schema.dictTypeSchema.deleteMany({
                 id: {
                     $in: arrId
@@ -177,7 +177,7 @@ class DictTypeAdminController extends BaseController {
                 mongoose.deleteModel(arr[1]);
                 delete modelSchemas[arr[0]]
             })
-            logger.httplog.info("modelSchemas", modelSchemas)
+            // logger.info("modelSchemas", modelSchemas)
             this.ctx.body = super.success({
                 data: res,
                 msg: `删除成功`

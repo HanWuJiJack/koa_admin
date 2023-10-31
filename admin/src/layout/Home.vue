@@ -1,32 +1,32 @@
 <template>
   <div class="home-main clearfix">
-    <div class="nav-left" :class="isCollapse ? 'fold-menu' : ''">
+    <div class="nav-left" :class="data.isCollapse ? 'fold-menu' : ''">
       <!-- logo -->
-      <div class="nav-left-logo" v-show="!isCollapse">
+      <div class="nav-left-logo" v-show="!data.isCollapse">
         <span>综合管理系统</span>
       </div>
       <!-- 菜单 -->
       <!-- router -->
       <el-menu
-        :default-active="activeIndex"
+        :default-active="data.activeIndex"
         class="el-menu-vertical-demo"
         background-color="#001529"
         text-color="#fff"
         active-text-color="#409eff"
-        :collapse="isCollapse"
+        :collapse="data.isCollapse"
         @select="handleSelect"
       >
         <MenuTree :menuList="menuList" />
       </el-menu>
     </div>
 
-    <div class="content-right" :class="isCollapse ? 'fold-content' : ''">
+    <div class="content-right" :class="data.isCollapse ? 'fold-content' : ''">
       <div class="top-bar">
         <!-- 面包屑 -->
         <div class="bar-left">
           <i class="collapse-i" @click="toggleMenue">
-            <Expand v-show="isCollapse" />
-            <Fold v-show="!isCollapse" />
+            <Expand v-show="data.isCollapse" />
+            <Fold v-show="!data.isCollapse" />
           </i>
           <div class="bread">
             <Breadcrumb />
@@ -35,13 +35,13 @@
         <!-- 用户信息 -->
         <div class="top-userinfo">
           <el-dropdown @command="dropMenuHandler">
-            <span class="userinfo-name">{{ userInfo.userName }}</span>
+            <span class="userinfo-name">{{ data.userInfo.userName }}</span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="emain"
-                  >邮箱：{{ userInfo.userEmail }}</el-dropdown-item
+                  >邮箱：{{ data.userInfo.userEmail }}</el-dropdown-item
                 >
-                <el-dropdown-item command="userMain" @click="$router.push('/system/my')"
+                <el-dropdown-item command="userMain" @click="router.push('/system/my')"
                   >个人中心</el-dropdown-item
                 >
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
@@ -58,91 +58,83 @@
   </div>
 </template>
 <script>
+export default {
+  name: "Home",
+  inheritAttrs: false,
+  customOptions: {},
+};
+</script>
+<script setup>
+import { computed, defineProps, onMounted, ref, reactive } from "vue";
 import MenuTree from "./components/MenuTree.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 import publicFn from "../utils/publicFn";
 import _ from "lodash";
 import { getApproveCount } from "@/api/syetem/approve";
 import { getDictTypes } from "@/api/syetem/dictType";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
+const route = useRoute();
+const router = useRouter();
+const store = new useStore();
 
-export default {
-  name: "Home",
-  components: {
-    MenuTree,
-    Breadcrumb,
-  },
-  data() {
-    return {
-      activeIndex: "",
-      isCollapse: false, // 菜单是否折叠
-      userInfo: this.$store.state.userInfo, // 用户信息
-      menuList: [], // 菜单列表数据
-    };
-  },
-  mounted() {
-    this.getApproveCountRequest();
-    this.getMenuListRequest();
-    getDictTypes("environment_form").then((res) => {
-      this.$store.commit("SET_ENVIRONMENT_FORM", res);
-    });
-    // console.log("this.$route.matched", this.$route,this.menuList);
-    this.activeIndex = this.$route.meta.code;
-  },
-  computed: {
-    noticeCount() {
-      return this.$store.state.noticeCount;
-    },
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      this.getRouteInfo(key, this.menuList);
-      this.$router.push({ path: this.routeInfo.path || "/" });
-    },
-    getRouteInfo(code, arr) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].code === code) {
-          this.routeInfo = arr[i];
-          return;
-        }
-        if (arr[i].children && arr[i].children.length > 0) {
-          this.getRouteInfo(code, arr[i].children);
-        }
-      }
-    },
-    //收缩菜单
-    toggleMenue() {
-      this.isCollapse = !this.isCollapse;
-    },
-    //下拉菜单点击事件
-    dropMenuHandler(command) {
-      if (command === "emain") {
-        return;
-      } else if (command === "logout") {
-        //退出登陆
-        this.$store.commit("SET_USERINFO", {});
-        this.$store.commit("SET_MENULIST", []);
-        this.$store.commit("SET_BTNLIST", []);
-        this.$router.replace("/login");
-      }
-    },
-    //获取待处理审批数量
-    async getApproveCountRequest() {
-      const count = await getApproveCount();
-      this.$store.commit("SET_NOTICE_COUNT", count);
-    },
-    //获取菜单列表数据
-    async getMenuListRequest() {
-      this.menuList = publicFn.genneratePath(_.cloneDeep(this.$store.state.menuList));
-      this.menuList.unshift({
-        code: "000",
-        icon: "House",
-        menuName: "首页",
-        path: "/welcome",
-      });
-    },
-  },
+const data = reactive({
+  activeIndex: "",
+  isCollapse: false, // 菜单是否折叠
+  userInfo: store.state.userInfo, // 用户信息
+});
+onMounted(() => {
+  getApproveCountRequest();
+  getDictTypes("environment_form").then((res) => {
+    store.commit("SET_ENVIRONMENT_FORM", res);
+  });
+  data.activeIndex = route.meta.code;
+});
+// 菜单列表数据
+const menuList = computed(() => {
+  return store.state.auth.menuList;
+});
+
+const handleSelect = (key, keyPath) => {
+  getRouteInfo(key, store.state.auth.routerList);
+  router.push({ path: data.routeInfo.path || "/" });
+};
+const getRouteInfo = (code, arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].code === code) {
+      data.routeInfo = arr[i];
+      return;
+    }
+    if (arr[i].children && arr[i].children.length > 0) {
+      getRouteInfo(code, arr[i].children);
+    }
+  }
+};
+//收缩菜单
+const toggleMenue = () => {
+  data.isCollapse = !data.isCollapse;
+};
+//下拉菜单点击事件
+const dropMenuHandler = (command) => {
+  if (command === "emain") {
+    return;
+  } else if (command === "logout") {
+    //退出登陆
+    store.commit("SET_USERINFO", {});
+    store.commit("auth/SET_MENULIST", []);
+    store.commit("auth/SET_BTNLIST", []);
+    store.commit("auth/SET_ROUTER_LIST", []);
+    store.commit("auth/SET_ROUTER_REFRESH");
+    router.replace("/login");
+  }
+};
+//获取待处理审批数量
+const getApproveCountRequest = async () => {
+  const count = await getApproveCount();
+  store.commit("SET_NOTICE_COUNT", count);
 };
 </script>
+
 <style lang="less">
 .home-main {
   position: relative;

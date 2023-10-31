@@ -24,7 +24,6 @@
         <el-button type="primary" @click="addMenuHandler(1)" v-permisson="'menu-create'"
           >新增菜单</el-button
         >
-        <!-- <el-button type="primary" @click="addMenuHandler(1)" >新增菜单</el-button> -->
       </div>
       <el-table
         :data="menuListData"
@@ -42,9 +41,6 @@
         ></el-table-column>
         <el-table-column label="操作" width="250" align="left">
           <template #default="scope">
-            <!-- <el-button size="mini" @click="addMenuHandler(2, scope.row)" type="primary" >添加</el-button>
-                        <el-button size="mini" @click="handleEdit(scope.row)" >编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)" >删除</el-button> -->
             <el-button
               size="small"
               @click="addMenuHandler(2, scope.row)"
@@ -89,49 +85,43 @@
           <span style="color: #999; margin-left: 10px">如果不选创建一级菜单</span>
         </el-form-item>
         <el-form-item label="菜单类型" prop="menuType">
-          <el-radio v-model="menuForm.menuType" :label="1">菜单</el-radio>
-          <el-radio v-model="menuForm.menuType" :label="2">按钮</el-radio>
+          <el-radio v-model="menuForm.menuType" :label="1">目录</el-radio>
+          <el-radio v-model="menuForm.menuType" :label="2">菜单</el-radio>
+          <el-radio v-model="menuForm.menuType" :label="3">按钮</el-radio>
         </el-form-item>
-        <el-form-item
-          :label="menuForm.menuType === 1 ? '菜单名称' : '按钮名称'"
-          prop="menuName"
-        >
-          <el-input
-            v-model="menuForm.menuName"
-            :placeholder="menuForm.menuType == 1 ? '请输入菜单名称' : '输入按钮名称'"
-          ></el-input>
+        <el-form-item label="名称" prop="menuName">
+          <el-input v-model="menuForm.menuName" placeholder="请输入名称"></el-input>
         </el-form-item>
-        <el-form-item label="权限标识" prop="menuCode" v-if="menuForm.menuType == 2">
+        <el-form-item label="权限标识" prop="menuCode" v-if="menuForm.menuType == 3">
           <el-input v-model="menuForm.menuCode" placeholder="请输入唯一标识"></el-input>
         </el-form-item>
-        <el-form-item label="菜单路由" prop="path" v-if="menuForm.menuType == 1">
+        <el-form-item label="菜单路由" prop="path" v-if="menuForm.menuType != 3">
           <el-input v-model="menuForm.path" placeholder="请输入菜单路由"></el-input>
         </el-form-item>
-        <el-form-item label="菜单图标" prop="icon" v-if="menuForm.menuType == 1">
+        <el-form-item label="菜单图标" prop="icon" v-if="menuForm.menuType != 3">
           <el-input
             v-model="menuForm.icon"
             placeholder="请输入图标(element-ui的图标库)"
           ></el-input>
         </el-form-item>
-        <el-form-item label="组件路径" prop="component" v-if="menuForm.menuType == 1">
+        <el-form-item label="组件路径" prop="component" v-if="menuForm.menuType != 3">
           <el-input v-model="menuForm.component" placeholder="请输入组件路径"></el-input>
         </el-form-item>
         <el-form-item label="code" prop="code">
           <el-input v-model="menuForm.code" placeholder="请输入code"></el-input>
         </el-form-item>
-        <el-form-item label="菜单状态" prop="menuState" v-if="menuForm.menuType == 1">
+        <el-form-item label="状态" prop="menuState" v-if="menuForm.menuType != 3">
           <el-radio-group v-model="menuForm.menuState">
             <el-radio :label="1">正常</el-radio>
             <el-radio :label="2">停用</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="显示菜单" prop="isShow" v-if="menuForm.menuType == 1">
+        <el-form-item label="显示" prop="isShow" v-if="menuForm.menuType != 3">
           <el-radio-group v-model="menuForm.isShow">
             <el-radio :label="1">显示</el-radio>
             <el-radio :label="2">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
-        
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -145,6 +135,8 @@
 <script>
 import publicFn from "../../utils/publicFn";
 import { postMenuList, postMenuC_U_D } from "@/api/syetem/menu";
+import { getPermissonMenuList } from "@/api/syetem/menu";
+import { getPermissonMenuList_ } from "@/router/index";
 export default {
   name: "Menu",
   data() {
@@ -168,8 +160,9 @@ export default {
           label: "菜单类型",
           formatter(row, col, value) {
             return {
-              1: "菜单",
-              2: "按钮",
+              1: "目录",
+              2: "菜单",
+              3: "按钮",
             }[value];
           },
         },
@@ -216,6 +209,8 @@ export default {
       rules: {
         menuName: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
         code: [{ required: true, message: "请输入code", trigger: "blur" }],
+        component: [{ required: true, message: "请输入组件路径", trigger: "blur" }],
+        path: [{ required: true, message: "请输入路由地址", trigger: "blur" }],
       },
       action: "create",
     };
@@ -226,12 +221,7 @@ export default {
   methods: {
     //重置表单事件
     onResetHandler(formName) {
-      // this.$refs[formName].resetFields();
-      this.menuForm = {
-        menuType: 1,
-        menuState: 1,
-        parentId: [null],
-      };
+      this.$refs[formName].resetFields();
     },
     //获取菜单列表
     async getMenuListRequest() {
@@ -259,6 +249,7 @@ export default {
           this.$message.success("删除菜单成功！");
         }
         this.getMenuListRequest();
+        await getPermissonMenuList_();
         this.dialogVisible = false;
       } catch (error) {
         this.$message.error(error.stack);
@@ -267,11 +258,17 @@ export default {
     },
     //查询按钮事件
     onQueryHandler() {
-      // this.getMenuListRequest();
+      this.getMenuListRequest();
     },
     //添加菜单按钮事件
     addMenuHandler(type, row) {
       this.dialogVisible = true;
+      this.menuForm = {
+        menuType: 1,
+        menuState: 1,
+        isShow: 1,
+        parentId: [null],
+      };
       if (type === 1) {
         this.action = "create";
       } else {

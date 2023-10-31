@@ -15,13 +15,11 @@ mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-// console.log(path.join(process.cwd(), "./config/logger"))
-// /${process.env.DB_DATABASE}
 var db = mongoose.connection;
 db.on('error', () => {
-    logger.httplog.info('数据库连接失败...', 'e');
+    logger.info('数据库连接失败...', 'e');
 });
 db.once('open', function () {
-    logger.httplog.info('数据库连接成功...');
+    logger.info('数据库连接成功...');
     initFaas() // 初始化faas
 });

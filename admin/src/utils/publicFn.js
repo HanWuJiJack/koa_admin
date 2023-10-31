@@ -80,11 +80,9 @@ export default {
     gennerateRoutes(list) {
         const modules =
             import.meta.glob('../views/**/*.vue')
-        // console.log("modules", modules)
         var result = []
         list.forEach(item => {
             const comPath = item.component
-            // console.log("comPath", comPath)
             result.push({
                 path: item.path,
                 name: item.component,
@@ -95,28 +93,10 @@ export default {
                 }
             })
 
-            if (item.children && !item.btnList) {
+            if (item.children) {
                 result = result.concat(this.gennerateRoutes(item.children))
             }
         })
         return result
     },
-    // 递归遍历添加rPath
-    genneratePath(list) {
-        // console.log(7878, list)
-        return list.map(item => {
-            if (/sign/.test(item.path)) {
-                item.rPath = item.path.split("sign")[0]
-            }
-            item.rPath = item.path
-            if (item.children && !item.btnList) {
-                item.children = this.genneratePath(item.children)
-            }
-            // return item
-            if (item.isShow == 1) {
-                return item
-            }
-            return undefined
-        }).filter((item) => item)
-    }
 }

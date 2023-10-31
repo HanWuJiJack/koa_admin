@@ -59,12 +59,6 @@
                 v-permisson="'FormCreate-edit'"
                 >编辑</el-button
               >
-              <!-- <el-button
-                size="small"
-                @click="handleDetail(scope.row)"
-                v-permisson="'FormCreate-ditail'"
-                >详情</el-button
-              > -->
               <el-button
                 size="small"
                 type="danger"

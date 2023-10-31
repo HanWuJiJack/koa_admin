@@ -137,7 +137,7 @@ const code2Session = (code) => {
             .then((res) => {
                 resolve(res.data)
             }, (err) => {
-                logger.systemLogger.error("code2Session",err)
+                logger.error("code2Session",err)
                 reject(err)
             })
     })

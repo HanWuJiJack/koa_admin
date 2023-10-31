@@ -40,11 +40,11 @@ function onError(error) {
 
   switch (error.code) {
     case 'EACCES':
-      logger.httplog.error(bind + ' requires elevated privileges');
+      logger.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      logger.httplog.error(bind + ' is already in use');
+      logger.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:
@@ -54,7 +54,7 @@ function onError(error) {
 
 // 开始监听
 function onListening() {
-  logger.httplog.info(`http://${ip.address()}:${port}`)
+  logger.info(`http://${ip.address()}:${port}`)
   var addr = server.address();
   var bind = typeof addr === 'string' ?
     'pipe ' + addr :

@@ -3,7 +3,7 @@
     <!-- 头部查询功能区域 -->
     <div class="users-top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
-        <el-form-item label="用户ID" prop="userId">
+        <el-form-item label="用户ID888" prop="userId">
           <el-input
             v-model="selectData.userId"
             type="Number"
@@ -68,7 +68,7 @@
                 >修改密码</el-button
               >
               <el-button
-              v-if="scope.row.state === 1"
+                v-if="scope.row.state === 1"
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
@@ -241,10 +241,10 @@
     </div>
   </div>
 </template>
-<script>
+
+<script setup>
 import { onMounted, reactive, ref, getCurrentInstance, toRefs } from "vue";
 import publicFn from "../../utils/publicFn";
-
 import { getRolesNameList } from "@/api/syetem/roles";
 import { getDeptList } from "@/api/syetem/dept";
 import {
@@ -253,281 +253,249 @@ import {
   postUserC_U,
   changePWS,
   removeUser,
-  putUserInfo
+  putUserInfo,
 } from "@/api/syetem/users";
 import { getDictTypes } from "@/api/syetem/dictType";
-export default {
-  name: "Users",
-  setup() {
-    const { proxy } = getCurrentInstance();
-    const selectData = reactive({
-      state: 1,
-    }); //查询功能表单对象
-    // 动态表格数据对象
-    var userData = ref([]);
-    const local = reactive({
-      companyType: [],
-    });
-    const pswFormRef = ref();
-    const pswForm = reactive({
-      rules: {},
-      show: false,
-      data: { userPwd: "" },
-    });
-    //动态表格字段格式
-    const columList = reactive([
-      {
-        prop: "userId",
-        label: "用户ID",
-      },
-      {
-        prop: "userName",
-        label: "用户名",
-      },
-      {
-        prop: "userEmail",
-        label: "用户邮箱",
-      },
-      {
-        prop: "role",
-        label: "用户角色",
-        formatter(row, col, value) {
-          return {
-            0: "管理员",
-            1: "普通用户",
-          }[value];
-        },
-      },
-      {
-        prop: "state",
-        label: "用户状态",
-        formatter(row, col, value) {
-          return {
-            1: "启用",
-            2: "禁用",
-          }[value];
-        },
-      },
-      {
-        prop: "createTime",
-        label: "注册时间",
-        formatter(row, col, value) {
-          return publicFn.formateDate(new Date(value));
-        },
-      },
-      {
-        prop: "lastLoginTime",
-        label: "最后登录时间",
-        formatter(row, col, value) {
-          return publicFn.formateDate(new Date(value));
-        },
-      },
-    ]);
-    // 分页数据对象
-    var pageData = reactive({
-      pageNum: 1,
-      pageSize: 10,
-      total: 0,
-    });
-    //当前选中的用户数组
-    const selectUserArr = ref([]);
-    //新增用户弹窗显示开关
-    const userDialogVisible = ref(false);
-    //新增用户表单对象
-    const userForm = reactive({
-      data: {
-        form: {
-          state: 1,
-        },
-      },
-    });
-    //表单验证规则
-    const rules = reactive({
-      userName: [
-        {
-          required: true,
-          message: "请输入用户名",
-          trigger: "blur",
-        },
-      ],
-      userEmail: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
-      deptId: [{ required: true, message: "请选择", trigger: "blur" }],
-      // company: [{ required: true, message: "请输入公司", trigger: "blur" }],
-    });
-    //角色名称列表
-    const rolesNameList = ref([]);
-    //部门列表
-    const deptList = ref([]);
-    //操作类型
-    const action = ref("add");
-    onMounted(() => {
-      getUserListRequest();
-      getRolesRequest();
-      getDeptListRequest();
-      getDictTypes("company-type").then((res) => {
-        local.companyType = res;
-        // console.log(res);
-      });
-    });
-    //获取用户列表数据
-    const getUserListRequest = async () => {
-      const params = { ...selectData, ...pageData };
-      try {
-        const res = await getUserList(params);
-        userData.value = res.list;
-        pageData.total = res.page.total;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    //查询事件
-    const onSearchHandler = () => {
-      getUserListRequest();
-    };
-    //重置事件
-    const onResetHandler = (name) => {
-      proxy.$refs[name].resetFields();
-    };
-    //表格选中事件
-    const selectHandler = (selection, row) => {
-      var arr = [];
-      selection.map((item) => {
-        arr.push(item.userId);
-      });
-      selectUserArr.value = arr;
-    };
-    //删除用户事件
-    const handleDelete = async (row, action) => {
-      let res = undefined;
-      if (action === "del") {
-        res = await removeUser({
-          userIds: [row.userId],
-        });
-      } else {
-        if (selectUserArr.value.length > 0) {
-          res = await removeUser({
-            userIds: [...selectUserArr.value],
-          });
-        } else {
-          proxy.$message.error("您还没选中需要删除的用户");
-          return;
-        }
-      }
-      if (res.n >= 1) {
-        proxy.$message.success("删除成功");
-        getUserListRequest();
-      } else {
-        proxy.$message.error("删除失败");
-      }
-    };
-    //获取角色名称列表
-    const getRolesRequest = async () => {
-      const res = await getRolesNameList();
-      rolesNameList.value = res;
-    };
-    //获取部门列表
-    const getDeptListRequest = async () => {
-      const res = await getDeptList();
-      deptList.value = res;
-    };
-    // 分页触发事件
-    const handleCurrentChange = (current) => {
-      pageData.pageNum = current;
-      getUserListRequest();
-    };
-    //新增用户弹窗取消按钮事件
-    const dialogCancelHandler = () => {
-      userDialogVisible.value = false;
-      onResetHandler("userRuleForm");
-    };
 
-    const dialogSubmitChangePWS = async () => {
-      if (pswForm.data.userPwd) {
-        await changePWS({
-          userPwd: pswForm.data.userPwd,
-          userId: pswForm.data.userId,
-        });
-        proxy.$message.success("您的新密码为：" + pswForm.data.userPwd);
-        pswForm.show = false;
-        getUserListRequest();
-      } else {
-        proxy.$message.error("您填写的信息不符合规则，请重新输入");
-        return false;
-      }
-    };
-    //新增用户弹窗确定按钮事件
-    const dialogSubmitHandler = () => {
-      proxy.$refs["userRuleForm"].validate(async (valid) => {
-        if (valid) {
-          let params = { ...userForm.data.form };
-          params.action = action.value;
-          if (params.action === "add") {
-            await postUserC_U(params);
-            proxy.$message.success("添加用户信息成功");
-          } else {
-            await putUserInfo(params);
-            proxy.$message.success("修改用户信息成功");
-          }
-          userDialogVisible.value = false;
-          getUserListRequest();
-        } else {
-          proxy.$message.error("您填写的信息不符合规则，请重新输入");
-          return false;
-        }
-      });
-    };
-    //编辑事件
-    const handleEdit = (row, type) => {
-      if (type === "edit") {
-        userDialogVisible.value = true;
-        action.value = "edit";
-        proxy.$nextTick(() => {
-          Object.assign(userForm.data.form, row);
-        });
-      }
-      if (type === "psw") {
-        pswForm.data = {};
-        pswForm.show = true;
-        proxy.$nextTick(() => {
-          Object.assign(pswForm.data, row, { userPwd: "" });
-        });
-      }
-    };
-    //添加用户按钮事件
-    const addUserHandler = () => {
-      userDialogVisible.value = true;
-      action.value = "add";
-      userForm.data.form = { state: 1 };
-    };
-    return {
-      selectData,
-      userData,
-      columList,
-      pageData,
-      userDialogVisible,
-      userForm,
-      rules,
-      rolesNameList,
-      deptList,
-      action,
-      local,
-      pswForm,
-      pswFormRef,
-      getUserListRequest,
-      onSearchHandler,
-      onResetHandler,
-      selectHandler,
-      handleDelete,
-      getRolesRequest,
-      getDeptListRequest,
-      dialogCancelHandler,
-      dialogSubmitHandler,
-      dialogSubmitChangePWS,
-      handleEdit,
-      addUserHandler,
-      handleCurrentChange,
-    };
+const { proxy } = getCurrentInstance();
+const selectData = reactive({
+  state: 1,
+}); //查询功能表单对象
+// 动态表格数据对象
+var userData = ref([]);
+const local = reactive({
+  companyType: [],
+});
+const pswFormRef = ref();
+const pswForm = reactive({
+  rules: {},
+  show: false,
+  data: { userPwd: "" },
+});
+//动态表格字段格式
+const columList = reactive([
+  {
+    prop: "userId",
+    label: "用户ID",
   },
+  {
+    prop: "userName",
+    label: "用户名",
+  },
+  {
+    prop: "userEmail",
+    label: "用户邮箱",
+  },
+  {
+    prop: "role",
+    label: "用户角色",
+    formatter(row, col, value) {
+      return {
+        0: "管理员",
+        1: "普通用户",
+      }[value];
+    },
+  },
+  {
+    prop: "state",
+    label: "用户状态",
+    formatter(row, col, value) {
+      return {
+        1: "启用",
+        2: "禁用",
+      }[value];
+    },
+  },
+  {
+    prop: "createTime",
+    label: "注册时间",
+    formatter(row, col, value) {
+      return publicFn.formateDate(new Date(value));
+    },
+  },
+  {
+    prop: "lastLoginTime",
+    label: "最后登录时间",
+    formatter(row, col, value) {
+      return publicFn.formateDate(new Date(value));
+    },
+  },
+]);
+// 分页数据对象
+var pageData = reactive({
+  pageNum: 1,
+  pageSize: 10,
+  total: 0,
+});
+//当前选中的用户数组
+const selectUserArr = ref([]);
+//新增用户弹窗显示开关
+const userDialogVisible = ref(false);
+//新增用户表单对象
+const userForm = reactive({
+  data: {
+    form: {
+      state: 1,
+    },
+  },
+});
+//表单验证规则
+const rules = reactive({
+  userName: [
+    {
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur",
+    },
+  ],
+  userEmail: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
+  deptId: [{ required: true, message: "请选择", trigger: "blur" }],
+  // company: [{ required: true, message: "请输入公司", trigger: "blur" }],
+});
+//角色名称列表
+const rolesNameList = ref([]);
+//部门列表
+const deptList = ref([]);
+//操作类型
+const action = ref("add");
+onMounted(() => {
+  getUserListRequest();
+  getRolesRequest();
+  getDeptListRequest();
+  getDictTypes("company-type").then((res) => {
+    local.companyType = res;
+    // console.log(res);
+  });
+});
+//获取用户列表数据
+const getUserListRequest = async () => {
+  const params = { ...selectData, ...pageData };
+  try {
+    const res = await getUserList(params);
+    userData.value = res.list;
+    pageData.total = res.page.total;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//查询事件
+const onSearchHandler = () => {
+  getUserListRequest();
+};
+//重置事件
+const onResetHandler = (name) => {
+  proxy.$refs[name].resetFields();
+};
+//表格选中事件
+const selectHandler = (selection, row) => {
+  var arr = [];
+  selection.map((item) => {
+    arr.push(item.userId);
+  });
+  selectUserArr.value = arr;
+};
+//删除用户事件
+const handleDelete = async (row, action) => {
+  let res = undefined;
+  if (action === "del") {
+    res = await removeUser({
+      userIds: [row.userId],
+    });
+  } else {
+    if (selectUserArr.value.length > 0) {
+      res = await removeUser({
+        userIds: [...selectUserArr.value],
+      });
+    } else {
+      proxy.$message.error("您还没选中需要删除的用户");
+      return;
+    }
+  }
+  if (res.n >= 1) {
+    proxy.$message.success("删除成功");
+    getUserListRequest();
+  } else {
+    proxy.$message.error("删除失败");
+  }
+};
+//获取角色名称列表
+const getRolesRequest = async () => {
+  const res = await getRolesNameList();
+  rolesNameList.value = res;
+};
+//获取部门列表
+const getDeptListRequest = async () => {
+  const res = await getDeptList();
+  deptList.value = res;
+};
+// 分页触发事件
+const handleCurrentChange = (current) => {
+  pageData.pageNum = current;
+  getUserListRequest();
+};
+//新增用户弹窗取消按钮事件
+const dialogCancelHandler = () => {
+  userDialogVisible.value = false;
+  onResetHandler("userRuleForm");
+};
+
+const dialogSubmitChangePWS = async () => {
+  if (pswForm.data.userPwd) {
+    await changePWS({
+      userPwd: pswForm.data.userPwd,
+      userId: pswForm.data.userId,
+    });
+    proxy.$message.success("您的新密码为：" + pswForm.data.userPwd);
+    pswForm.show = false;
+    getUserListRequest();
+  } else {
+    proxy.$message.error("您填写的信息不符合规则，请重新输入");
+    return false;
+  }
+};
+//新增用户弹窗确定按钮事件
+const dialogSubmitHandler = () => {
+  proxy.$refs["userRuleForm"].validate(async (valid) => {
+    if (valid) {
+      let params = { ...userForm.data.form };
+      params.action = action.value;
+      if (params.action === "add") {
+        await postUserC_U(params);
+        proxy.$message.success("添加用户信息成功");
+      } else {
+        await putUserInfo(params);
+        proxy.$message.success("修改用户信息成功");
+      }
+      userDialogVisible.value = false;
+      getUserListRequest();
+    } else {
+      proxy.$message.error("您填写的信息不符合规则，请重新输入");
+      return false;
+    }
+  });
+};
+//编辑事件
+const handleEdit = (row, type) => {
+  if (type === "edit") {
+    userDialogVisible.value = true;
+    action.value = "edit";
+    proxy.$nextTick(() => {
+      Object.assign(userForm.data.form, row);
+    });
+  }
+  if (type === "psw") {
+    pswForm.data = {};
+    pswForm.show = true;
+    proxy.$nextTick(() => {
+      Object.assign(pswForm.data, row, { userPwd: "" });
+    });
+  }
+};
+//添加用户按钮事件
+const addUserHandler = () => {
+  userDialogVisible.value = true;
+  action.value = "add";
+  userForm.data.form = { state: 1 };
 };
 </script>
 <style lang="less" scoped>

@@ -6,7 +6,6 @@ const Tools = require("./Tools")
 const defaultSchemas = require('../model/Model')
 const { modelSchemas } = require('./ModelSchemas')
 
-
 function VM2(ctx, next, text) {
     const vm = new NodeVM({
         console: 'inherit',

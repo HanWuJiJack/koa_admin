@@ -76,7 +76,7 @@ class LeavesAdminController extends BaseController {
             if (action == 'create') {
                 // 获取申请人所属部门
                 let applyPeoPledept = userInfo.deptId.pop()
-                logger.systemLogger.info("applyPeoPledept", applyPeoPledept)
+                logger.info("applyPeoPledept", applyPeoPledept)
                 // 根据部门查找到部门负责人
                 const deptData = await Schema.deptSchema.findById(applyPeoPledept)
                 // 当前审批人
@@ -125,7 +125,7 @@ class LeavesAdminController extends BaseController {
         const userInfo = this.userInfo
         try {
             const doc = await Schema.leavesSchema.findById(_id)
-            // logger.systemLogger.info("doc", doc)
+            // logger.info("doc", doc)
             if (action === 'refuse') {
                 const auditLogs = doc.auditLogs
                 auditLogs.push({
@@ -160,7 +160,7 @@ class LeavesAdminController extends BaseController {
                         remark,
                         action: '通过'
                     })
-                    // logger.systemLogger.info(777,auditLogs)
+                    // logger.info(777,auditLogs)
                     const curAuditUserName = auditLogs[auditLogs.length - 1].userName
                     await Schema.leavesSchema.findByIdAndUpdate(_id, { applyState: 2, auditLogs, curAuditUserName })
                 }
@@ -182,7 +182,7 @@ class LeavesAdminController extends BaseController {
             const total = await Schema.leavesSchema.countDocuments(params)
             this.ctx.body = super.success({ data: total, msg: '查询成功' })
         } catch (error) {
-            logger.systemLogger.info(error)
+            logger.info(error)
             this.ctx.body = super.fail({ msg: `查询异常:${error.message}` })
         }
     }

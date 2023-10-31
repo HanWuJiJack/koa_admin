@@ -26,10 +26,10 @@ const Exception = async (ctx, next) => {
         if (ctx.response.status === 404) {
             ctx.body = ExceptionCode.FILE_ROUTER_ERR;
         }
-        logger.systemLogger.info(`'SUCCESS'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms`);
+        logger.info(`'SUCCESS'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms`);
         return ctx.body
     } catch (error) {
-        logger.systemLogger.info("GlobalError=>", error)
+        logger.info("GlobalError=>", error)
         if (error && error.code) {
             // 错误类code :1000 - 2000
             if (error.code >= 1000 && error.code < 2000) {
@@ -66,7 +66,7 @@ const Exception = async (ctx, next) => {
                 ctx.body = { ...ExceptionCode.FILE_TYPE_ERR, title: error.message };
             }
         }
-        logger.systemLogger.info(`'ERROR'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms `);
+        logger.info(`'ERROR'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms `);
         return ctx.body
     }
 }

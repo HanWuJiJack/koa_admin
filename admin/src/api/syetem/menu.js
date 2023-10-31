@@ -5,7 +5,7 @@ export function postMenuList(data) {
     return request({
         url: '/auth/admin/menu/list',
         method: 'get',
-        data: data
+        params: data
     })
 }
 //新建/修改/删除菜单

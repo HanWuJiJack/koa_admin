@@ -23,7 +23,7 @@ log4js.configure({
     // 服务器接口
     httplog: {
       type: "dateFile", //按日期分割
-      filename: path.join(__dirname, '../logs/', 'all.log'), //存储的日志文件位置
+      filename: path.join(__dirname, '../logs/', 'httplog.log'), //存储的日志文件位置
       pattern: "yyyy-MM-dd.log", //日志文件的命名
       backups: 300, //最多保存的文件数量
       layout: {
@@ -49,7 +49,7 @@ log4js.configure({
       level: "all" //可输出等级
     },
     httplog: {
-      appenders: ['out'], //只保存到文件里，不输出到控制台
+      appenders: ["httplog", "console"], //只保存到文件里，不输出到控制台
       level: "all" //可输出等级
     },
     order: {
@@ -59,15 +59,32 @@ log4js.configure({
   }
 })
 const logger = {
-  systemLogger:log4js.getLogger('application'),
-  order: log4js.getLogger("order"),
-  httplog: log4js.getLogger("httplog"),
+  _systemLogger:log4js.getLogger('application'),
+  _order: log4js.getLogger("order"),
+}
+logger.trace = (...arg)=>{
+  log4js.getLogger("httplog").trace(...arg)
+}
+logger.debug = (...arg)=>{
+  log4js.getLogger("httplog").debug(...arg)
+}
+logger.info = (...arg)=>{
+  log4js.getLogger("httplog").info(...arg)
+}
+logger.warn = (...arg)=>{
+  log4js.getLogger("httplog").warn(...arg)
+}
+logger.error = (...arg)=>{
+  log4js.getLogger("httplog").error(...arg)
+}
+logger.fatal = (...arg)=>{
+  log4js.getLogger("httplog").fatal(...arg)
 }
 exports.logger = logger
-// logger.httplog.trace("测试trace");
-// logger.httplog.debug("测试debug");
-// logger.httplog.info("测试info");
-// logger.httplog.warn("测试warn");
-// logger.httplog.error("测试error");
-// logger.httplog.fatal("测试fatal");
+// logger.trace("测试trace");
+// logger.debug("测试debug");
+// logger.info("测试info");
+// logger.warn("测试warn");
+// logger.error("测试error");
+// logger.fatal("测试fatal");
 exports.accessLogger = () => log4js.koaLogger(log4js.getLogger("httplog"));

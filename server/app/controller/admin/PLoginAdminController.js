@@ -41,7 +41,7 @@ class LoginAdminController extends BaseController {
                 this.ctx.body = super.fail({ data: {}, msg: '账号被禁用、账号或密码错误！' });
             }
         } catch (error) {
-            logger.systemLogger.error(error)
+            logger.error(error)
         }
     }
 }

@@ -17,11 +17,11 @@ exports.generator = function generator() {
         var publicPem = key.exportKey('pkcs8-public-pem')
         fs.writeFile(path.resolve(__dirname, './public.pem'), publicPem, (err) => {
             if (err) throw err
-            logger.systemLogger.info('公钥已保存！')
+            logger.info('公钥已保存！')
         })
         fs.writeFile(path.resolve(__dirname, './private.pem'), privatePem, (err) => {
             if (err) throw err
-            logger.systemLogger.info('私钥已保存！')
+            logger.info('私钥已保存！')
         })
     }
 }

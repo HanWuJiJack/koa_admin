@@ -67,7 +67,7 @@ class UserAdminController extends BaseController {
             }, { new: true });
             this.ctx.body = super.success({ msg: '更新用户数据成功' });
         } catch (error) {
-            logger.systemLogger.error(error)
+            logger.error(error)
             this.ctx.body = super.fail({ msg: '更新用户数据失败' });
         }
     }
@@ -106,7 +106,7 @@ class UserAdminController extends BaseController {
                 this.ctx.body = super.fail({ data: {}, msg: '账号被禁用、账号或密码错误！' });
             }
         } catch (error) {
-            logger.systemLogger.error(error)
+            logger.error(error)
         }
     }
     async create_code_login() {
@@ -132,7 +132,7 @@ class UserAdminController extends BaseController {
                 this.ctx.body = super.fail({ data: {}, msg: '账号被禁用、未绑定账号！' });
             }
         } catch (error) {
-            logger.systemLogger.error(error)
+            logger.error(error)
         }
     }
 }

@@ -1,25 +1,20 @@
 <template>
-  <template v-for="item in menuList" :key="item._id">
+  <template v-for="item in props.menuList" :key="item._id">
     <el-sub-menu
       :index="item.code"
-      v-if="
-        item.children &&
-        item.children.length > 0 &&
-        item.children[0].menuType == 1
-      "
+      v-if="item.children && item.children.length > 0 && item.menuType == 1"
     >
       <template #title>
         <el-icon :size="16" color="#333">
           <component v-bind:is="item.icon"></component>
         </el-icon>
-        <i :class="item.icon"></i>
         <span>{{ item.menuName }}</span>
       </template>
       <!-- 递归组件，再次循环判断子菜单 -->
       <MenuTree :menuList="item.children" />
     </el-sub-menu>
-    <el-menu-item v-else :index="item.code">
-      <el-icon :size="16" color="#333">
+    <el-menu-item v-else :index="item.code" v-if="item.menuType == 2">
+      <el-icon :size="16" color="#333" v-if="item.icon">
         <component v-bind:is="item.icon"></component>
       </el-icon>
       <template #title>{{ item.menuName }}</template>
@@ -29,13 +24,17 @@
 <script>
 export default {
   name: "MenuTree",
-  props: {
-    menuList: {
-      type: Array,
-      default: function () {
-        return [];
-      },
-    },
-  },
+  inheritAttrs: false,
+  customOptions: {},
 };
+</script>
+<script setup>
+import { computed, defineProps, onMounted, onBeforeUpdate } from "vue";
+const props = defineProps({
+  menuList: {
+    type: Array,
+    default: [],
+    // required: false, // 是否必传
+  },
+});
 </script>

@@ -11,7 +11,7 @@
  Target Server Version : 50005 (5.0.5)
  File Encoding         : 65001
 
- Date: 30/10/2023 15:43:33
+ Date: 31/10/2023 15:54:57
 */
 
 
@@ -1008,7 +1008,7 @@ db.getCollection("menus").insert([ {
         null
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T07:59:29.282Z"),
+    updateTime: ISODate("2023-10-31T07:31:49.469Z"),
     menuType: NumberInt("1"),
     menuState: NumberInt("1"),
     icon: "Operation",
@@ -1025,8 +1025,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:01:06.782Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:31:55.649Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "菜单管理",
     path: "/system/menu",
@@ -1034,7 +1034,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Menu",
-    code: 10002
+    code: "10002",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a957c548ec890bb426a163"),
@@ -1042,8 +1043,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:03:28.287Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:08.108Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "角色管理",
     path: "/system/roles",
@@ -1051,7 +1052,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Avatar",
-    code: 10003
+    code: "10003",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9616548ec890bb426a19d"),
@@ -1059,8 +1061,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:04:53.222Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:15.176Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "部门管理",
     component: "Dept/Dept",
@@ -1068,7 +1070,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Promotion",
-    code: 10004
+    code: "10004",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a961d448ec890bb426a1b7"),
@@ -1077,13 +1080,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9578748ec890bb426a160")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:35:49.468Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "menu-create",
     menuName: "添加",
     __v: NumberInt("0"),
-    code: 10005
+    code: "10005",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a961e248ec890bb426a1ba"),
@@ -1092,13 +1096,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9578748ec890bb426a160")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:35:59.335Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "menu-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: 10006
+    code: "10006",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a961ef48ec890bb426a1bd"),
@@ -1107,13 +1112,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9578748ec890bb426a160")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:06.108Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "menu-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: 10007
+    code: "10007",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9622f48ec890bb426a1c0"),
@@ -1122,13 +1128,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a957c548ec890bb426a163")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:14.642Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "role-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: 10008
+    code: "10008",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9624048ec890bb426a1c3"),
@@ -1137,13 +1144,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a957c548ec890bb426a163")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:20.41Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "role-setpermission",
     menuName: "设置权限",
     __v: NumberInt("0"),
-    code: 10009
+    code: "10009",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9625048ec890bb426a1c6"),
@@ -1152,13 +1160,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a957c548ec890bb426a163")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:28.172Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "role-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: 100010
+    code: "100010",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9626b48ec890bb426a1c9"),
@@ -1167,13 +1176,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a957c548ec890bb426a163")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:33.423Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "role-create",
     menuName: "创建角色",
     __v: NumberInt("0"),
-    code: 100011
+    code: "100011",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9670c48ec890bb426a1d2"),
@@ -1182,13 +1192,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9616548ec890bb426a19d")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:40.894Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dept-create",
     menuName: "新增部门",
     __v: NumberInt("0"),
-    code: 100012
+    code: "100012",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9672148ec890bb426a1d5"),
@@ -1197,13 +1208,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9616548ec890bb426a19d")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:48.184Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "编辑",
     menuCode: "dept-edit",
     __v: NumberInt("0"),
-    code: 100013
+    code: "100013",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9672c48ec890bb426a1d8"),
@@ -1212,13 +1224,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9616548ec890bb426a19d")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:36:55.987Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "删除",
     menuCode: "dept-delete",
     __v: NumberInt("0"),
-    code: 100014
+    code: "100014",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a967de48ec890bb426a1f4"),
@@ -1226,8 +1239,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:05:36.329Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:22.578Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "申请审批",
     path: "/system/leave",
@@ -1235,7 +1248,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Calendar",
-    code: 100015
+    code: "100015",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9681e48ec890bb426a1fd"),
@@ -1243,8 +1257,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:05:55.897Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:28.382Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "审批",
     path: "/system/approve",
@@ -1252,7 +1266,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Checked",
-    code: 100016
+    code: "100016",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e1748ec890bb426a2d6"),
@@ -1260,8 +1275,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-28T08:00:16.761Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:34.278Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "用户管理",
     path: "/system/users",
@@ -1269,7 +1284,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "User",
-    code: 100017
+    code: "100017",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e3948ec890bb426a2d9"),
@@ -1278,13 +1294,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a96e1748ec890bb426a2d6")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:30.428Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "user-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: 100018
+    code: "100018",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e5048ec890bb426a2dc"),
@@ -1293,13 +1310,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a96e1748ec890bb426a2d6")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:35.483Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "删除",
     menuCode: "user-delete",
     __v: NumberInt("0"),
-    code: 100019
+    code: "100019",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e6748ec890bb426a2df"),
@@ -1308,13 +1326,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a96e1748ec890bb426a2d6")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:41.444Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "新增用户",
     menuCode: "user-create",
     __v: NumberInt("0"),
-    code: 100020
+    code: "100020",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e7348ec890bb426a2e2"),
@@ -1323,13 +1342,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a96e1748ec890bb426a2d6")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:46.613Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "user-deletes",
     menuName: "批量删除",
     __v: NumberInt("0"),
-    code: 100021
+    code: "100021",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a973ba48ec890bb426a3f0"),
@@ -1338,13 +1358,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a967de48ec890bb426a1f4")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:01.719Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "申请休假",
     menuCode: "leave-create",
     __v: NumberInt("0"),
-    code: 100022
+    code: "100022",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a973cf48ec890bb426a3f3"),
@@ -1353,13 +1374,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a967de48ec890bb426a1f4")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:07.843Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "leave-see",
     menuName: "查看",
     __v: NumberInt("0"),
-    code: 100023
+    code: "100023",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a973df48ec890bb426a3f6"),
@@ -1368,13 +1390,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a967de48ec890bb426a1f4")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:13.244Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "leave-delete",
     menuName: "作废",
     __v: NumberInt("0"),
-    code: 100024
+    code: "100024",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a973fc48ec890bb426a3f9"),
@@ -1383,13 +1406,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62a9681e48ec890bb426a1fd")
     ],
     createTime: ISODate("2022-06-15T03:16:23.192Z"),
-    updateTime: ISODate("2022-06-15T03:16:23.192Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:21.82Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "approve-audit",
     menuName: "审核",
     __v: NumberInt("0"),
-    code: 100025
+    code: "100025",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62afff407435064330e7b50c"),
@@ -1397,8 +1421,8 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2022-06-28T08:06:48.776Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:39.081Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     path: "/system/dict",
     component: "Dict/index",
@@ -1406,7 +1430,8 @@ db.getCollection("menus").insert([ {
     isShow: NumberInt("1"),
     __v: NumberInt("0"),
     icon: "FolderOpened",
-    code: 100026
+    code: "100026",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b000f97435064330e7b52c"),
@@ -1415,13 +1440,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62afff407435064330e7b50c")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2023-10-30T07:17:19.919Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:37:54.65Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dict-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: "100027"
+    code: "100027",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b0010b7435064330e7b52f"),
@@ -1430,13 +1456,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62afff407435064330e7b50c")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2023-10-30T07:17:37.262Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:00.521Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dict-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100028"
+    code: "100028",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b001177435064330e7b532"),
@@ -1445,13 +1472,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62afff407435064330e7b50c")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2023-10-30T07:17:41.995Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:06.912Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dict-ditail",
     menuName: "详情",
     __v: NumberInt("0"),
-    code: "100029"
+    code: "100029",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b001257435064330e7b535"),
@@ -1460,13 +1488,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62afff407435064330e7b50c")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2023-10-30T07:17:46.007Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:12.767Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "删除",
     menuCode: "dict-delete",
     __v: NumberInt("0"),
-    code: "30"
+    code: "30",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b005bd53614a2c4c03cd31"),
@@ -1474,16 +1503,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-20T05:12:10.66Z"),
-    updateTime: ISODate("2023-10-30T07:17:52.217Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:32:44.537Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "字典类型",
     path: "/system/dictType/:id",
     component: "Dict/DictType/index",
-    isShow: NumberInt("2"),
+    isShow: NumberInt("1"),
     __v: NumberInt("0"),
     icon: "FolderOpened",
-    code: "100031"
+    code: "100031",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b0346c53614a2c4c03ce2f"),
@@ -1492,13 +1522,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b005bd53614a2c4c03cd31")
     ],
     createTime: ISODate("2022-06-20T05:12:10.66Z"),
-    updateTime: ISODate("2023-10-30T07:17:57.542Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:20.626Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dictType-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: "100032"
+    code: "100032",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b0348053614a2c4c03ce32"),
@@ -1507,13 +1538,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b005bd53614a2c4c03cd31")
     ],
     createTime: ISODate("2022-06-20T05:12:10.66Z"),
-    updateTime: ISODate("2023-10-30T07:18:03.316Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:26.689Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dictType-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100033"
+    code: "100033",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b0348b53614a2c4c03ce35"),
@@ -1522,13 +1554,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b005bd53614a2c4c03cd31")
     ],
     createTime: ISODate("2022-06-20T05:12:10.66Z"),
-    updateTime: ISODate("2023-10-30T07:18:08.111Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:33.06Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "dictType-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: "100034"
+    code: "100034",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b54458fc17e80e40b2d4f1"),
@@ -1536,16 +1569,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-30T07:18:13.877Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:41:12.687Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "FAAS",
-    isShow: NumberInt("1"),
+    isShow: NumberInt("2"),
     __v: NumberInt("0"),
     component: "Faas/index",
     path: "/system/faas",
     icon: "Position",
-    code: "100035"
+    code: "100035",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b544d5fc17e80e40b2d516"),
@@ -1554,13 +1588,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b54458fc17e80e40b2d4f1")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-30T07:18:20.105Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:41.409Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "新增",
     menuCode: "faas-create",
     __v: NumberInt("0"),
-    code: "100036"
+    code: "100036",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b544e4fc17e80e40b2d51b"),
@@ -1569,13 +1604,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b54458fc17e80e40b2d4f1")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-30T07:18:26.222Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:46.664Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "批量删除",
     menuCode: "faas-deletes",
     __v: NumberInt("0"),
-    code: "100037"
+    code: "100037",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b544f2fc17e80e40b2d520"),
@@ -1584,13 +1620,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b54458fc17e80e40b2d4f1")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-30T07:18:30.88Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:52.259Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "编辑",
     menuCode: "faas-edit",
     __v: NumberInt("0"),
-    code: "100038"
+    code: "100038",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b544fffc17e80e40b2d525"),
@@ -1599,13 +1636,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62b54458fc17e80e40b2d4f1")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-30T07:18:37.756Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:38:57.73Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "删除",
     menuCode: "faas-delete",
     __v: NumberInt("0"),
-    code: "100039"
+    code: "100039",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b94a59e213d535c87592f0"),
@@ -1613,15 +1651,16 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-27T06:00:16.5Z"),
-    updateTime: ISODate("2023-10-30T07:18:45.629Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:54:27.787Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "个人中心",
     path: "/system/my",
     component: "Users/index",
     isShow: NumberInt("2"),
     __v: NumberInt("0"),
-    code: "100040"
+    code: "100040",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfc2e5ee56f4014349740"),
@@ -1629,16 +1668,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-29T07:01:44.833Z"),
-    updateTime: ISODate("2023-10-30T07:18:50.495Z"),
-    menuType: NumberInt("1"),
+    updateTime: ISODate("2023-10-31T07:41:04.148Z"),
+    menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "表单管理",
     path: "/system/generator",
     icon: "Moon",
     component: "FormCreate/index",
-    isShow: NumberInt("1"),
+    isShow: NumberInt("2"),
     __v: NumberInt("0"),
-    code: "100041"
+    code: "100041",
+    menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd170b77a1414c078f0c"),
@@ -1647,13 +1687,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62bbfc2e5ee56f4014349740")
     ],
     createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:39:09.336Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "FormCreate-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: 100042
+    code: "100042",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd240b77a1414c078f11"),
@@ -1662,13 +1703,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62bbfc2e5ee56f4014349740")
     ],
     createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:39:15.144Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "FormCreate-deletes",
     menuName: "批量删除",
     __v: NumberInt("0"),
-    code: 100043
+    code: "100043",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd310b77a1414c078f16"),
@@ -1677,13 +1719,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62bbfc2e5ee56f4014349740")
     ],
     createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:39:20.925Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "FormCreate-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: 100044
+    code: "100044",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd3d0b77a1414c078f1b"),
@@ -1692,13 +1735,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62bbfc2e5ee56f4014349740")
     ],
     createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:39:26.761Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "FormCreate-ditail",
     menuName: "详情",
     __v: NumberInt("0"),
-    code: 100045
+    code: "100045",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd490b77a1414c078f20"),
@@ -1707,13 +1751,14 @@ db.getCollection("menus").insert([ {
         ObjectId("62bbfc2e5ee56f4014349740")
     ],
     createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("2"),
+    updateTime: ISODate("2023-10-31T07:39:32.425Z"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "FormCreate-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: 100046
+    code: "100046",
+    isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bd011eefdb000588ce46a8"),
@@ -1723,7 +1768,7 @@ db.getCollection("menus").insert([ {
     ],
     createTime: ISODate("2022-06-30T01:05:24.488Z"),
     updateTime: ISODate("2022-06-30T01:05:24.488Z"),
-    menuType: NumberInt("2"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "新增",
     menuCode: "project-create",
@@ -1738,7 +1783,7 @@ db.getCollection("menus").insert([ {
     ],
     createTime: ISODate("2022-06-30T01:05:24.488Z"),
     updateTime: ISODate("2022-06-30T01:05:24.488Z"),
-    menuType: NumberInt("2"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "批量删除",
     menuCode: "project-deletes",
@@ -1753,7 +1798,7 @@ db.getCollection("menus").insert([ {
     ],
     createTime: ISODate("2022-06-30T01:05:24.488Z"),
     updateTime: ISODate("2022-06-30T01:05:24.488Z"),
-    menuType: NumberInt("2"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "project-edit",
     menuName: "编辑",
@@ -1768,7 +1813,7 @@ db.getCollection("menus").insert([ {
     ],
     createTime: ISODate("2022-06-30T01:05:24.488Z"),
     updateTime: ISODate("2022-06-30T01:05:24.488Z"),
-    menuType: NumberInt("2"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "project-ditail",
     menuName: "详情",
@@ -1783,12 +1828,46 @@ db.getCollection("menus").insert([ {
     ],
     createTime: ISODate("2022-06-30T01:05:24.488Z"),
     updateTime: ISODate("2022-06-30T01:05:24.488Z"),
-    menuType: NumberInt("2"),
+    menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuCode: "project-delete",
     menuName: "删除",
     __v: NumberInt("0"),
     code: 100051
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6540a1630b98c443559a1033"),
+    parentId: [
+        null
+    ],
+    createTime: ISODate("2022-06-29T07:16:54.678Z"),
+    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
+    menuType: NumberInt("1"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    menuName: "hello",
+    path: "/hello",
+    component: "blankpage/index",
+    __v: NumberInt("0"),
+    code: "1047",
+    menuCode: "FormCreate-delete"
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6540a19ce7122f4358b2a040"),
+    parentId: [
+        null
+    ],
+    createTime: ISODate("2022-06-29T07:16:54.678Z"),
+    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
+    menuType: NumberInt("1"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    menuName: "hello2",
+    path: "/hello2",
+    component: "blankpage/index",
+    __v: NumberInt("0"),
+    code: "1000049",
+    menuCode: "FormCreate-delete"
 } ]);
 
 // ----------------------------
@@ -1890,6 +1969,42 @@ db.getCollection("roles").insert([ {
     remark: "",
     __v: NumberInt("0")
 } ]);
+db.getCollection("roles").insert([ {
+    _id: ObjectId("6540afb73a6f8952c1d73ec6"),
+    permissionList: {
+        checkedKeys: [
+            "62a961d448ec890bb426a1b7"
+        ],
+        halfCheckedKeys: [
+            "62a956fe48ec890bb426a157",
+            "62a9578748ec890bb426a160"
+        ]
+    },
+    createTime: ISODate("2023-10-31T07:39:59.727Z"),
+    roleName: "菜单管理",
+    remark: "",
+    __v: NumberInt("0")
+} ]);
+
+// ----------------------------
+// Collection structure for test1
+// ----------------------------
+db.getCollection("test1").drop();
+db.createCollection("test1");
+
+// ----------------------------
+// Documents of test1
+// ----------------------------
+
+// ----------------------------
+// Collection structure for test5
+// ----------------------------
+db.getCollection("test5").drop();
+db.createCollection("test5");
+
+// ----------------------------
+// Documents of test5
+// ----------------------------
 
 // ----------------------------
 // Collection structure for users
@@ -1936,7 +2051,7 @@ db.getCollection("users").insert([ {
     state: NumberInt("1"),
     role: NumberInt("1"),
     roleList: [
-        "62a96ff048ec890bb426a347"
+        "6540afb73a6f8952c1d73ec6"
     ],
     createTime: ISODate("2022-06-27T03:16:18.504Z"),
     lastLoginTime: ISODate("2022-06-27T03:16:18.504Z"),

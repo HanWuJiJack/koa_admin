@@ -11,7 +11,7 @@ function checkAuth(ctx) {
         throw ExceptionCode.AUTH_FAILED
     }
     let id = tools.UserId(ctx.header.authorization.split(" ")[1]);
-    logger.systemLogger.info(`用户${id} 访问 ${ctx.url}`);
+    logger.info(`用户${id} 访问 ${ctx.url}`);
     /* 在这里注入 user 参数 */
     ctx.state.userId = {
         id: id,
