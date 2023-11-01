@@ -50,7 +50,6 @@ const Exception = async (ctx, next) => {
                 message: "请将接口保存并联系后端！"
             }
         } else if (error || ctx.response.status) {
-
             // ctx.body = ExceptionCode.UNDEFINED
             if (error.message === 'Validation Failed') {
                 ctx.body = { ...ExceptionCode.INVALID_PARAMS };

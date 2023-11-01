@@ -378,14 +378,14 @@ const onChangeFaasMethod = (val, e) => {
   if (!form.data.code) {
     return;
   }
-  // if (val == "list") {
-  //   form.data.path = "/custom/faas/list/" + form.data.code;
-  // } else if (val == "get") {
-  //   form.data.path = "/custom/faas/" + form.data.code + "/:id";
-  // } else {
-  //   form.data.path = "/custom/faas/" + form.data.code;
-  // }
-  form.data.path = "/custom/faas/" + form.data.code;
+  if (val == "list") {
+    form.data.path = "/custom/faas/list/" + form.data.code;
+  } else if (val == "get") {
+    form.data.path = "/custom/faas/" + form.data.code;
+  } else {
+    form.data.path = "/custom/faas/" + form.data.code;
+  }
+  // form.data.path = "/custom/faas/" + form.data.code;
 };
 </script>
 <style lang="less" scoped>

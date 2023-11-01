@@ -8,7 +8,7 @@ module.exports = async function ({
 }) {
     userInfo = ctx.state.userInfo;
     if(!userInfo){
-        throw ExceptionCode.LOGIN_FAILED
+        throw ExceptionCode.LOGIN_VERIFY_API
     }
     const {btnList} = await redis.getHashMap(String(userInfo._id))
     // console.log("codeList", codeList)

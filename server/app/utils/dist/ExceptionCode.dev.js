@@ -7,6 +7,10 @@ module.exports = {
     code: 1000,
     message: '未定义异常'
   },
+  FAAS_UNDEFINED: {
+    code: 1020,
+    message: 'FAAS内部未定义异常'
+  },
   INVALID_PARAMS: {
     code: 1001,
     message: '参数异常'
@@ -87,9 +91,9 @@ module.exports = {
     code: 1003,
     message: 'token过期'
   },
-  LOGIN_FAILED: {
+  LOGIN_VERIFY_API: {
     code: 1019,
-    message: '未登录'
+    message: '因未登录无法验证接口权限'
   },
   // RESTFUL
   RESTFUL_GET_ID: {

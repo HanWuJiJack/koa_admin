@@ -79,12 +79,14 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              // 接口级别权限判断
-              apiAuth({
+              _context.next = 2;
+              return regeneratorRuntime.awrap(apiAuth({
                 ctx: this.ctx,
                 code: ["100017"]
-              });
-              _context.prev = 1;
+              }));
+
+            case 2:
+              _context.prev = 2;
               _this$ctx$request$que = this.ctx.request.query, userId = _this$ctx$request$que.userId, userName = _this$ctx$request$que.userName, state = _this$ctx$request$que.state;
               _get$call = _get(_getPrototypeOf(UserAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
@@ -94,15 +96,15 @@ function (_BaseController) {
 
               query = Schema.usersSchema.find(params); //查询所有数据
 
-              _context.next = 11;
+              _context.next = 12;
               return regeneratorRuntime.awrap(query.skip(skipIndex).limit(page.pageSize));
 
-            case 11:
+            case 12:
               list = _context.sent;
-              _context.next = 14;
+              _context.next = 15;
               return regeneratorRuntime.awrap(Schema.usersSchema.countDocuments(params));
 
-            case 14:
+            case 15:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -112,23 +114,23 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 21;
+              _context.next = 22;
               break;
 
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](1);
+            case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 data: {},
                 msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context.t0.stack)
               });
 
-            case 21:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[1, 18]]);
+      }, null, this, [[2, 19]]);
     }
   }, {
     key: "create",

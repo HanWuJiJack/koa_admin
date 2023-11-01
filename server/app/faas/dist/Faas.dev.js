@@ -6,7 +6,9 @@ var Auth = require('./../middleware/Auth');
 
 var Schema = require('../model/Model');
 
-var IsolatedVM = require("../utils/VMIsolated");
+var vm2 = require("../utils/VM");
+
+var ExceptionCode = require('../utils/ExceptionCode');
 
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;
@@ -26,40 +28,58 @@ exports.faas = function _callee(ctx, next, method) {
 
         case 3:
           faasInfo = _context.sent;
+          // 查询所有数据
+          console.log(faasInfo);
 
           if (!faasInfo) {
-            _context.next = 18;
+            _context.next = 22;
             break;
           }
 
           if (!(faasInfo._doc.isAuth === "1")) {
-            _context.next = 8;
+            _context.next = 9;
             break;
           }
 
-          _context.next = 8;
+          _context.next = 9;
           return regeneratorRuntime.awrap(Auth(ctx, next));
 
-        case 8:
-          _context.prev = 8;
-          _context.next = 11;
-          return regeneratorRuntime.awrap(IsolatedVM(ctx, next, faasInfo.fn)());
+        case 9:
+          _context.prev = 9;
+          _context.next = 12;
+          return regeneratorRuntime.awrap(vm2(ctx, next, faasInfo.fn)());
 
-        case 11:
+        case 12:
           ctx.body = _context.sent;
-          _context.next = 18;
+          _context.next = 22;
           break;
 
-        case 14:
-          _context.prev = 14;
-          _context.t0 = _context["catch"](8);
-          logger.error('Failed to compile script.', _context.t0);
-          next(_context.t0);
+        case 15:
+          _context.prev = 15;
+          _context.t0 = _context["catch"](9);
+          logger.error('FAAS:', _context.t0);
 
-        case 18:
+          if (!_context.t0.code) {
+            _context.next = 20;
+            break;
+          }
+
+          throw _context.t0;
+
+        case 20:
+          // err 对象的属性说明：
+          // message：错误提示信息
+          // fileName：表示出错代码所在文件
+          // lineNumber：出错代码所在行数
+          // stack： 出错堆栈信息
+          // name：异常对象名/类型
+          ExceptionCode.FAAS_UNDEFINED.message = _context.t0.message;
+          throw ExceptionCode.FAAS_UNDEFINED;
+
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[8, 14]]);
+  }, null, null, [[9, 15]]);
 };

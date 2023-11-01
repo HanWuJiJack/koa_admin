@@ -26,7 +26,7 @@ class UserAdminController extends BaseController {
     }
     async list() {
         // 接口级别权限判断
-        apiAuth({
+        await apiAuth({
             ctx: this.ctx,
             code: ["100017"]
         })

@@ -21,7 +21,7 @@ module.exports = function _callee(_ref) {
             break;
           }
 
-          throw ExceptionCode.LOGIN_FAILED;
+          throw ExceptionCode.LOGIN_VERIFY_API;
 
         case 4:
           _context.next = 6;

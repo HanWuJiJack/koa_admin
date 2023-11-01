@@ -1,16 +1,22 @@
-
 const path = require("path")
 const Auth = require('./../middleware/Auth');
 const Schema = require('../model/Model');
 const vm2 = require("../utils/VM");
+const ExceptionCode = require('../utils/ExceptionCode');
 
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 
 exports.faas = async (ctx, next, method) => {
-    const { code } = ctx.params
-    const faasInfo = await Schema.faasSchema.findOne({ method, code }) // 查询所有数据
+    const {
+        code
+    } = ctx.params
+    const faasInfo = await Schema.faasSchema.findOne({
+        method,
+        code
+    }) // 查询所有数据
+    console.log(faasInfo)
     if (faasInfo) {
         if (faasInfo._doc.isAuth === "1") {
             await Auth(ctx, next)
@@ -18,9 +24,20 @@ exports.faas = async (ctx, next, method) => {
         try {
             ctx.body = await vm2(ctx, next, faasInfo.fn)()
         } catch (error) {
-            logger.error('Failed to compile script.', error);
-            next(error)
+            logger.error('FAAS:', error);
+            if (error.code) {
+                throw error
+            }
+            // err 对象的属性说明：
+            // message：错误提示信息
+            // fileName：表示出错代码所在文件
+            // lineNumber：出错代码所在行数
+            // stack： 出错堆栈信息
+            // name：异常对象名/类型
+            ExceptionCode.FAAS_UNDEFINED.message = error.message
+            throw ExceptionCode.FAAS_UNDEFINED
+            // next(error)
+            // throw error
         }
     }
-
 }
