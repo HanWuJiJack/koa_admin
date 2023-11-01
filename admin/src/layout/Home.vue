@@ -14,7 +14,9 @@
         text-color="#fff"
         active-text-color="#409eff"
         :collapse="data.isCollapse"
+        :unique-opened="true"
         @select="handleSelect"
+        ref="menuRef"
       >
         <MenuTree :menuList="menuList" />
       </el-menu>
@@ -65,7 +67,7 @@ export default {
 };
 </script>
 <script setup>
-import { computed, defineProps, onMounted, ref, reactive } from "vue";
+import { computed, defineProps, onMounted, ref, reactive, watch } from "vue";
 import MenuTree from "./components/MenuTree.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 import publicFn from "../utils/publicFn";
@@ -78,18 +80,31 @@ const route = useRoute();
 const router = useRouter();
 const store = new useStore();
 
+const menuRef = ref(null);
+
 const data = reactive({
   activeIndex: "",
   isCollapse: false, // 菜单是否折叠
   userInfo: store.state.userInfo, // 用户信息
 });
 onMounted(() => {
+  // menuRef._value.handleResize()
+  // console.log("menuRef",menuRef._)
   getApproveCountRequest();
   getDictTypes("environment_form").then((res) => {
     store.commit("SET_ENVIRONMENT_FORM", res);
   });
-  data.activeIndex = route.meta.code;
+  // data.activeIndex = route.meta.code;
 });
+
+watch(
+  () => router.currentRoute.value,
+  (val) => {
+    data.activeIndex = route.meta.code;
+  },
+  { immediate: true, deep: true }
+);
+
 // 菜单列表数据
 const menuList = computed(() => {
   return store.state.auth.menuList;
@@ -97,9 +112,9 @@ const menuList = computed(() => {
 
 const handleSelect = (key, keyPath) => {
   // 处理首页逻辑
-  if(key === "000"){
+  if (key === "000") {
     router.push({ path: "/welcome" || "/" });
-    return
+    return;
   }
   getRouteInfo(key, store.state.auth.routerList);
   router.push({ path: data.routeInfo.path || "/" });

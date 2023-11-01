@@ -22,10 +22,7 @@
     <!-- 表格区域 -->
     <div class="leave-bottom">
       <div class="leave-bottom-top">
-        <el-button
-          type="primary"
-          @click="applyHandler"
-          v-permisson="'leave-create'"
+        <el-button type="primary" @click="applyHandler" v-permisson="'leave-create'"
           >申请休假</el-button
         >
       </div>
@@ -104,18 +101,13 @@
             {{ applyForm.data.form.leaveTime }}
           </el-form-item>
           <el-form-item label="休假原因" prop="reasons">
-            <el-input
-              type="textarea"
-              v-model="applyForm.data.form.reasons"
-            ></el-input>
+            <el-input type="textarea" v-model="applyForm.data.form.reasons"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogCancelHandler">取 消</el-button>
-            <el-button type="primary" @click="dialogSubmitHandler"
-              >确 定</el-button
-            >
+            <el-button type="primary" @click="dialogSubmitHandler">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -153,254 +145,227 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import { onMounted, reactive, ref, getCurrentInstance } from "vue";
 import publicFn from "../../utils/publicFn";
 import { postLeave_C, getLeaveList } from "@/api/syetem/leave";
-export default {
-  name: "Leave",
-  setup() {
-    const { proxy } = getCurrentInstance();
-    const queryForm = reactive({
-      applyState: 0,
-    }); //查询功能表单对象
-    // 动态表格数据对象
-    const leaveData = ref([]);
-    //动态表格字段格式
-    const columList = reactive([
-      {
-        prop: "orderNo",
-        label: "单号",
-      },
-      {
-        prop: "",
-        label: "休假时间",
-        formatter(row, col, value) {
-          return (
-            publicFn.formateDate(new Date(row.startTime), "yyyy-MM-dd") +
-            "到" +
-            publicFn.formateDate(new Date(row.endTime), "yyyy-MM-dd")
-          );
-        },
-      },
-      {
-        prop: "leaveTime",
-        label: "休假时间",
-      },
-      {
-        prop: "applyType",
-        label: "休假类型",
-        formatter(row, col, value) {
-          return {
-            1: "事假",
-            2: "调休",
-            3: "年假",
-          }[value];
-        },
-      },
-      {
-        prop: "reasons",
-        label: "休假原因",
-      },
-      {
-        prop: "createTime",
-        label: "申请时间",
-        formatter(row, col, value) {
-          return publicFn.formateDate(new Date(value));
-        },
-      },
-      {
-        prop: "auditUsers",
-        label: "审批人",
-      },
-      {
-        prop: "curAuditUserName",
-        label: "当前审批人",
-      },
-      {
-        prop: "applyState",
-        label: "审批状态",
-        formatter(row, col, value) {
-          return {
-            1: "待审批",
-            2: "审批中",
-            3: "审批拒绝",
-            4: "审批通过",
-            5: "作废",
-          }[value];
-        },
-      },
-    ]);
-    // 分页数据对象
-    const pageData = reactive({
-      pageNum: 1,
-      pageSize: 10,
-      total: 0,
-    });
-    // 申请弹出显示开关
-    const isShow = ref(false);
-    // 申请请假表单
-
-    const applyForm = reactive({
-      data: {
-        form: {
-          applyType: 1,
-          date: "",
-          leaveTime: "",
-          reasons: "",
-        },
-      },
-    });
-    //表单验证规则
-    const rules = reactive({
-      applyType: [
-        {
-          required: true,
-          message: "请选择请假类型",
-          trigger: "blur",
-        },
-      ],
-      date: [{ required: true, message: "请选择请假时间", trigger: "blur" }],
-      reasons: [{ required: true, message: "请输入请假原因", trigger: "blur" }],
-    });
-    //操作类型
-    const action = ref("create");
-    // 查看休假详情显示开关
-    const detailShow = ref(false);
-    // 查看详情数据
-    const detailData = reactive({});
-    onMounted(() => {
-      getLeaveListRequest();
-    });
-    //获取审批列表数据
-    const getLeaveListRequest = async () => {
-      const params = { ...queryForm, ...pageData };
-      try {
-        const res = await getLeaveList(params);
-        leaveData.value = res.list;
-        pageData.total = res.page.total;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    //查询事件
-    const onSearchHandler = () => {
-      getLeaveListRequest();
-    };
-    //重置事件
-    const onResetHandler = (name) => {
-      proxy.$refs[name].resetFields();
-    };
-    // 分页触发事件
-    const handleCurrentChange = (current) => {
-      pageData.pageNum = current;
-      getLeaveListRequest();
-    };
-    // 申请请假按钮事假
-    const applyHandler = () => {
-      isShow.value = true;
-      applyForm.data.form = {
-        applyType: 1,
-        date: "",
-        leaveTime: "",
-        reasons: "",
-      };
-    };
-    // 弹窗取消按钮事件
-    const dialogCancelHandler = () => {
-      isShow.value = false;
-    };
-    // 弹窗确定按钮事件
-    const dialogSubmitHandler = () => {
-      proxy.$refs["applyRuleForm"].validate(async (valid) => {
-        try {
-          if (valid) {
-            let params = {
-              ...applyForm.data.form,
-              startTime: applyForm.data.form.date[0],
-              endTime: applyForm.data.form.date[1],
-            };
-            params.action = action.value;
-            await postLeave_C(params);
-            if (params.action === "create") {
-              proxy.$message.success("申请休假成功");
-            }
-            isShow.value = false;
-            getLeaveListRequest();
-          } else {
-            proxy.$message.error("您填写的信息不符合规则，请重新输入");
-            return false;
-          }
-        } catch (error) {
-          proxy.$message.error(error.stack);
-        }
-      });
-    };
-    // 休假时间下拉选中事件
-    const leaveTimeChange = (val) => {
-      const [startTime, endTime] = [val[0], val[1]];
-      applyForm.data.form.leaveTime =
-        (endTime - startTime) / (24 * 60 * 60 * 1000) + 1;
-    };
-    // 表格每行查看按钮事件
-    const handleSee = (row) => {
-      detailData.applyType = {
+const { proxy } = getCurrentInstance();
+const queryForm = reactive({
+  applyState: 0,
+}); //查询功能表单对象
+// 动态表格数据对象
+const leaveData = ref([]);
+//动态表格字段格式
+const columList = reactive([
+  {
+    prop: "orderNo",
+    label: "单号",
+  },
+  {
+    prop: "",
+    label: "休假时间",
+    formatter(row, col, value) {
+      return (
+        publicFn.formateDate(new Date(row.startTime), "yyyy-MM-dd") +
+        "到" +
+        publicFn.formateDate(new Date(row.endTime), "yyyy-MM-dd")
+      );
+    },
+  },
+  {
+    prop: "leaveTime",
+    label: "休假时间",
+  },
+  {
+    prop: "applyType",
+    label: "休假类型",
+    formatter(row, col, value) {
+      return {
         1: "事假",
         2: "调休",
         3: "年假",
-      }[row.applyType];
-      detailData.time =
-        publicFn.formateDate(new Date(row.startTime), "yyyy-MM-dd") +
-        "到" +
-        publicFn.formateDate(new Date(row.endTime), "yyyy-MM-dd");
-      detailData.leaveTime = row.leaveTime;
-      detailData.reasons = row.reasons;
-      detailData.applyStateName = {
+      }[value];
+    },
+  },
+  {
+    prop: "reasons",
+    label: "休假原因",
+  },
+  {
+    prop: "createTime",
+    label: "申请时间",
+    formatter(row, col, value) {
+      return publicFn.formateDate(new Date(value));
+    },
+  },
+  {
+    prop: "auditUsers",
+    label: "审批人",
+  },
+  {
+    prop: "curAuditUserName",
+    label: "当前审批人",
+  },
+  {
+    prop: "applyState",
+    label: "审批状态",
+    formatter(row, col, value) {
+      return {
         1: "待审批",
         2: "审批中",
         3: "审批拒绝",
         4: "审批通过",
         5: "作废",
-      }[row.applyState];
-      detailData.applyState = row.applyState;
-      detailData.curAuditUserName = row.curAuditUserName;
-      detailShow.value = true;
-    };
-    // 表格每行的作废按钮事件
-    const handleDelete = (_id) => {
-      let params = { _id, action: "delete" };
-      postLeave_C(params)
-        .then((res) => {
-          proxy.$message.success("作废成功！");
-          getLeaveListRequest();
-        })
-        .catch((error) => {
-          proxy.$message.error(error.stack);
-        });
-    };
-    return {
-      queryForm,
-      leaveData,
-      columList,
-      pageData,
-      rules,
-      action,
-      isShow, // 申请请假弹出显示开关
-      applyForm, // 申请请假表单
-      detailShow, // 查看详情显示开关
-      detailData, // 查看详情数据
-      getLeaveListRequest, // 获取审批列表数据
-      onSearchHandler, // 搜索事件
-      onResetHandler, // 重置事件
-      handleCurrentChange, // 页码改变事件
-      applyHandler, // 申请请假事件
-      dialogCancelHandler, // 弹窗取消按钮事件
-      dialogSubmitHandler, // 弹窗确定按钮事件
-      leaveTimeChange, // 休假时间下拉选中事件
-      handleSee, // 表格每行查看按钮事件
-      handleDelete, // 表格每行的作废按钮事件
-    };
+      }[value];
+    },
   },
+]);
+// 分页数据对象
+const pageData = reactive({
+  pageNum: 1,
+  pageSize: 10,
+  total: 0,
+});
+// 申请弹出显示开关
+const isShow = ref(false);
+// 申请请假表单
+
+const applyForm = reactive({
+  data: {
+    form: {
+      applyType: 1,
+      date: "",
+      leaveTime: "",
+      reasons: "",
+    },
+  },
+});
+//表单验证规则
+const rules = reactive({
+  applyType: [
+    {
+      required: true,
+      message: "请选择请假类型",
+      trigger: "blur",
+    },
+  ],
+  date: [{ required: true, message: "请选择请假时间", trigger: "blur" }],
+  reasons: [{ required: true, message: "请输入请假原因", trigger: "blur" }],
+});
+//操作类型
+const action = ref("create");
+// 查看休假详情显示开关
+const detailShow = ref(false);
+// 查看详情数据
+const detailData = reactive({});
+onMounted(() => {
+  getLeaveListRequest();
+});
+//获取审批列表数据
+const getLeaveListRequest = async () => {
+  const params = { ...queryForm, ...pageData };
+  try {
+    const res = await getLeaveList(params);
+    leaveData.value = res.list;
+    pageData.total = res.page.total;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//查询事件
+const onSearchHandler = () => {
+  getLeaveListRequest();
+};
+//重置事件
+const onResetHandler = (name) => {
+  proxy.$refs[name].resetFields();
+  getLeaveListRequest();
+};
+// 分页触发事件
+const handleCurrentChange = (current) => {
+  pageData.pageNum = current;
+  getLeaveListRequest();
+};
+// 申请请假按钮事假
+const applyHandler = () => {
+  isShow.value = true;
+  applyForm.data.form = {
+    applyType: 1,
+    date: "",
+    leaveTime: "",
+    reasons: "",
+  };
+};
+// 弹窗取消按钮事件
+const dialogCancelHandler = () => {
+  isShow.value = false;
+};
+// 弹窗确定按钮事件
+const dialogSubmitHandler = () => {
+  proxy.$refs["applyRuleForm"].validate(async (valid) => {
+    try {
+      if (valid) {
+        let params = {
+          ...applyForm.data.form,
+          startTime: applyForm.data.form.date[0],
+          endTime: applyForm.data.form.date[1],
+        };
+        params.action = action.value;
+        await postLeave_C(params);
+        if (params.action === "create") {
+          proxy.$message.success("申请休假成功");
+        }
+        isShow.value = false;
+        getLeaveListRequest();
+      } else {
+        proxy.$message.error("您填写的信息不符合规则，请重新输入");
+        return false;
+      }
+    } catch (error) {
+      proxy.$message.error(error.stack);
+    }
+  });
+};
+// 休假时间下拉选中事件
+const leaveTimeChange = (val) => {
+  const [startTime, endTime] = [val[0], val[1]];
+  applyForm.data.form.leaveTime = (endTime - startTime) / (24 * 60 * 60 * 1000) + 1;
+};
+// 表格每行查看按钮事件
+const handleSee = (row) => {
+  detailData.applyType = {
+    1: "事假",
+    2: "调休",
+    3: "年假",
+  }[row.applyType];
+  detailData.time =
+    publicFn.formateDate(new Date(row.startTime), "yyyy-MM-dd") +
+    "到" +
+    publicFn.formateDate(new Date(row.endTime), "yyyy-MM-dd");
+  detailData.leaveTime = row.leaveTime;
+  detailData.reasons = row.reasons;
+  detailData.applyStateName = {
+    1: "待审批",
+    2: "审批中",
+    3: "审批拒绝",
+    4: "审批通过",
+    5: "作废",
+  }[row.applyState];
+  detailData.applyState = row.applyState;
+  detailData.curAuditUserName = row.curAuditUserName;
+  detailShow.value = true;
+};
+// 表格每行的作废按钮事件
+const handleDelete = (_id) => {
+  let params = { _id, action: "delete" };
+  postLeave_C(params)
+    .then((res) => {
+      proxy.$message.success("作废成功！");
+      getLeaveListRequest();
+    })
+    .catch((error) => {
+      proxy.$message.error(error.stack);
+    });
 };
 </script>
 <style lang="less" scoped>

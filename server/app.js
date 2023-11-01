@@ -9,8 +9,23 @@ const {
   accessLogger
 } = require(path.join(process.cwd(), "./config/logger"))
 const cors = require('koa2-cors')
-const { generator } = require("./app/utils/Tools_rsa")
+const {
+  generator
+} = require("./app/utils/Tools_rsa")
 require('./config/Datebase')
+const redis = require("./config/Redis")
+
+// process.env.DB_CONNECTION
+// redis.init({ username,
+//   password ,
+//   host,
+//   port ,
+//   dbnumber })
+
+redis.init({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT
+})
 
 // 生成公钥私钥
 generator()

@@ -24,5 +24,6 @@ exports.initFaas = async () => {
             await vm2({}, {}, models[key])()
         }
     }
-    // logger.info(`modelSchemas:`, modelSchemas)
+    // console.log(modelSchemas)
 }
+

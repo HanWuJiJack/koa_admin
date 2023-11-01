@@ -107,6 +107,7 @@ class DictTypeAdminController extends BaseController {
                 params.id = parseInt(dictId)
                 const query = await Schema.dictSchema.findOne(params)
                 if (query._doc.nameCode === "Schema_type") {
+                    logger.info(`-----create-------`)
                     await initFaas()
                 }
                 this.ctx.body = super.success({
@@ -134,13 +135,12 @@ class DictTypeAdminController extends BaseController {
             }, params, {
                 new: true
             });
-
             const par = {}
             par.id = parseInt(res._doc.dictId)
             const query = await Schema.dictSchema.findOne(par)
             logger.info(`res._doc.dictId:${res._doc.dictId}`)
-
             if (query._doc.nameCode === "Schema_type") {
+                logger.info(`-----create-------update`)
                 await initFaas()
             }
 
@@ -171,12 +171,18 @@ class DictTypeAdminController extends BaseController {
                     $in: arrId
                 }
             })
-            // 删除model
-            dictTypes.forEach(item => {
-                const arr = item.dictValue.split("-")
-                mongoose.deleteModel(arr[1]);
-                delete modelSchemas[arr[0]]
-            })
+            const par = {}
+            par.id = parseInt(dictTypes[0].dictId)
+            const query = await Schema.dictSchema.findOne(par)
+            if (query._doc.nameCode === "Schema_type") {
+                logger.info(`-----create-------update-------remove`)
+                // 删除model
+                dictTypes.forEach(item => {
+                    const arr = item.dictValue.split("-")
+                    mongoose.deleteModel(arr[1]);
+                    delete modelSchemas[arr[0]]
+                })
+            }
             // logger.info("modelSchemas", modelSchemas)
             this.ctx.body = super.success({
                 data: res,

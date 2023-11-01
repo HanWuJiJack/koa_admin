@@ -25,7 +25,7 @@ module.exports = async (ctx, next) => {
         const user = await Schema.usersSchema.findOne({
             userId: ctx.state.userId.id
         })
-        ctx.state.userInfo = user._doc
+        ctx.state.userInfo = user._doc        
         if (ctx.state.userInfo.state === 2) {
             throw ExceptionCode.DISABLE_LOGIN
         }

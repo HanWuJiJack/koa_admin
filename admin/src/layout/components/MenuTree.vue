@@ -5,7 +5,7 @@
       v-if="item.children && item.children.length > 0 && item.menuType == 1"
     >
       <template #title>
-        <el-icon :size="16" color="#333">
+        <el-icon :size="16" color="#333" v-if="item.icon">
           <component v-bind:is="item.icon"></component>
         </el-icon>
         <span>{{ item.menuName }}</span>

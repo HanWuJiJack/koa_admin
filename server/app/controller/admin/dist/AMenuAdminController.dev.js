@@ -47,6 +47,8 @@ var Schema = require('./../../model/Model.js');
 
 var path = require("path");
 
+var redis = require(path.join(process.cwd(), "./config/Redis"));
+
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;
 
@@ -254,21 +256,27 @@ function (_BaseController) {
   }, {
     key: "list_permisson_menu",
     value: function list_permisson_menu() {
-      var ueserInfo, _ref2, btnList, menuList, routeList;
+      var userInfo, _ref2, btnList, menuList, routeList;
 
       return regeneratorRuntime.async(function list_permisson_menu$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              ueserInfo = this.userInfo;
+              userInfo = this.userInfo;
               _context3.next = 3;
-              return regeneratorRuntime.awrap(this.list_menu(ueserInfo.role, ueserInfo.roleList));
+              return regeneratorRuntime.awrap(_get(_getPrototypeOf(MenuAdminController.prototype), "list_menu", this).call(this, userInfo.role, userInfo.roleList));
 
             case 3:
               _ref2 = _context3.sent;
               btnList = _ref2.btnList;
               menuList = _ref2.menuList;
               routeList = _ref2.routeList;
+              _context3.next = 9;
+              return regeneratorRuntime.awrap(redis.setHashMap(String(userInfo._id), {
+                btnList: btnList
+              }));
+
+            case 9:
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 data: {
                   menuList: menuList,
@@ -277,128 +285,12 @@ function (_BaseController) {
                 }
               });
 
-            case 8:
+            case 10:
             case "end":
               return _context3.stop();
           }
         }
       }, null, this);
-    }
-  }, {
-    key: "list_menu",
-    value: function list_menu(role, roleList) {
-      var rootList, roleData, resultPermissonList, btnList, routeList, menuList;
-      return regeneratorRuntime.async(function list_menu$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              if (!(role === 0)) {
-                _context4.next = 9;
-                break;
-              }
-
-              _context4.next = 3;
-              return regeneratorRuntime.awrap(Schema.menusSchema.find({
-                menuState: 1 //状态值：正常 | 停用
-
-              }));
-
-            case 3:
-              _context4.t0 = _context4.sent;
-
-              if (_context4.t0) {
-                _context4.next = 6;
-                break;
-              }
-
-              _context4.t0 = [];
-
-            case 6:
-              rootList = _context4.t0;
-              _context4.next = 21;
-              break;
-
-            case 9:
-              _context4.next = 11;
-              return regeneratorRuntime.awrap(Schema.rolesSchema.find({
-                _id: {
-                  $in: roleList
-                }
-              }));
-
-            case 11:
-              roleData = _context4.sent;
-              // 然后根据取出来的角色，取出角色拥有的菜单数据，多角色出现相同的对他进行合并，也就是并集了【去重处理】~
-              resultPermissonList = [];
-              roleData.forEach(function (item) {
-                resultPermissonList = resultPermissonList.concat([].concat(_toConsumableArray(item.permissionList.checkedKeys), _toConsumableArray(item.permissionList.halfCheckedKeys)));
-              });
-              resultPermissonList = _toConsumableArray(new Set(resultPermissonList)); // 去重相同的菜单id
-
-              _context4.next = 17;
-              return regeneratorRuntime.awrap(Schema.menusSchema.find({
-                _id: {
-                  $in: resultPermissonList
-                },
-                menuState: 1 //状态值：正常 | 停用
-
-              }));
-
-            case 17:
-              _context4.t1 = _context4.sent;
-
-              if (_context4.t1) {
-                _context4.next = 20;
-                break;
-              }
-
-              _context4.t1 = [];
-
-            case 20:
-              rootList = _context4.t1;
-
-            case 21:
-              btnList = rootList.map(function (item) {
-                return item.menuCode;
-              }).filter(function (item) {
-                return item;
-              });
-              routeList = rootList.filter(function (item) {
-                return item.menuType == 2;
-              }); // isShow 显示|隐藏 过滤掉隐藏
-
-              menuList = _get(_getPrototypeOf(MenuAdminController.prototype), "TreeMenuShow", this).call(this, rootList, null);
-              return _context4.abrupt("return", {
-                btnList: btnList,
-                routeList: routeList,
-                menuList: menuList
-              });
-
-            case 25:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, null, this);
-    } // 根据生成的权限菜单过滤出对应的按钮列表
-
-  }, {
-    key: "getBtnPermissonList",
-    value: function getBtnPermissonList(list) {
-      var result = [];
-
-      for (var i = 0; i < list.length; i++) {
-        if (list[i].btnList) {
-          // 如果btnList存在 那就证明他是最后一个层级的父节点了
-          list[i].btnList.forEach(function (item) {
-            result.push(item.menuCode);
-          });
-        } else if (list[i].children && !list[i].btnList) {
-          result = result.concat(this.getBtnPermissonList(list[i].children));
-        }
-      }
-
-      return result;
     }
   }]);
 

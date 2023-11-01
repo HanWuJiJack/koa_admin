@@ -4,14 +4,14 @@
  Source Server         : mongo
  Source Server Type    : MongoDB
  Source Server Version : 50005 (5.0.5)
- Source Host           : localhost:27018
+ Source Host           : 127.0.0.1:27017
  Source Schema         : manger
 
  Target Server Type    : MongoDB
  Target Server Version : 50005 (5.0.5)
  File Encoding         : 65001
 
- Date: 31/10/2023 15:54:57
+ Date: 01/11/2023 16:10:49
 */
 
 
@@ -26,15 +26,15 @@ db.createCollection("counter");
 // ----------------------------
 db.getCollection("counter").insert([ {
     _id: "userId",
-    currentIndex: NumberInt("1000011")
+    currentIndex: NumberInt("1000012")
 } ]);
 db.getCollection("counter").insert([ {
     _id: "dictId",
-    currentIndex: 29
+    currentIndex: 30
 } ]);
 db.getCollection("counter").insert([ {
     _id: "dictTypeId",
-    currentIndex: 39
+    currentIndex: 45
 } ]);
 
 // ----------------------------
@@ -57,6 +57,19 @@ db.getCollection("depts").insert([ {
     userName: "hsueh",
     userId: "1000009",
     userEmail: "hsueh1@qq.com",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("depts").insert([ {
+    _id: ObjectId("6541c46f2464651f9d1c7d31"),
+    parentId: [
+        null
+    ],
+    updateTime: ISODate("2023-11-01T02:49:47.353Z"),
+    createTime: ISODate("2023-11-01T02:49:47.353Z"),
+    deptName: "人事部门",
+    userName: "admin",
+    userId: "1000010",
+    userEmail: "admin@qq.com",
     __v: NumberInt("0")
 } ]);
 
@@ -160,7 +173,7 @@ db.getCollection("dictType").insert([ {
     lastLoginTime: ISODate("2022-06-24T04:57:20.737Z"),
     id: NumberInt("7"),
     dictId: NumberInt("9"),
-    dictLabel: "get（列表）",
+    dictLabel: "get(列表)",
     dictValue: "list",
     dictSort: NumberInt("1"),
     __v: NumberInt("0")
@@ -219,7 +232,7 @@ db.getCollection("dictType").insert([ {
     lastLoginTime: ISODate("2022-06-28T00:52:57.137Z"),
     id: NumberInt("12"),
     dictId: NumberInt("26"),
-    dictLabel: "module.exports =async () => {     if (!modelSchemas.model100001) {         modelSchemas.model100001 = mongoose.model('test1', mongoose.Schema({             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, { autoIndex: true, autoCreate: true }), 'test1')     } }",
+    dictLabel: "module.exports = async () => {     if (!modelSchemas.model100001) {         modelSchemas.model100001 = mongoose.model('test1', mongoose.Schema({             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'test1')     } }",
     dictValue: "model100001-test1",
     __v: NumberInt("0"),
     remark: "测试",
@@ -256,7 +269,7 @@ db.getCollection("dictType").insert([ {
     lastLoginTime: ISODate("2022-06-30T01:05:24.483Z"),
     id: NumberInt("16"),
     dictId: NumberInt("26"),
-    dictLabel: "module.exports = async () => {     console.log(\"modelSchemas\", modelSchemas);     if (!modelSchemas.model100003) {         modelSchemas.model100003 = mongoose.model('project', mongoose.Schema({             \"name\": String,             \"startTime\": {                 type: Date,                 default: Date.now()             },             \"makeTime\": {                 type: Date,                 default: Date.now()             },             \"endTime\": {                 type: Date,                 default: Date.now()             },             \"state\": {                 type: String,                 default: 1             },             \"company\": String,             userInfo: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, { autoIndex: true, autoCreate: true }), 'project')     } }",
+    dictLabel: "module.exports = async () => {     if (!modelSchemas.model100003) {         modelSchemas.model100003 = mongoose.model('project', mongoose.Schema({             \"name\": String,             \"startTime\": {                 type: Date,                 default: Date.now()             },             \"makeTime\": {                 type: Date,                 default: Date.now()             },             \"endTime\": {                 type: Date,                 default: Date.now()             },             \"state\": {                 type: String,                 default: 1             },             \"company\": String,             userInfo: {                 type: mongoose.Schema.Types.ObjectId,                 ref: 'users'             },             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'project')     } }",
     dictValue: "model100003-project",
     __v: NumberInt("0"),
     remark: "项目",
@@ -282,19 +295,6 @@ db.getCollection("dictType").insert([ {
     dictId: NumberInt("25"),
     dictLabel: "公司2",
     dictValue: "2",
-    __v: NumberInt("0")
-} ]);
-db.getCollection("dictType").insert([ {
-    _id: ObjectId("653f574a9db71330ff65f129"),
-    state: NumberInt("1"),
-    createTime: ISODate("2023-10-30T07:11:01.241Z"),
-    lastLoginTime: ISODate("2023-10-30T07:11:01.241Z"),
-    id: NumberInt("39"),
-    remark: "",
-    dictId: NumberInt("26"),
-    dictLabel: "module.exports = async () => {     if (!modelSchemas.model100005) {         modelSchemas.model100005 = mongoose.model('test5', mongoose.Schema({             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'test5')     } }",
-    dictValue: "model100005-test5",
-    dictSort: null,
     __v: NumberInt("0")
 } ]);
 
@@ -403,12 +403,12 @@ db.getCollection("faas").insert([ {
     createTime: ISODate("2022-06-29T07:01:44.817Z"),
     lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
     method: "list",
-    fn: "// list\nmodule.exports = async () => {\n    try {\n        const { name,code} = ctx.request.query\n        const { page, skipIndex } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`${name}`, 'ig')\n        if (code) params.code = new RegExp(`${code}`, 'ig')\n        const query = modelSchemas.model100002.find(params) // 查询所有数据\n        const list = await query.sort({ _id: -1 }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100002.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+    fn: "// list\nmodule.exports = async () => {\n    try {\n      throw 555\n        console.log(789456431545)\n        const {\n            name,\n            code\n        } = ctx.request.query\n        const {\n            page,\n            skipIndex\n        } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`${name}`, 'ig')\n        if (code) params.code = new RegExp(`${code}`, 'ig')\n        const query = modelSchemas.model100002.find(params) // 查询所有数据\n        const list = await query.sort({\n            _id: -1\n        }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100002.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        console.log(788899888)\n        return Tools.success({\n            data: {}\n        })\n    }\n}",
     code: "100002",
     path: "/custom/faas/list/100002",
     remark: "",
     __v: NumberInt("0"),
-    isAuth: "1",
+    isAuth: "2",
     schemaCode: "100002"
 } ]);
 db.getCollection("faas").insert([ {
@@ -519,14 +519,15 @@ db.createCollection("form_create");
 // Documents of form_create
 // ----------------------------
 db.getCollection("form_create").insert([ {
-    _id: ObjectId("62bc040c32a9460c40f773e7"),
-    createTime: ISODate("2022-06-29T07:41:49.092Z"),
-    lastLoginTime: ISODate("2022-06-29T07:41:49.092Z"),
-    name: "项目创建表单",
+    _id: ObjectId("6541eb88cba1d838a66ea4fc"),
+    createTime: ISODate("2023-11-01T05:26:36.256Z"),
+    lastLoginTime: ISODate("2023-11-01T05:26:36.256Z"),
+    code: "aa",
+    name: "aa",
     config: {
         list: [
             {
-                label: "名称",
+                label: "单行文本",
                 type: "input",
                 options: {
                     width: "100%",
@@ -549,37 +550,12 @@ db.getCollection("form_create").insert([ {
                         type: "any"
                     }
                 },
-                key: "b299a6d5d32c4e72a6d1709c40be1c2d",
-                model: "name",
+                key: "94cd6947b65a4840b1cc7e092c438194",
+                model: "input_94cd6947b65a4840b1cc7e092c438194",
                 rules: [ ]
             },
             {
-                label: "开始日期",
-                type: "date",
-                options: {
-                    defaultValue: "",
-                    width: "",
-                    placeholder: "请选择时间",
-                    format: "YYYY-MM-DD",
-                    readonly: false,
-                    editable: false,
-                    clearable: true,
-                    disabled: false,
-                    rules: {
-                        trigger: "blur",
-                        enum: "",
-                        message: "",
-                        pattern: "",
-                        required: false,
-                        type: "any"
-                    }
-                },
-                key: "d34d5bc4fd704d5ebfa3447d9747d9ef",
-                model: "startTime",
-                rules: [ ]
-            },
-            {
-                label: "制作日期",
+                label: "日期选择器",
                 type: "date",
                 options: {
                     defaultValue: "",
@@ -599,187 +575,43 @@ db.getCollection("form_create").insert([ {
                         type: "any"
                     }
                 },
-                key: "89ed5c990a6c47f7930904bcb1e5ab63",
-                model: "makeTime",
+                key: "7da168a0082b4b0698d7732adba2086c",
+                model: "date_7da168a0082b4b0698d7732adba2086c",
                 rules: [ ]
             },
             {
-                label: "结束日期",
-                type: "date",
-                options: {
-                    defaultValue: "",
-                    width: "",
-                    placeholder: "请选择时间",
-                    format: "YYYY-MM-DD",
-                    readonly: false,
-                    editable: true,
-                    clearable: true,
-                    disabled: false,
-                    rules: {
-                        trigger: "blur",
-                        enum: "",
-                        message: "",
-                        pattern: "",
-                        required: false,
-                        type: "any"
-                    }
-                },
-                key: "bcddf55b4cbe40ef902c80765e3058c4",
-                model: "endTime",
-                rules: [ ]
-            },
-            {
-                label: "状态",
+                label: "下拉选择框",
                 type: "select",
                 options: {
                     defaultValue: "",
                     width: "200px",
                     multiple: false,
-                    placeholder: "请选择",
-                    remote: true,
-                    showLabel: true,
-                    filterable: false,
-                    clearable: false,
-                    disabled: false,
-                    props: {
-                        label: "dictLabel",
-                        value: "dictValue"
-                    },
-                    options: [
-                        {
-                            label: "Option 1",
-                            value: "Option 1"
-                        },
-                        {
-                            label: "Option 2",
-                            value: "Option 2"
-                        },
-                        {
-                            label: "Option 3",
-                            value: "Option 3"
-                        }
-                    ],
-                    remoteOptions: [ ],
-                    remoteFunc: "/OA/api/dictType/dict/open/project_status",
-                    rules: {
-                        trigger: "blur",
-                        enum: "",
-                        message: "",
-                        pattern: "",
-                        required: false,
-                        type: "any"
-                    }
-                },
-                key: "6e4c8840d10c41e987252128efb6eaec",
-                model: "state",
-                rules: [ ]
-            },
-            {
-                label: "公司",
-                type: "select",
-                options: {
-                    defaultValue: "",
-                    width: "200px",
-                    multiple: false,
-                    placeholder: "请选择",
-                    remote: true,
-                    showLabel: true,
-                    filterable: false,
-                    clearable: false,
-                    disabled: false,
-                    props: {
-                        label: "dictLabel",
-                        value: "dictValue"
-                    },
-                    options: [
-                        {
-                            label: "Option 1",
-                            value: "Option 1"
-                        },
-                        {
-                            label: "Option 2",
-                            value: "Option 2"
-                        },
-                        {
-                            label: "Option 3",
-                            value: "Option 3"
-                        }
-                    ],
-                    remoteOptions: [ ],
-                    remoteFunc: "/OA/api/dictType/dict/open/company-type",
-                    rules: {
-                        trigger: "blur",
-                        enum: "",
-                        message: "",
-                        pattern: "",
-                        required: false,
-                        type: "any"
-                    }
-                },
-                key: "5809e8de2f6f4b9bb0dee0da7404ef31",
-                model: "company",
-                rules: [ ]
-            },
-            {
-                label: "指定人员",
-                type: "select",
-                options: {
-                    defaultValue: "",
-                    width: "200px",
-                    multiple: false,
-                    placeholder: "请选择",
-                    remote: true,
-                    showLabel: true,
-                    filterable: false,
-                    clearable: false,
-                    disabled: false,
-                    props: {
-                        label: "userName",
-                        value: "_id"
-                    },
-                    options: [
-                        {
-                            label: "Option 1",
-                            value: "Option 1"
-                        },
-                        {
-                            label: "Option 2",
-                            value: "Option 2"
-                        },
-                        {
-                            label: "Option 3",
-                            value: "Option 3"
-                        }
-                    ],
-                    remoteOptions: [ ],
-                    remoteFunc: "/OA/api/user/open",
-                    rules: {
-                        trigger: "blur",
-                        enum: "",
-                        message: "",
-                        pattern: "",
-                        required: false,
-                        type: "any"
-                    }
-                },
-                key: "71896cffdd2443c197c2cbbc9e4ba624",
-                model: "userInfo",
-                rules: [ ]
-            },
-            {
-                label: "备注",
-                type: "textarea",
-                options: {
-                    width: "100%",
-                    defaultValue: "",
                     placeholder: "",
-                    maxlength: null,
-                    rows: NumberInt("4"),
-                    autosize: false,
-                    showWordLimit: false,
-                    disabled: false,
+                    remote: false,
+                    showLabel: false,
+                    filterable: false,
                     clearable: false,
-                    readonly: false,
+                    disabled: false,
+                    props: {
+                        label: "label",
+                        value: "value"
+                    },
+                    options: [
+                        {
+                            label: "Option 1",
+                            value: "Option 1"
+                        },
+                        {
+                            label: "Option 2",
+                            value: "Option 2"
+                        },
+                        {
+                            label: "Option 3",
+                            value: "Option 3"
+                        }
+                    ],
+                    remoteOptions: [ ],
+                    remoteFunc: "https://raw.githubusercontent.com/fuchengwei/vue-form-create/master/mock/mock.json",
                     rules: {
                         trigger: "blur",
                         enum: "",
@@ -789,8 +621,32 @@ db.getCollection("form_create").insert([ {
                         type: "any"
                     }
                 },
-                key: "6075e7694e9441be8f26025ecca96562",
-                model: "remark",
+                key: "fe2cadc19f4347648bd5b9dd9b3f1955",
+                model: "select_fe2cadc19f4347648bd5b9dd9b3f1955",
+                rules: [ ]
+            },
+            {
+                label: "滑块",
+                type: "slider",
+                options: {
+                    defaultValue: NumberInt("0"),
+                    width: "",
+                    min: NumberInt("0"),
+                    max: NumberInt("100"),
+                    step: NumberInt("1"),
+                    disabled: false,
+                    range: false,
+                    rules: {
+                        trigger: "blur",
+                        enum: "",
+                        message: "",
+                        pattern: "",
+                        required: false,
+                        type: "any"
+                    }
+                },
+                key: "0d143c1f8f85418f8a90a66ab69c9e67",
+                model: "slider_0d143c1f8f85418f8a90a66ab69c9e67",
                 rules: [ ]
             }
         ],
@@ -802,8 +658,7 @@ db.getCollection("form_create").insert([ {
         }
     },
     remark: "",
-    __v: NumberInt("0"),
-    code: "100001"
+    __v: NumberInt("0")
 } ]);
 
 // ----------------------------
@@ -966,7 +821,7 @@ db.getCollection("leaves").insert([ {
 } ]);
 db.getCollection("leaves").insert([ {
     _id: ObjectId("62be55315768281544b7c6b6"),
-    applyState: NumberInt("1"),
+    applyState: NumberInt("5"),
     applyType: NumberInt("1"),
     leaveTime: "35",
     reasons: "666",
@@ -990,6 +845,74 @@ db.getCollection("leaves").insert([ {
     ],
     auditLogs: [ ],
     createTime: ISODate("2022-07-01T02:00:17.246Z"),
+    __v: NumberInt("0")
+} ]);
+db.getCollection("leaves").insert([ {
+    _id: ObjectId("6541c6fd2464651f9d1c7dd2"),
+    applyState: NumberInt("1"),
+    applyType: NumberInt("1"),
+    leaveTime: "29",
+    reasons: "ddd",
+    startTime: ISODate("2023-11-07T16:00:00.000Z"),
+    endTime: ISODate("2023-12-05T16:00:00.000Z"),
+    curAuditUserName: "hsueh",
+    orderNo: "XS202311016",
+    applyUser: {
+        userId: "1000009",
+        userName: "hsueh",
+        userEmail: "hsueh@qq.com"
+    },
+    auditUsers: "hsueh,admin",
+    auditFlows: [
+        {
+            _id: ObjectId("6541c6fd2464651f9d1c7dd3"),
+            userId: "1000009",
+            userName: "hsueh",
+            userEmail: "hsueh1@qq.com"
+        },
+        {
+            _id: ObjectId("6541c6fd2464651f9d1c7dd4"),
+            userId: "1000010",
+            userName: "admin",
+            userEmail: "admin@qq.com"
+        }
+    ],
+    auditLogs: [ ],
+    createTime: ISODate("2023-11-01T03:33:17.705Z"),
+    __v: NumberInt("0")
+} ]);
+db.getCollection("leaves").insert([ {
+    _id: ObjectId("6541c7e82464651f9d1c7e43"),
+    applyState: NumberInt("1"),
+    applyType: NumberInt("1"),
+    leaveTime: "26",
+    reasons: "8778",
+    startTime: ISODate("2023-11-09T16:00:00.000Z"),
+    endTime: ISODate("2023-12-04T16:00:00.000Z"),
+    curAuditUserName: "hsueh",
+    orderNo: "XS202311017",
+    applyUser: {
+        userId: "1000009",
+        userName: "hsueh",
+        userEmail: "hsueh@qq.com"
+    },
+    auditUsers: "hsueh,admin",
+    auditFlows: [
+        {
+            _id: ObjectId("6541c7e82464651f9d1c7e44"),
+            userId: "1000009",
+            userName: "hsueh",
+            userEmail: "hsueh1@qq.com"
+        },
+        {
+            _id: ObjectId("6541c7e82464651f9d1c7e45"),
+            userId: "1000010",
+            userName: "admin",
+            userEmail: "admin@qq.com"
+        }
+    ],
+    auditLogs: [ ],
+    createTime: ISODate("2023-11-01T03:37:12.931Z"),
     __v: NumberInt("0")
 } ]);
 
@@ -1035,7 +958,7 @@ db.getCollection("menus").insert([ {
     isShow: NumberInt("1"),
     icon: "Menu",
     code: "10002",
-    menuCode: "menu-create"
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a957c548ec890bb426a163"),
@@ -1053,7 +976,7 @@ db.getCollection("menus").insert([ {
     isShow: NumberInt("1"),
     icon: "Avatar",
     code: "10003",
-    menuCode: "menu-create"
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9616548ec890bb426a19d"),
@@ -1070,7 +993,7 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Promotion",
-    code: "10004",
+    code: "",
     menuCode: "menu-create"
 } ]);
 db.getCollection("menus").insert([ {
@@ -1086,7 +1009,7 @@ db.getCollection("menus").insert([ {
     menuCode: "menu-create",
     menuName: "添加",
     __v: NumberInt("0"),
-    code: "10005",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1102,7 +1025,7 @@ db.getCollection("menus").insert([ {
     menuCode: "menu-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "10006",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1118,7 +1041,7 @@ db.getCollection("menus").insert([ {
     menuCode: "menu-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: "10007",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1134,7 +1057,7 @@ db.getCollection("menus").insert([ {
     menuCode: "role-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "10008",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1150,7 +1073,7 @@ db.getCollection("menus").insert([ {
     menuCode: "role-setpermission",
     menuName: "设置权限",
     __v: NumberInt("0"),
-    code: "10009",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1166,7 +1089,7 @@ db.getCollection("menus").insert([ {
     menuCode: "role-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: "100010",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1182,7 +1105,7 @@ db.getCollection("menus").insert([ {
     menuCode: "role-create",
     menuName: "创建角色",
     __v: NumberInt("0"),
-    code: "100011",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1198,7 +1121,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dept-create",
     menuName: "新增部门",
     __v: NumberInt("0"),
-    code: "100012",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1214,7 +1137,7 @@ db.getCollection("menus").insert([ {
     menuName: "编辑",
     menuCode: "dept-edit",
     __v: NumberInt("0"),
-    code: "100013",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1230,7 +1153,7 @@ db.getCollection("menus").insert([ {
     menuName: "删除",
     menuCode: "dept-delete",
     __v: NumberInt("0"),
-    code: "100014",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1248,8 +1171,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Calendar",
-    code: "100015",
-    menuCode: "menu-create"
+    code: "10004",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a9681e48ec890bb426a1fd"),
@@ -1266,8 +1189,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "Checked",
-    code: "100016",
-    menuCode: "menu-create"
+    code: "10005",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e1748ec890bb426a2d6"),
@@ -1284,8 +1207,8 @@ db.getCollection("menus").insert([ {
     __v: NumberInt("0"),
     isShow: NumberInt("1"),
     icon: "User",
-    code: "100017",
-    menuCode: "menu-create"
+    code: "10006",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62a96e3948ec890bb426a2d9"),
@@ -1300,7 +1223,7 @@ db.getCollection("menus").insert([ {
     menuCode: "user-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100018",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1316,7 +1239,7 @@ db.getCollection("menus").insert([ {
     menuName: "删除",
     menuCode: "user-delete",
     __v: NumberInt("0"),
-    code: "100019",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1332,7 +1255,7 @@ db.getCollection("menus").insert([ {
     menuName: "新增用户",
     menuCode: "user-create",
     __v: NumberInt("0"),
-    code: "100020",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1348,7 +1271,7 @@ db.getCollection("menus").insert([ {
     menuCode: "user-deletes",
     menuName: "批量删除",
     __v: NumberInt("0"),
-    code: "100021",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1364,7 +1287,7 @@ db.getCollection("menus").insert([ {
     menuName: "申请休假",
     menuCode: "leave-create",
     __v: NumberInt("0"),
-    code: "100022",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1380,7 +1303,7 @@ db.getCollection("menus").insert([ {
     menuCode: "leave-see",
     menuName: "查看",
     __v: NumberInt("0"),
-    code: "100023",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1396,7 +1319,7 @@ db.getCollection("menus").insert([ {
     menuCode: "leave-delete",
     menuName: "作废",
     __v: NumberInt("0"),
-    code: "100024",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1412,7 +1335,7 @@ db.getCollection("menus").insert([ {
     menuCode: "approve-audit",
     menuName: "审核",
     __v: NumberInt("0"),
-    code: "100025",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1430,8 +1353,8 @@ db.getCollection("menus").insert([ {
     isShow: NumberInt("1"),
     __v: NumberInt("0"),
     icon: "FolderOpened",
-    code: "100026",
-    menuCode: "menu-create"
+    code: "10007",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b000f97435064330e7b52c"),
@@ -1446,7 +1369,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dict-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: "100027",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1462,7 +1385,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dict-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100028",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1478,7 +1401,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dict-ditail",
     menuName: "详情",
     __v: NumberInt("0"),
-    code: "100029",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1488,13 +1411,13 @@ db.getCollection("menus").insert([ {
         ObjectId("62afff407435064330e7b50c")
     ],
     createTime: ISODate("2022-06-20T04:54:55.508Z"),
-    updateTime: ISODate("2023-10-31T07:38:12.767Z"),
+    updateTime: ISODate("2023-11-01T05:27:57.28Z"),
     menuType: NumberInt("3"),
     menuState: NumberInt("1"),
     menuName: "删除",
     menuCode: "dict-delete",
     __v: NumberInt("0"),
-    code: "30",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1503,17 +1426,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-20T05:12:10.66Z"),
-    updateTime: ISODate("2023-10-31T07:32:44.537Z"),
+    updateTime: ISODate("2023-11-01T03:39:12.103Z"),
     menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "字典类型",
     path: "/system/dictType/:id",
     component: "Dict/DictType/index",
-    isShow: NumberInt("1"),
+    isShow: NumberInt("2"),
     __v: NumberInt("0"),
     icon: "FolderOpened",
-    code: "100031",
-    menuCode: "menu-create"
+    code: "10008",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b0346c53614a2c4c03ce2f"),
@@ -1528,7 +1451,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dictType-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: "100032",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1544,7 +1467,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dictType-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100033",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1560,7 +1483,7 @@ db.getCollection("menus").insert([ {
     menuCode: "dictType-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: "100034",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1569,17 +1492,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-24T04:57:20.742Z"),
-    updateTime: ISODate("2023-10-31T07:41:12.687Z"),
+    updateTime: ISODate("2023-11-01T06:07:25.785Z"),
     menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "FAAS",
-    isShow: NumberInt("2"),
+    isShow: NumberInt("1"),
     __v: NumberInt("0"),
     component: "Faas/index",
     path: "/system/faas",
     icon: "Position",
-    code: "100035",
-    menuCode: "menu-create"
+    code: "10009",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62b544d5fc17e80e40b2d516"),
@@ -1594,7 +1517,7 @@ db.getCollection("menus").insert([ {
     menuName: "新增",
     menuCode: "faas-create",
     __v: NumberInt("0"),
-    code: "100036",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1610,7 +1533,7 @@ db.getCollection("menus").insert([ {
     menuName: "批量删除",
     menuCode: "faas-deletes",
     __v: NumberInt("0"),
-    code: "100037",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1626,7 +1549,7 @@ db.getCollection("menus").insert([ {
     menuName: "编辑",
     menuCode: "faas-edit",
     __v: NumberInt("0"),
-    code: "100038",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1642,7 +1565,7 @@ db.getCollection("menus").insert([ {
     menuName: "删除",
     menuCode: "faas-delete",
     __v: NumberInt("0"),
-    code: "100039",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1651,7 +1574,7 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-27T06:00:16.5Z"),
-    updateTime: ISODate("2023-10-31T07:54:27.787Z"),
+    updateTime: ISODate("2023-11-01T05:37:05.907Z"),
     menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "个人中心",
@@ -1659,8 +1582,8 @@ db.getCollection("menus").insert([ {
     component: "Users/index",
     isShow: NumberInt("2"),
     __v: NumberInt("0"),
-    code: "100040",
-    menuCode: "menu-create"
+    code: "100010",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfc2e5ee56f4014349740"),
@@ -1668,17 +1591,17 @@ db.getCollection("menus").insert([ {
         ObjectId("62a956fe48ec890bb426a157")
     ],
     createTime: ISODate("2022-06-29T07:01:44.833Z"),
-    updateTime: ISODate("2023-10-31T07:41:04.148Z"),
+    updateTime: ISODate("2023-11-01T06:07:31.812Z"),
     menuType: NumberInt("2"),
     menuState: NumberInt("1"),
     menuName: "表单管理",
     path: "/system/generator",
     icon: "Moon",
     component: "FormCreate/index",
-    isShow: NumberInt("2"),
+    isShow: NumberInt("1"),
     __v: NumberInt("0"),
-    code: "100041",
-    menuCode: "menu-create"
+    code: "100011",
+    menuCode: ""
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bbfd170b77a1414c078f0c"),
@@ -1693,7 +1616,7 @@ db.getCollection("menus").insert([ {
     menuCode: "FormCreate-create",
     menuName: "新增",
     __v: NumberInt("0"),
-    code: "100042",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1709,7 +1632,7 @@ db.getCollection("menus").insert([ {
     menuCode: "FormCreate-deletes",
     menuName: "批量删除",
     __v: NumberInt("0"),
-    code: "100043",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1725,7 +1648,7 @@ db.getCollection("menus").insert([ {
     menuCode: "FormCreate-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: "100044",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1741,7 +1664,7 @@ db.getCollection("menus").insert([ {
     menuCode: "FormCreate-ditail",
     menuName: "详情",
     __v: NumberInt("0"),
-    code: "100045",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1757,7 +1680,7 @@ db.getCollection("menus").insert([ {
     menuCode: "FormCreate-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: "100046",
+    code: "",
     isShow: NumberInt("1")
 } ]);
 db.getCollection("menus").insert([ {
@@ -1773,7 +1696,7 @@ db.getCollection("menus").insert([ {
     menuName: "新增",
     menuCode: "project-create",
     __v: NumberInt("0"),
-    code: 100047
+    code: 0
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bd012cefdb000588ce46ad"),
@@ -1788,7 +1711,7 @@ db.getCollection("menus").insert([ {
     menuName: "批量删除",
     menuCode: "project-deletes",
     __v: NumberInt("0"),
-    code: 100048
+    code: 0
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bd013befdb000588ce46b2"),
@@ -1803,7 +1726,7 @@ db.getCollection("menus").insert([ {
     menuCode: "project-edit",
     menuName: "编辑",
     __v: NumberInt("0"),
-    code: 100049
+    code: 0
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bd014defdb000588ce46b7"),
@@ -1818,7 +1741,7 @@ db.getCollection("menus").insert([ {
     menuCode: "project-ditail",
     menuName: "详情",
     __v: NumberInt("0"),
-    code: 100050
+    code: 0
 } ]);
 db.getCollection("menus").insert([ {
     _id: ObjectId("62bd0157efdb000588ce46bc"),
@@ -1833,41 +1756,142 @@ db.getCollection("menus").insert([ {
     menuCode: "project-delete",
     menuName: "删除",
     __v: NumberInt("0"),
-    code: 100051
+    code: 0
 } ]);
 db.getCollection("menus").insert([ {
-    _id: ObjectId("6540a1630b98c443559a1033"),
-    parentId: [
-        null
-    ],
-    createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("1"),
+    _id: ObjectId("6541e8b0cba1d838a66ea47e"),
     menuState: NumberInt("1"),
     isShow: NumberInt("1"),
-    menuName: "hello",
-    path: "/hello",
-    component: "blankpage/index",
-    __v: NumberInt("0"),
-    code: "1047",
-    menuCode: "FormCreate-delete"
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62a9578748ec890bb426a160")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "menu-list",
+    menuName: "列表",
+    __v: NumberInt("0")
 } ]);
 db.getCollection("menus").insert([ {
-    _id: ObjectId("6540a19ce7122f4358b2a040"),
-    parentId: [
-        null
-    ],
-    createTime: ISODate("2022-06-29T07:16:54.678Z"),
-    updateTime: ISODate("2022-06-29T07:16:54.678Z"),
-    menuType: NumberInt("1"),
+    _id: ObjectId("6541e9efcba1d838a66ea48e"),
     menuState: NumberInt("1"),
     isShow: NumberInt("1"),
-    menuName: "hello2",
-    path: "/hello2",
-    component: "blankpage/index",
-    __v: NumberInt("0"),
-    code: "1000049",
-    menuCode: "FormCreate-delete"
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62a957c548ec890bb426a163")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "role-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541ea3dcba1d838a66ea497"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62a9616548ec890bb426a19d")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "dept-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541ea54cba1d838a66ea49e"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62a96e1748ec890bb426a2d6")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "user-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541ea68cba1d838a66ea4a5"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62afff407435064330e7b50c")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "dict-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541ea78cba1d838a66ea4ac"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62b005bd53614a2c4c03cd31")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "dictType-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541eaa5cba1d838a66ea4b3"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62b54458fc17e80e40b2d4f1")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "faas-list",
+    menuName: "列表",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541eac6cba1d838a66ea4ba"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62b94a59e213d535c87592f0")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuName: "个人中心权限",
+    menuCode: "user-auth",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("menus").insert([ {
+    _id: ObjectId("6541eadccba1d838a66ea4c1"),
+    menuState: NumberInt("1"),
+    isShow: NumberInt("1"),
+    parentId: [
+        ObjectId("62a956fe48ec890bb426a157"),
+        ObjectId("62bbfc2e5ee56f4014349740")
+    ],
+    createTime: ISODate("2023-11-01T05:26:35.319Z"),
+    updateTime: ISODate("2023-11-01T05:26:35.319Z"),
+    menuType: NumberInt("3"),
+    menuCode: "FormCreate-list",
+    menuName: "列表",
+    __v: NumberInt("0")
 } ]);
 
 // ----------------------------
@@ -1985,6 +2009,39 @@ db.getCollection("roles").insert([ {
     remark: "",
     __v: NumberInt("0")
 } ]);
+db.getCollection("roles").insert([ {
+    _id: ObjectId("6541c4502464651f9d1c7d1d"),
+    permissionList: {
+        checkedKeys: [
+            "62a961d448ec890bb426a1b7",
+            "62a961e248ec890bb426a1ba",
+            "62a961ef48ec890bb426a1bd",
+            "62a9622f48ec890bb426a1c0",
+            "62a9624048ec890bb426a1c3",
+            "62a9625048ec890bb426a1c6",
+            "62a9626b48ec890bb426a1c9",
+            "62a9670c48ec890bb426a1d2",
+            "62a9672148ec890bb426a1d5",
+            "62a9672c48ec890bb426a1d8",
+            "62a973ba48ec890bb426a3f0",
+            "62a973cf48ec890bb426a3f3",
+            "62a973df48ec890bb426a3f6",
+            "62a973fc48ec890bb426a3f9"
+        ],
+        halfCheckedKeys: [
+            "62a9578748ec890bb426a160",
+            "62a957c548ec890bb426a163",
+            "62a9616548ec890bb426a19d",
+            "62a967de48ec890bb426a1f4",
+            "62a9681e48ec890bb426a1fd",
+            "62a956fe48ec890bb426a157"
+        ]
+    },
+    createTime: ISODate("2023-11-01T02:49:47.371Z"),
+    roleName: "测试员1",
+    remark: "",
+    __v: NumberInt("0")
+} ]);
 
 // ----------------------------
 // Collection structure for test1
@@ -2004,6 +2061,16 @@ db.createCollection("test5");
 
 // ----------------------------
 // Documents of test5
+// ----------------------------
+
+// ----------------------------
+// Collection structure for test6
+// ----------------------------
+db.getCollection("test6").drop();
+db.createCollection("test6");
+
+// ----------------------------
+// Documents of test6
 // ----------------------------
 
 // ----------------------------
@@ -2051,7 +2118,8 @@ db.getCollection("users").insert([ {
     state: NumberInt("1"),
     role: NumberInt("1"),
     roleList: [
-        "6540afb73a6f8952c1d73ec6"
+        "6540afb73a6f8952c1d73ec6",
+        "6541c4502464651f9d1c7d1d"
     ],
     createTime: ISODate("2022-06-27T03:16:18.504Z"),
     lastLoginTime: ISODate("2022-06-27T03:16:18.504Z"),
@@ -2070,4 +2138,20 @@ db.getCollection("users").insert([ {
     expressAddress: null,
     expressName: null,
     expressPhone: null
+} ]);
+db.getCollection("users").insert([ {
+    _id: ObjectId("6541c8432464651f9d1c7e80"),
+    deptId: [
+        "6541c46f2464651f9d1c7d31"
+    ],
+    state: NumberInt("2"),
+    role: NumberInt("1"),
+    roleList: [ ],
+    createTime: ISODate("2023-11-01T02:49:47.373Z"),
+    lastLoginTime: ISODate("2023-11-01T02:49:47.373Z"),
+    userId: NumberInt("1000012"),
+    userName: "bcc",
+    userPwd: "f379eaf3c831b04de153469d1bec345e",
+    userEmail: "bcc@qq.com",
+    __v: NumberInt("0")
 } ]);

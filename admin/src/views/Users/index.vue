@@ -2,9 +2,9 @@
   <div class="users-main">
     <el-card class="box-card">
       <el-form :model="userForm" :rules="rules" ref="userRuleForm" label-width="200px">
-        <el-form-item label="品牌99999" prop="brand">
+        <!-- <el-form-item label="品牌" prop="brand">
           <el-input v-model="userForm.brand" placeholder="请输入品牌"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="用户名" prop="userName">
           <el-input v-model="userForm.userName" placeholder="请输入用户名称"></el-input>
         </el-form-item>
@@ -16,7 +16,7 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item label="公司" prop="company">
+        <!-- <el-form-item label="公司" prop="company">
           <el-select
             v-model="userForm.company"
             :disabled="action == 'edit'"
@@ -62,12 +62,16 @@
             v-model="userForm.expressPhone"
             placeholder="请输入快递联系人手机号"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="用户手机号" prop="mobile">
           <el-input v-model="userForm.mobile" placeholder="请输入用户手机号码"></el-input>
         </el-form-item>
         <el-form-item label="岗位" prop="job">
-          <el-input v-model="userForm.job" placeholder="请输入岗位"></el-input>
+          <el-input
+            v-model="userForm.job"
+            :disabled="action == 'edit'"
+            placeholder="请输入岗位"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="dialogSubmitHandler">确 定</el-button>

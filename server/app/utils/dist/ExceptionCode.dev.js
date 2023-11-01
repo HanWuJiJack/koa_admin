@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
   /*------ 通用错误码 1000~9999 ------*/
   // 参数错误
@@ -118,12 +120,10 @@ module.exports = {
     code: 2007,
     message: '该权限不存在'
   },
-
   // SQL
   SQL_ERROR: {
-    code: 3000,
+    code: 3000
   },
-
   // 配置出错 4000
   CONFIGURARTION_EMAILE: {
     code: 4000,
@@ -137,7 +137,6 @@ module.exports = {
     code: 4002,
     message: '请联系后端更新文件配置'
   },
-
   // 通知
   MSG_CTEATE: {
     code: 5001,
@@ -162,5 +161,5 @@ module.exports = {
   MSG_FILES: {
     code: 5006,
     message: '上传成功'
-  },
+  }
 };

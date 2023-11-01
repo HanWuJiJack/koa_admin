@@ -26,12 +26,10 @@ class UserAdminController extends BaseController {
     }
     async list() {
         // 接口级别权限判断
-        // apiAuth({
-        //     ctx: this.ctx,
-        //     next: this.next,
-        //     code: "list2"
-        // })
-        
+        apiAuth({
+            ctx: this.ctx,
+            code: ["100017"]
+        })
         try {
             const {
                 userId,

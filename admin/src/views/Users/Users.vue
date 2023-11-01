@@ -3,7 +3,7 @@
     <!-- 头部查询功能区域 -->
     <div class="users-top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
-        <el-form-item label="用户ID888" prop="userId">
+        <el-form-item label="用户ID" prop="userId">
           <el-input
             v-model="selectData.userId"
             type="Number"
@@ -96,12 +96,12 @@
           ref="userRuleForm"
           label-width="150px"
         >
-          <el-form-item label="品牌" prop="brand">
+          <!-- <el-form-item label="品牌" prop="brand">
             <el-input
               v-model="userForm.data.form.brand"
               placeholder="请输入品牌"
             ></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="用户名" prop="userName">
             <el-input
               v-model="userForm.data.form.userName"
@@ -117,7 +117,7 @@
               <!-- <template #append>@qq.com</template> -->
             </el-input>
           </el-form-item>
-          <el-form-item label="公司" prop="company">
+          <!-- <el-form-item label="公司" prop="company">
             <el-select v-model="userForm.data.form.company" placeholder="请选择">
               <el-option
                 v-for="item in local.companyType"
@@ -132,8 +132,8 @@
               v-model="userForm.data.form.companyAddress"
               placeholder="请输入公司地址"
             ></el-input>
-          </el-form-item>
-          <el-form-item label="发票抬头" prop="InvoiceTitle">
+          </el-form-item> -->
+          <!-- <el-form-item label="发票抬头" prop="InvoiceTitle">
             <el-input
               v-model="userForm.data.form.InvoiceTitle"
               placeholder="请输入发票抬头"
@@ -150,19 +150,19 @@
               v-model="userForm.data.form.expressAddress"
               placeholder="请输入快递地址"
             ></el-input>
-          </el-form-item>
-          <el-form-item label="快递联系人" prop="expressName">
+          </el-form-item> -->
+          <!-- <el-form-item label="快递联系人" prop="expressName">
             <el-input
               v-model="userForm.data.form.expressName"
               placeholder="请输入快递联系人"
             ></el-input>
-          </el-form-item>
-          <el-form-item label="快递联系人手机号" prop="expressPhone">
+          </el-form-item> -->
+          <!-- <el-form-item label="快递联系人手机号" prop="expressPhone">
             <el-input
               v-model="userForm.data.form.expressPhone"
               placeholder="请输入快递联系人手机号"
             ></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="用户手机号" prop="mobile">
             <el-input
               v-model="userForm.data.form.mobile"
@@ -385,6 +385,7 @@ const onSearchHandler = () => {
 //重置事件
 const onResetHandler = (name) => {
   proxy.$refs[name].resetFields();
+  getUserListRequest();
 };
 //表格选中事件
 const selectHandler = (selection, row) => {

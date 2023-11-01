@@ -100,8 +100,26 @@ service.interceptors.response.use(res => {
     let {
       message
     } = error;
+
+    if (message == "Network Error") {
+      message = "后端接口连接异常";
+      ElMessage({
+        message: message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(new Error(message))
+    } else if (message.includes("timeout")) {
+      message = "系统接口请求超时";
+      ElMessage({
+        message: message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(new Error(message))
+    }
+
     let msg = error.response.data.message || message
-    console.log(error.response)
     const userInfo = stroage.getItem('userInfo');
     if (error.response.status === 401 && userInfo && userInfo.token) {
       debounceToken()
@@ -118,20 +136,13 @@ service.interceptors.response.use(res => {
         type: 'error'
       })
       return Promise.reject(new Error(msg))
-    } else if (message == "Network Error") {
-      msg = "后端接口连接异常";
-    } else if (message.includes("timeout")) {
-      msg = "系统接口请求超时";
-    } 
-    // else if (message.includes("Request failed with status code")) {
-    //   msg = "系统接口" + message.substr(message.length - 3) + "异常";
-    // }
-    ElMessage({
-      message: msg,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+    } else
+      ElMessage({
+        message: msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    return Promise.reject(msg)
   }
 )
 

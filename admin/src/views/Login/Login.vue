@@ -2,66 +2,83 @@
   <div class="login-main">
     <div class="login-modal">
       <h1 class="login-title">后台管理系统</h1>
-      <el-form :model="formData" :rules="rules" ref="ruleForm" status-icon>
+      <el-form :model="Data.formData" :rules="Data.rules" ref="ruleFormRef">
         <el-form-item prop="userEmail">
-          <el-input v-model="formData.userEmail" prefix-icon="el-icon-user" placeholder="请输入账号"></el-input>
+          <el-input
+            v-model="Data.formData.userEmail"
+            placeholder="请输入账号"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="passWord">
-          <el-input v-model="formData.passWord" placeholder="请输入密码" prefix-icon="el-icon-view" type="password">
+          <el-input
+            v-model="Data.formData.passWord"
+            placeholder="请输入密码"
+            show-password
+          >
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="login-btn" @click="loginHandler">登录</el-button>
+          <el-button type="primary" class="login-btn" @click="loginHandler"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import { postLogin, getPublicras } from "@/api/syetem/login";
-import exportExcel from "@/utils/exportExcel.js"
-import exportWordDocx from "@/utils/exportWordDocx.js"
-export default {
-  name: "Login",
-  data() {
-    return {
-      formData: {
-        userEmail: "",
-        passWord: "",
-      },
-      rules: {
-        userEmail: [{ required: true, message: "请输入账号", trigger: "blur" }],
-        passWord: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
-      redirect: undefined,
-    };
+import exportExcel from "@/utils/exportExcel.js";
+import exportWordDocx from "@/utils/exportWordDocx.js";
+import {
+  onMounted,
+  reactive,
+  ref,
+  getCurrentInstance,
+  toRefs,
+  toRaw,
+  computed,
+  markRaw,
+  watch,
+} from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+const router = useRouter();
+const store = useStore();
+const ruleFormRef = ref(null);
+const Data = reactive({
+  formData: {
+    userEmail: "",
+    passWord: "",
   },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
-      },
-      immediate: true,
-    },
+  rules: {
+    userEmail: [{ required: true, message: "请输入账号", trigger: "blur" }],
+    passWord: [{ required: true, message: "请输入密码", trigger: "blur" }],
   },
-  methods: {
-    loginHandler() {
-      this.$refs["ruleForm"].validate(async (valid) => {
-        if (valid) {
-          const res = await postLogin({
-            userEmail: this.formData.userEmail,
-            userPwd: this.formData.passWord,
-          });
-          this.$store.commit("SET_USERINFO", res);
-          this.$router.push({ path: this.redirect || "/" });
-        } else {
-          return false;
-        }
+  redirect: undefined,
+});
+function loginHandler() {
+  ruleFormRef._value.validate(async (valid) => {
+    if (valid) {
+      const res = await postLogin({
+        userEmail: Data.formData.userEmail,
+        userPwd: Data.formData.passWord,
       });
-    },
+      store.commit("SET_USERINFO", res);
+      router.push({ path: Data.redirect || "/" });
+    } else {
+      return false;
+    }
+  });
+}
+watch(
+  () => router.currentRoute.value,
+  (val) => {
+    Data.redirect = val.query && val.query.redirect;
   },
-  mounted() { },
-};
+  { immediate: true, deep: true }
+);
 </script>
 <style lang="less" scoped>
 .login-main {

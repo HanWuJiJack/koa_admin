@@ -6,7 +6,7 @@ var Auth = require('./../middleware/Auth');
 
 var Schema = require('../model/Model');
 
-var vm2 = require("../utils/VM");
+var IsolatedVM = require("../utils/VMIsolated");
 
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;
@@ -43,7 +43,7 @@ exports.faas = function _callee(ctx, next, method) {
         case 8:
           _context.prev = 8;
           _context.next = 11;
-          return regeneratorRuntime.awrap(vm2(ctx, next, faasInfo.fn)());
+          return regeneratorRuntime.awrap(IsolatedVM(ctx, next, faasInfo.fn)());
 
         case 11:
           ctx.body = _context.sent;

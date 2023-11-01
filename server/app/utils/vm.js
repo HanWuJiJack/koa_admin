@@ -3,6 +3,7 @@ const lodash = require("lodash")
 const moment = require("moment")
 const mongoose = require('mongoose')
 const Tools = require("./Tools")
+const ApiAuth = require("./ApiAuth")
 const defaultSchemas = require('../model/Model')
 const { modelSchemas } = require('./ModelSchemas')
 
@@ -22,6 +23,7 @@ function VM2(ctx, next, text) {
             mongoose,
             modelSchemas,
             Tools,
+            ApiAuth,
             defaultSchemas,
         },
         require: {

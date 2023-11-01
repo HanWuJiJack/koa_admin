@@ -1,5 +1,13 @@
 "use strict";
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -13,6 +21,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var jwt = require('jsonwebtoken');
+
+var Schema = require('./../model/Model');
 
 var BaseController =
 /*#__PURE__*/
@@ -158,6 +168,128 @@ function () {
       }
 
       return fmt;
+    }
+  }, {
+    key: "list_menu",
+    value: function list_menu(role, roleList) {
+      var rootList, roleData, resultPermissonList, btnList, codeList, routeList, menuList;
+      return regeneratorRuntime.async(function list_menu$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(role === 0)) {
+                _context.next = 9;
+                break;
+              }
+
+              _context.next = 3;
+              return regeneratorRuntime.awrap(Schema.menusSchema.find({
+                menuState: 1 //状态值：正常 | 停用
+
+              }));
+
+            case 3:
+              _context.t0 = _context.sent;
+
+              if (_context.t0) {
+                _context.next = 6;
+                break;
+              }
+
+              _context.t0 = [];
+
+            case 6:
+              rootList = _context.t0;
+              _context.next = 21;
+              break;
+
+            case 9:
+              _context.next = 11;
+              return regeneratorRuntime.awrap(Schema.rolesSchema.find({
+                _id: {
+                  $in: roleList
+                }
+              }));
+
+            case 11:
+              roleData = _context.sent;
+              // 然后根据取出来的角色，取出角色拥有的菜单数据，多角色出现相同的对他进行合并，也就是并集了【去重处理】~
+              resultPermissonList = [];
+              roleData.forEach(function (item) {
+                resultPermissonList = resultPermissonList.concat([].concat(_toConsumableArray(item.permissionList.checkedKeys), _toConsumableArray(item.permissionList.halfCheckedKeys)));
+              });
+              resultPermissonList = _toConsumableArray(new Set(resultPermissonList)); // 去重相同的菜单id
+
+              _context.next = 17;
+              return regeneratorRuntime.awrap(Schema.menusSchema.find({
+                _id: {
+                  $in: resultPermissonList
+                },
+                menuState: 1 //状态值：正常 | 停用
+
+              }));
+
+            case 17:
+              _context.t1 = _context.sent;
+
+              if (_context.t1) {
+                _context.next = 20;
+                break;
+              }
+
+              _context.t1 = [];
+
+            case 20:
+              rootList = _context.t1;
+
+            case 21:
+              btnList = rootList.map(function (item) {
+                return item.menuCode;
+              }).filter(function (item) {
+                return item;
+              });
+              codeList = rootList.map(function (item) {
+                return item.code;
+              }).filter(function (item) {
+                return item;
+              });
+              routeList = rootList.filter(function (item) {
+                return item.menuType == 2;
+              }); // isShow 显示|隐藏 过滤掉隐藏
+
+              menuList = this.TreeMenuShow(rootList, null);
+              return _context.abrupt("return", {
+                btnList: btnList,
+                routeList: routeList,
+                menuList: menuList,
+                codeList: codeList
+              });
+
+            case 26:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, null, this);
+    } // 根据生成的权限菜单过滤出对应的按钮列表
+
+  }, {
+    key: "getBtnPermissonList",
+    value: function getBtnPermissonList(list) {
+      var result = [];
+
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].btnList) {
+          // 如果btnList存在 那就证明他是最后一个层级的父节点了
+          list[i].btnList.forEach(function (item) {
+            result.push(item.menuCode);
+          });
+        } else if (list[i].children && !list[i].btnList) {
+          result = result.concat(this.getBtnPermissonList(list[i].children));
+        }
+      }
+
+      return result;
     } // async list(){}
     // async list_all(){}
     // async get(){}
