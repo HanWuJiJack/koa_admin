@@ -148,7 +148,7 @@
 <script setup>
 import { onMounted, reactive, ref, getCurrentInstance } from "vue";
 import publicFn from "../../utils/publicFn";
-import { postLeave_C, getLeaveList } from "@/api/syetem/leave";
+import { postLeave_C, getLeaveList } from "@/api/system/leave";
 const { proxy } = getCurrentInstance();
 const queryForm = reactive({
   applyState: 0,

@@ -19,54 +19,54 @@ exports.faas = function _callee(ctx, next, method) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
+          // console.log(9999)
           code = ctx.params.code;
           _context.next = 3;
           return regeneratorRuntime.awrap(Schema.faasSchema.findOne({
             method: method,
-            code: code
+            code: code,
+            state: 1
           }));
 
         case 3:
           faasInfo = _context.sent;
-          // 查询所有数据
-          console.log(faasInfo);
 
           if (!faasInfo) {
-            _context.next = 22;
+            _context.next = 23;
             break;
           }
 
           if (!(faasInfo._doc.isAuth === "1")) {
-            _context.next = 9;
+            _context.next = 8;
             break;
           }
 
-          _context.next = 9;
+          _context.next = 8;
           return regeneratorRuntime.awrap(Auth(ctx, next));
 
-        case 9:
-          _context.prev = 9;
-          _context.next = 12;
+        case 8:
+          _context.prev = 8;
+          _context.next = 11;
           return regeneratorRuntime.awrap(vm2(ctx, next, faasInfo.fn)());
 
-        case 12:
+        case 11:
           ctx.body = _context.sent;
-          _context.next = 22;
+          _context.next = 21;
           break;
 
-        case 15:
-          _context.prev = 15;
-          _context.t0 = _context["catch"](9);
+        case 14:
+          _context.prev = 14;
+          _context.t0 = _context["catch"](8);
           logger.error('FAAS:', _context.t0);
 
           if (!_context.t0.code) {
-            _context.next = 20;
+            _context.next = 19;
             break;
           }
 
           throw _context.t0;
 
-        case 20:
+        case 19:
           // err 对象的属性说明：
           // message：错误提示信息
           // fileName：表示出错代码所在文件
@@ -76,10 +76,17 @@ exports.faas = function _callee(ctx, next, method) {
           ExceptionCode.FAAS_UNDEFINED.message = _context.t0.message;
           throw ExceptionCode.FAAS_UNDEFINED;
 
-        case 22:
+        case 21:
+          _context.next = 24;
+          break;
+
+        case 23:
+          throw ExceptionCode.FILE_ROUTER_ERR;
+
+        case 24:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[9, 15]]);
+  }, null, null, [[8, 14]]);
 };

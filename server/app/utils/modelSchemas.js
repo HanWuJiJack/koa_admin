@@ -1,1 +1,5 @@
-exports.modelSchemas = Object.create({})
+const modelSchemas = Object.create({})
+modelSchemas.modelSchema = require('./../model/ModelsSchema')
+exports.modelSchemas = modelSchemas
+
+

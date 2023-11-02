@@ -1,4 +1,3 @@
-const Schema = require('../model/Model');
 const vm2 = require("../utils/VM");
 const {
     modelSchemas
@@ -7,23 +6,30 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
+const mongoose = require('mongoose');
 
-exports.initFaas = async () => {
-    let models = []
-    let dictInfo = await Schema.dictSchema.findOne({
-        nameCode: "Schema_type"
+module.exports = async function (){
+    console.log(Object.keys(modelSchemas))
+    // 先全部清理
+    Object.keys(modelSchemas).map(item => {
+        if (item != "modelSchema") {
+            const name = item.slice(0, -6)
+            mongoose.deleteModel(name);
+            delete modelSchemas[item]
+        }
     })
-    const query = await Schema.dictTypeSchema.find({
-        dictId: dictInfo.id
+    // 在进行初始化
+    let models = []
+    const query = await modelSchemas.modelSchema.find({
+        state: 1
     })
     for (const iterator of query) {
-        models.push(iterator.dictLabel)
+        models.push(iterator.func)
     }
     for (const key in models) {
         if (Object.hasOwnProperty.call(models, key)) {
             await vm2({}, {}, models[key])()
         }
     }
-    // console.log(modelSchemas)
+    console.log(Object.keys(modelSchemas))
 }
-

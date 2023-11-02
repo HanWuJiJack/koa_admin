@@ -168,27 +168,27 @@ function (_BaseController) {
               userInfo = this.userInfo;
 
               if (!(action == 'create')) {
-                _context2.next = 30;
+                _context2.next = 29;
                 break;
               }
 
               // 获取申请人所属部门
-              applyPeoPledept = userInfo.deptId.pop();
-              logger.info("applyPeoPledept", applyPeoPledept); // 根据部门查找到部门负责人
+              applyPeoPledept = userInfo.deptId.pop(); // logger.info("applyPeoPledept", applyPeoPledept)
+              // 根据部门查找到部门负责人
 
-              _context2.next = 8;
+              _context2.next = 7;
               return regeneratorRuntime.awrap(Schema.deptSchema.findById(applyPeoPledept));
 
-            case 8:
+            case 7:
               deptData = _context2.sent;
               // 当前审批人
               params.curAuditUserName = deptData.userName; // 生成申请单号
 
               orderNo = 'XS' + _get(_getPrototypeOf(LeavesAdminController.prototype), "formateDate", this).call(this, new Date(), 'yyyyMMdd');
-              _context2.next = 13;
+              _context2.next = 12;
               return regeneratorRuntime.awrap(Schema.leavesSchema.countDocuments());
 
-            case 13:
+            case 12:
               count = _context2.sent;
               orderNo += count;
               params.orderNo = orderNo; // 申请人信息数据
@@ -201,14 +201,14 @@ function (_BaseController) {
 
               params.auditUsers = deptData.userName; // 审批流数据
 
-              _context2.next = 20;
+              _context2.next = 19;
               return regeneratorRuntime.awrap(Schema.deptSchema.find({
                 deptName: {
                   $in: ['人事部门', '财务部门']
                 }
               }));
 
-            case 20:
+            case 19:
               finance = _context2.sent;
               params.auditFlows = [{
                 userId: deptData.userId,
@@ -225,50 +225,50 @@ function (_BaseController) {
               }); // 审批日志
 
               params.auditLogs = [];
-              _context2.next = 26;
+              _context2.next = 25;
               return regeneratorRuntime.awrap(Schema.leavesSchema.create(params));
 
-            case 26:
+            case 25:
               res = _context2.sent;
               info = '创建成功';
-              _context2.next = 35;
+              _context2.next = 34;
               break;
 
-            case 30:
+            case 29:
               if (!(action === 'delete')) {
-                _context2.next = 35;
+                _context2.next = 34;
                 break;
               }
 
-              _context2.next = 33;
+              _context2.next = 32;
               return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
                 applyState: 5
               }));
 
-            case 33:
+            case 32:
               _res = _context2.sent;
               info = '作废成功';
 
-            case 35:
+            case 34:
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "success", this).call(this, {
                 msg: info
               });
-              _context2.next = 41;
+              _context2.next = 40;
               break;
 
-            case 38:
-              _context2.prev = 38;
+            case 37:
+              _context2.prev = 37;
               _context2.t0 = _context2["catch"](1);
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 41:
+            case 40:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[1, 38]]);
+      }, null, this, [[1, 37]]);
     }
   }, {
     key: "create_approve",
@@ -308,14 +308,12 @@ function (_BaseController) {
               }));
 
             case 11:
-              _context3.next = 32;
+              _context3.next = 31;
               break;
 
             case 13:
-              logger.info("doc", doc);
-
               if (!(doc.auditLogs.length === doc.auditFlows.length)) {
-                _context3.next = 19;
+                _context3.next = 18;
                 break;
               }
 
@@ -325,9 +323,9 @@ function (_BaseController) {
               });
               return _context3.abrupt("return");
 
-            case 19:
+            case 18:
               if (!(doc.auditLogs.length > 1)) {
-                _context3.next = 26;
+                _context3.next = 25;
                 break;
               }
 
@@ -342,19 +340,19 @@ function (_BaseController) {
                 action: '通过'
               });
 
-              _context3.next = 24;
+              _context3.next = 23;
               return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
                 applyState: 4,
                 auditLogs: _auditLogs
               }));
 
-            case 24:
-              _context3.next = 32;
+            case 23:
+              _context3.next = 31;
               break;
 
-            case 26:
+            case 25:
               if (!(doc.auditLogs.length === doc.auditFlows.length - 1)) {
-                _context3.next = 32;
+                _context3.next = 31;
                 break;
               }
 
@@ -370,33 +368,33 @@ function (_BaseController) {
 
 
               curAuditUserName = _auditLogs2[_auditLogs2.length - 1].userName;
-              _context3.next = 32;
+              _context3.next = 31;
               return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
                 applyState: 2,
                 auditLogs: _auditLogs2,
                 curAuditUserName: curAuditUserName
               }));
 
-            case 32:
+            case 31:
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "success", this).call(this, {
                 msg: "处理成功"
               });
-              _context3.next = 38;
+              _context3.next = 37;
               break;
 
-            case 35:
-              _context3.prev = 35;
+            case 34:
+              _context3.prev = 34;
               _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "fail", this).call(this, {
                 msg: "\u5BA1\u6838\u5931\u8D25=>".concat(_context3.t0.stack)
               });
 
-            case 38:
+            case 37:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[2, 35]]);
+      }, null, this, [[2, 34]]);
     }
   }, {
     key: "list_count",

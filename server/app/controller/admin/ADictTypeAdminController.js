@@ -13,6 +13,8 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
+const AutoID = require('./../../utils/AutoID')
+
 class DictTypeAdminController extends BaseController {
     constructor({
         ctx = {
@@ -57,7 +59,6 @@ class DictTypeAdminController extends BaseController {
                     },
                     list
                 }
-
             })
         } catch (error) {
             this.ctx.body = super.fail({
@@ -82,18 +83,11 @@ class DictTypeAdminController extends BaseController {
                 })
                 return;
             } else {
-                const countDoc = await Schema.counterSchema.findOneAndUpdate({
-                    _id: 'dictTypeId'
-                }, {
-                    $inc: {
-                        currentIndex: 1
-                    }
-                }, {
-                    new: true
-                });
-                logger.info(`countDoc:${countDoc}`)
+                const currentIndex = await AutoID({
+                    code: "dictTypeId"
+                })
                 const add = new Schema.dictTypeSchema({
-                    id: countDoc.currentIndex,
+                    id: currentIndex,
                     remark,
                     dictId,
                     dictLabel,
@@ -103,13 +97,14 @@ class DictTypeAdminController extends BaseController {
                 });
                 await add.save();
 
-                const params = {}
-                params.id = parseInt(dictId)
-                const query = await Schema.dictSchema.findOne(params)
-                if (query._doc.nameCode === "Schema_type") {
-                    logger.info(`-----create-------`)
-                    await initFaas()
-                }
+                // const params = {}
+                // params.id = parseInt(dictId)
+                // const query = await Schema.dictSchema.findOne(params)
+                // if (query._doc.nameCode === "Schema_type") {
+                //     // logger.info(`-----create-------`)
+                //     await initFaas()
+                // }
+
                 this.ctx.body = super.success({
                     msg: '添加成功'
                 })
@@ -135,14 +130,15 @@ class DictTypeAdminController extends BaseController {
             }, params, {
                 new: true
             });
-            const par = {}
-            par.id = parseInt(res._doc.dictId)
-            const query = await Schema.dictSchema.findOne(par)
-            logger.info(`res._doc.dictId:${res._doc.dictId}`)
-            if (query._doc.nameCode === "Schema_type") {
-                logger.info(`-----create-------update`)
-                await initFaas()
-            }
+
+            // const par = {}
+            // par.id = parseInt(res._doc.dictId)
+            // const query = await Schema.dictSchema.findOne(par)
+            // // logger.info(`res._doc.dictId:${res._doc.dictId}`)
+            // if (query._doc.nameCode === "Schema_type") {
+            //     // logger.info(`-----create-------update`)
+            //     await initFaas()
+            // }
 
             this.ctx.body = super.success({
                 data: res,
@@ -160,30 +156,33 @@ class DictTypeAdminController extends BaseController {
                 ids
             } = this.ctx.params
             let arrId = ids.split(",").filter((item) => item).map((item) => parseInt(item))
-            const dictTypes = await Schema.dictTypeSchema.find({
-                id: {
-                    $in: arrId
-                }
-            })
-            logger.info(dictTypes)
             let res = await Schema.dictTypeSchema.deleteMany({
                 id: {
                     $in: arrId
                 }
             })
-            const par = {}
-            par.id = parseInt(dictTypes[0].dictId)
-            const query = await Schema.dictSchema.findOne(par)
-            if (query._doc.nameCode === "Schema_type") {
-                logger.info(`-----create-------update-------remove`)
-                // 删除model
-                dictTypes.forEach(item => {
-                    const arr = item.dictValue.split("-")
-                    mongoose.deleteModel(arr[1]);
-                    delete modelSchemas[arr[0]]
-                })
-            }
+
+            // const dictTypes = await Schema.dictTypeSchema.find({
+            //     id: {
+            //         $in: arrId
+            //     }
+            // })
+            // logger.info(dictTypes)
+            // const par = {}
+            // par.id = parseInt(dictTypes[0].dictId)
+            // const query = await Schema.dictSchema.findOne(par)
+            // if (query._doc.nameCode === "Schema_type") {
+            //     // logger.info(`-----create-------update-------remove`)
+            //     // 删除model
+            //     dictTypes.forEach(item => {
+            //         const arr = item.dictValue.split("-")
+            //         mongoose.deleteModel(arr[1]);
+            //         delete modelSchemas[arr[0]]
+            //     })
+            // }
             // logger.info("modelSchemas", modelSchemas)
+
+            
             this.ctx.body = super.success({
                 data: res,
                 msg: `删除成功`

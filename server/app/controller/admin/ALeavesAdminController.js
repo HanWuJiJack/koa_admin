@@ -95,7 +95,7 @@ class LeavesAdminController extends BaseController {
             if (action == 'create') {
                 // 获取申请人所属部门
                 let applyPeoPledept = userInfo.deptId.pop()
-                logger.info("applyPeoPledept", applyPeoPledept)
+                // logger.info("applyPeoPledept", applyPeoPledept)
                 // 根据部门查找到部门负责人
                 const deptData = await Schema.deptSchema.findById(applyPeoPledept)
                 // 当前审批人
@@ -174,7 +174,7 @@ class LeavesAdminController extends BaseController {
                     auditLogs
                 })
             } else {
-                logger.info("doc", doc)
+                // logger.info("doc", doc)
                 if (doc.auditLogs.length === doc.auditFlows.length) { // 证明已经审核完了
                     ctx.body = super.success({
                         msg: '此单子已审核完成，无需再次审核！'

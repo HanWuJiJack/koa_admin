@@ -1,5 +1,5 @@
 const path = require("path")
-const {initFaas} = require("./../app/faas/InitFaas")
+const InitFaas = require("./../app/faas/InitFaas")
 
 const {
     logger
@@ -21,5 +21,5 @@ db.on('error', () => {
 });
 db.once('open', function () {
     logger.info('数据库连接成功...');
-    initFaas() // 初始化faas
+    InitFaas() // 初始化faas
 });

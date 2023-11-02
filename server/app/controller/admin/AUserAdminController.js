@@ -8,6 +8,7 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
+const AutoID = require('./../../utils/AutoID')
 
 class UserAdminController extends BaseController {
     constructor({
@@ -105,17 +106,11 @@ class UserAdminController extends BaseController {
                 return;
             } else {
                 try {
-                    const countDoc = await Schema.counterSchema.findOneAndUpdate({
-                        _id: 'userId'
-                    }, {
-                        $inc: {
-                            currentIndex: 1
-                        }
-                    }, {
-                        new: true
-                    });
+                    const currentIndex = await AutoID({
+                        code: "userId"
+                    })
                     const addUser = new Schema.usersSchema({
-                        userId: countDoc.currentIndex,
+                        userId: currentIndex,
                         userName,
                         userPwd: hash('123456'),
                         userEmail,

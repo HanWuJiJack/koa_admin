@@ -25,11 +25,9 @@ class FaasAdminController extends BaseController {
             if (method) params.method = new RegExp(`^${method}`, 'ig')
             if (code) params.code = new RegExp(`^${code}`, 'ig')
             if (state && state != '0') params.state = parseInt(state);
-
             const query = Schema.faasSchema.find(params) // 查询所有数据
             // sort({ _id: -1 }) 倒叙 1正序
             const list = await query.sort({ _id: -1 }).skip(skipIndex).limit(page.pageSize).exec() // 根据查出的所有数据截取对应页数的数据
-
             const total = await Schema.faasSchema.countDocuments(params);
             this.ctx.body = super.success({
                 data: {

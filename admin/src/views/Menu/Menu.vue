@@ -154,8 +154,8 @@
 </template>
 <script setup>
 import publicFn from "../../utils/publicFn";
-import { postMenuList, postMenuC_U_D } from "@/api/syetem/menu";
-import { getPermissonMenuList } from "@/api/syetem/menu";
+import { postMenuList, postMenuC_U_D } from "@/api/system/menu";
+import { getPermissonMenuList } from "@/api/system/menu";
 import { getPermissonMenuList_ } from "@/router/index";
 import { ElMessage } from "element-plus";
 import {
@@ -260,11 +260,16 @@ function onResetHandler() {
   getMenuListRequest();
 }
 const menuTypeChange = () => {
-  // menuRuleFormRef._value.resetFields();
   Data.menuForm = {
+    ...Data.menuForm,
+    menuName: "", //菜单名称
+    menuCode: "", //权限标识
+    path: "", //路由地址
+    icon: "", //图标
+    component: "", //组件地址
+    code: "", //code
     menuState: 1,
     isShow: 1,
-    parentId: [null],
   };
 };
 //获取菜单列表

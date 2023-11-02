@@ -67,13 +67,13 @@ export default {
 };
 </script>
 <script setup>
-import { computed, defineProps, onMounted, ref, reactive, watch } from "vue";
+import { computed, onMounted, ref, reactive, watch } from "vue";
 import MenuTree from "./components/MenuTree.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 import publicFn from "../utils/publicFn";
 import _ from "lodash";
-import { getApproveCount } from "@/api/syetem/approve";
-import { getDictTypes } from "@/api/syetem/dictType";
+import { getApproveCount } from "@/api/system/approve";
+import { getDictTypes } from "@/api/system/dictType";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 const route = useRoute();

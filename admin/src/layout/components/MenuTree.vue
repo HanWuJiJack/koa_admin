@@ -29,7 +29,7 @@ export default {
 };
 </script>
 <script setup>
-import { computed, defineProps, onMounted, onBeforeUpdate } from "vue";
+import { computed, onMounted, onBeforeUpdate } from "vue";
 const props = defineProps({
   menuList: {
     type: Array,

@@ -2,11 +2,10 @@
 
 var path = require("path");
 
-var _require = require("./../app/faas/InitFaas"),
-    initFaas = _require.initFaas;
+var InitFaas = require("./../app/faas/InitFaas");
 
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
-    logger = _require2.logger;
+var _require = require(path.join(process.cwd(), "./config/logger")),
+    logger = _require.logger;
 
 var mongoose = require('mongoose');
 
@@ -24,5 +23,5 @@ db.on('error', function () {
 });
 db.once('open', function () {
   logger.info('数据库连接成功...');
-  initFaas(); // 初始化faas
+  InitFaas(); // 初始化faas
 });

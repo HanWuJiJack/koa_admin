@@ -14,7 +14,7 @@ import store from '../store'
 import NProgress from 'nprogress' // 引入nprogress插件
 import {
     getPermissonMenuList
-} from "@/api/syetem/menu";
+} from "@/api/system/menu";
 const routes = [{
         path: '/',
         name: 'Home',

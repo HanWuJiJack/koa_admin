@@ -25,7 +25,7 @@ export default {
 };
 </script>
 <script setup>
-import { computed, defineProps, onMounted, ref, reactive} from "vue";
+import { computed, onMounted, ref, reactive} from "vue";
 const data = reactive({
   message: '您不具备访问当前页面的权限',
  

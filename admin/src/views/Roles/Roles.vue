@@ -132,8 +132,8 @@
 
 <script setup>
 import publicFn from "../../utils/publicFn";
-import { postMenuList } from "@/api/syetem/menu";
-import { getRolesList, postRolesC_U_D, postUpdatePermission } from "@/api/syetem/roles";
+import { postMenuList } from "@/api/system/menu";
+import { getRolesList, postRolesC_U_D, postUpdatePermission } from "@/api/system/roles";
 import { onMounted, reactive, ref, getCurrentInstance, toRefs, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 const formDataRef = ref(null);

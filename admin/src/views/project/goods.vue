@@ -246,10 +246,10 @@ import {
   updataGoods,
   removeGoods,
   updataGoodsexpress,
-} from "@/api/syetem/goods";
-import { removeFiles, getZip } from "@/api/syetem/files";
-import { getFormCreate } from "@/api/syetem/formCreate";
-import { getDictTypes } from "@/api/syetem/dictType";
+} from "@/api/system/goods";
+import { removeFiles, getZip } from "@/api/system/files";
+import { getFormCreate } from "@/api/system/formCreate";
+import { getDictTypes } from "@/api/system/dictType";
 import { GenerateColumList, handCopyText } from "@/utils/tools";
 import config from "../../config/index";
 import { forIn } from "lodash";

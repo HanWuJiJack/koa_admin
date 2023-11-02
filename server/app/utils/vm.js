@@ -4,6 +4,8 @@ const moment = require("moment")
 const mongoose = require('mongoose')
 const Tools = require("./Tools")
 const ApiAuth = require("./ApiAuth")
+const AutoID = require("./AutoID")
+const ExceptionCode = require("./ExceptionCode")
 const defaultSchemas = require('../model/Model')
 const { modelSchemas } = require('./ModelSchemas')
 
@@ -24,6 +26,8 @@ function VM2(ctx, next, text) {
             modelSchemas,
             Tools,
             ApiAuth,
+            AutoID,
+            ExceptionCode,
             defaultSchemas,
         },
         require: {

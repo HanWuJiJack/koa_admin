@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup>
-import { postLogin, getPublicras } from "@/api/syetem/login";
+import { postLogin, getPublicras } from "@/api/system/login";
 import exportExcel from "@/utils/exportExcel.js";
 import exportWordDocx from "@/utils/exportWordDocx.js";
 import {

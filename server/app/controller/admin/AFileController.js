@@ -17,7 +17,7 @@ function readDir(obj, nowPath, fatherPath) {
         let file = fs.statSync(fillPath);//获取一个文件的属性
         if (file.isDirectory()) {//如果是目录的话，继续查询
             let dirlist = obj.folder(fileName);//压缩对象中生成该目录
-            logger.info(" readDir", fileName)
+            // logger.info(" readDir", fileName)
             readDir(dirlist, fillPath + '/', fileName);//重新检索目录文件
         } else {
             if (fileName.split(".")[1] != 'zip') {
@@ -99,7 +99,7 @@ class FileController extends BaseController {
             let goodsPath = `${projectInfo}/${projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}`);
             const filePath = path.join(rootPath, `../assets/${projectInfo}/${project.name}.zip`);
-            logger.info(0, targetDir, filePath)
+            // logger.info(0, targetDir, filePath)
             await startZIP(targetDir, filePath)
             this.ctx.body = super.success({
                 data: { url: `https://stp1.cn:8180/resources/${projectInfo}/${project.name}.zip` }
@@ -110,7 +110,7 @@ class FileController extends BaseController {
             let goodsPath = `${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}/${goodsInfo._doc.spu}`);
             const filePath = path.join(rootPath, `../assets/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.spu}.zip`);
-            logger.info(1, targetDir, filePath)
+            // logger.info(1, targetDir, filePath)
             await startZIP(targetDir, filePath, goodsInfo._doc.spu)
             this.ctx.body = super.success({
                 data: { url: `https://stp1.cn:8180/resources/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.spu}.zip` }
@@ -121,7 +121,7 @@ class FileController extends BaseController {
             let goodsPath = `${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}/${goodsInfo._doc.spu}/${goodsInfo._doc.sku}`);
             const filePath = path.join(rootPath, `../assets/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.sku}.zip`);
-            logger.info(2, targetDir, filePath)
+            // logger.info(2, targetDir, filePath)
             await startZIP(targetDir, filePath, goodsInfo._doc.sku)
             this.ctx.body = super.success({
                 data: { url: `https://stp1.cn:8180/resources/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.sku}.zip` }

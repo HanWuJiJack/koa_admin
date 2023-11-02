@@ -17,14 +17,13 @@ var _require2 = require(path.join(process.cwd(), "./config/logger")),
     logger = _require2.logger;
 
 var Exception = function Exception(ctx, next) {
-  var start, key, status, _status;
+  var key, status, _status;
 
   return regeneratorRuntime.async(function Exception$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          start = new Date();
-          _context.prev = 1;
+          _context.prev = 0;
 
           if (ctx.request.body && ctx.request.body.isEncrypt) {
             for (key in ctx.request.body) {
@@ -36,12 +35,12 @@ var Exception = function Exception(ctx, next) {
             }
           }
 
-          _context.next = 5;
+          _context.next = 4;
           return regeneratorRuntime.awrap(next());
 
-        case 5:
+        case 4:
           if (!(ctx.body && ctx.body.message === 'Validation Failed')) {
-            _context.next = 7;
+            _context.next = 6;
             break;
           }
 
@@ -49,19 +48,17 @@ var Exception = function Exception(ctx, next) {
             message: ctx.body.errors
           });
 
-        case 7:
+        case 6:
           // 处理404
           if (ctx.response.status === 404) {
             ctx.body = ExceptionCode.FILE_ROUTER_ERR;
           }
 
-          logger.info("'SUCCESS'|  ".concat(ctx.method, " |  ").concat(ctx.url, " |  ").concat(new Date() - start, "ms"));
           return _context.abrupt("return", ctx.body);
 
-        case 12:
-          _context.prev = 12;
-          _context.t0 = _context["catch"](1);
-          logger.info("GlobalError=>", _context.t0);
+        case 10:
+          _context.prev = 10;
+          _context.t0 = _context["catch"](0);
 
           if (_context.t0 && _context.t0.code) {
             // 错误类code :1000 - 2000
@@ -105,15 +102,16 @@ var Exception = function Exception(ctx, next) {
             }
           }
 
-          logger.info("'ERROR'|  ".concat(ctx.method, " |  ").concat(ctx.url, " |  ").concat(new Date() - start, "ms "));
+          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
+
           return _context.abrupt("return", ctx.body);
 
-        case 18:
+        case 15:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[1, 12]]);
+  }, null, null, [[0, 10]]);
 };
 
 module.exports = Exception;

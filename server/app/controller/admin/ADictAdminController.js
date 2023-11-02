@@ -1,5 +1,6 @@
 const BaseController = require('../BaseController');
 const Schema = require('./../../model/Model.js')
+const AutoID = require('./../../utils/AutoID')
 const path = require("path")
 const {
     logger,
@@ -70,15 +71,6 @@ class DictAdminController extends BaseController {
                 })
                 return;
             } else {
-                const countDoc = await Schema.counterSchema.findOneAndUpdate({
-                    _id: 'dictId'
-                }, {
-                    $inc: {
-                        currentIndex: 1
-                    }
-                }, {
-                    new: true
-                });
                 let check = await Schema.dictSchema.findOne({
                     nameCode
                 })
@@ -88,8 +80,11 @@ class DictAdminController extends BaseController {
                     })
                     return
                 }
+                const currentIndex = await AutoID({
+                    code: "dictId"
+                })
                 const add = new Schema.dictSchema({
-                    id: countDoc.currentIndex,
+                    id: currentIndex,
                     name,
                     nameCode,
                     state: state ? state : undefined,
@@ -142,9 +137,9 @@ class DictAdminController extends BaseController {
                     $in: arrId
                 }
             })
-            logger.info(`1dictTypes=>:${dictTypes[0]}`)
+            // logger.info(`1dictTypes=>:${dictTypes[0]}`)
             if (!dictTypes[0]) {
-                logger.info(`2dictTypes=>:${dictTypes}`)
+                // logger.info(`2dictTypes=>:${dictTypes}`)
                 let res = await Schema.dictSchema.deleteMany({
                     id: {
                         $in: arrId
@@ -155,7 +150,7 @@ class DictAdminController extends BaseController {
                     msg: `删除成功`
                 })
             } else {
-                logger.info(`3dictTypes=>:${dictTypes}`)
+                // logger.info(`3dictTypes=>:${dictTypes}`)
                 this.ctx.body = super.fail({
                     msg: "请先删除字典类型"
                 })

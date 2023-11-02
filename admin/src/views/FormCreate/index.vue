@@ -123,7 +123,7 @@ import {
   addFormCreate,
   updataFormCreate,
   removeFormCreate,
-} from "@/api/syetem/formCreate";
+} from "@/api/system/formCreate";
 const { proxy } = getCurrentInstance();
 const selectData = reactive({
   state: 1,

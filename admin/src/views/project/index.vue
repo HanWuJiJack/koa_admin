@@ -214,12 +214,12 @@ import {
   addProject,
   updataProject,
   removeProject,
-} from "@/api/syetem/project";
-import { getFormCreate } from "@/api/syetem/formCreate";
-import { getDictTypes } from "@/api/syetem/dictType";
+} from "@/api/system/project";
+import { getFormCreate } from "@/api/system/formCreate";
+import { getDictTypes } from "@/api/system/dictType";
 import { GenerateColumList } from "@/utils/tools";
 
-import { getGoodsAllList } from "@/api/syetem/goods";
+import { getGoodsAllList } from "@/api/system/goods";
 import { forIn } from "lodash";
 //---------------------------------变量区域--------------------
 const { proxy } = getCurrentInstance();

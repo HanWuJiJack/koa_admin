@@ -3,14 +3,14 @@
     <!-- 头部查询功能区域 -->
     <div class="top">
       <el-form :inline="true" :model="selectData" ref="selectForm">
-        <el-form-item label="函数类型" prop="method">
-          <el-input v-model="selectData.method" placeholder="请输入函数类型"></el-input>
+        <el-form-item label="接口类型" prop="method">
+          <el-input v-model="selectData.method" placeholder="请输入接口类型"></el-input>
         </el-form-item>
-        <el-form-item label="code" prop="code">
-          <el-input v-model="selectData.code" placeholder="请输入code"></el-input>
+        <el-form-item label="接口code" prop="code">
+          <el-input v-model="selectData.code" placeholder="请输入接口code"></el-input>
         </el-form-item>
-        <el-form-item label="函数状态" prop="state">
-          <el-select v-model="selectData.state" placeholder="请选择">
+        <el-form-item label="接口状态" prop="state">
+          <el-select v-model="selectData.state" placeholder="请选择接口状态">
             <el-option label="正常" :value="1"></el-option>
             <el-option label="停用" :value="2"></el-option>
           </el-select>
@@ -77,13 +77,13 @@
         </el-pagination>
       </div>
       <!-- 新增用户弹窗 -->
-      <el-dialog title="新增" v-model="dialogVisible" width="90%">
-        <el-form :model="form.data" :rules="rules" ref="ruleForm" label-width="100px">
-          <el-form-item label="函数类型" prop="method">
+      <el-dialog title="新增" v-model="dialogVisible" fullscreen>
+        <el-form :model="form.data" :rules="rules" ref="ruleForm" label-width="200px">
+          <el-form-item label="接口类型" prop="method">
             <el-select
               v-model="form.data.method"
               @change="onChangeFaasMethod"
-              placeholder="请选择"
+              placeholder="请选择接口类型"
             >
               <el-option
                 v-for="item in local.FAAS_Method_type"
@@ -93,23 +93,17 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="函数类型" prop="method">
+          <el-form-item label="接口类型" prop="method">
             <el-input
               v-model="form.data.method"
-              placeholder="请输入函数类型"
+              placeholder="请输入接口类型"
               :disabled="true"
             ></el-input>
           </el-form-item>
-          <el-form-item label="数据模型code" prop="schemaCode">
-            <el-input
-              v-model="form.data.schemaCode"
-              placeholder="请输入数据模型code"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="函数code" prop="code">
+          <el-form-item label="接口code(要求不重复)" prop="code">
             <el-input
               v-model="form.data.code"
-              placeholder="请输入函数code"
+              placeholder="请输入接口code"
               @change="onChangeFaasCode"
             ></el-input>
           </el-form-item>
@@ -130,7 +124,6 @@
               inactive-value="1"
             />
           </el-form-item>
-
           <Codemirror
             style="font-size: 16px"
             v-model:value="form.data.fn"
@@ -168,8 +161,8 @@ import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/javascript/javascript.js";
 // theme
 import "codemirror/theme/dracula.css";
-import { getFaasList, addFaas, updataFaas, removeFaas } from "@/api/syetem/faas";
-import { getDictTypes } from "@/api/syetem/dictType";
+import { getFaasList, addFaas, updataFaas, removeFaas } from "@/api/system/faas";
+import { getDictTypes } from "@/api/system/dictType";
 const { proxy } = getCurrentInstance();
 const selectData = reactive({
   state: 1,
@@ -351,7 +344,7 @@ const handleEdit = (row) => {
 const addHandler = () => {
   dialogVisible.value = true;
   action.value = "add";
-  form.data = {};
+  form.data = { state: 1 };
   // 处理行数问题
   setTimeout(() => {
     CodemirrorRef.value.refresh();
@@ -369,23 +362,32 @@ const onChange = (val, cm) => {
 };
 const onChangeFaasCode = (val, e) => {
   if (form.data.method == "list") {
-    form.data.path = "/custom/faas/list/" + val;
-  } else {
-    form.data.path = "/custom/faas/" + val;
+    form.data.path = "/custom/faas/list/" + form.data.code;
+  } else if (form.data.method == "get") {
+    form.data.path = "/custom/faas/get/" + form.data.code;
+  } else if (form.data.method == "put") {
+    form.data.path = "/custom/faas/put/" + form.data.code;
+  } else if (form.data.method == "post") {
+    form.data.path = "/custom/faas/post/" + form.data.code;
+  } else if (form.data.method == "remove") {
+    form.data.path = "/custom/faas/remove/" + form.data.code;
   }
 };
 const onChangeFaasMethod = (val, e) => {
   if (!form.data.code) {
     return;
   }
-  if (val == "list") {
+  if (form.data.method == "list") {
     form.data.path = "/custom/faas/list/" + form.data.code;
-  } else if (val == "get") {
-    form.data.path = "/custom/faas/" + form.data.code;
-  } else {
-    form.data.path = "/custom/faas/" + form.data.code;
+  } else if (form.data.method == "get") {
+    form.data.path = "/custom/faas/get/" + form.data.code;
+  } else if (form.data.method == "put") {
+    form.data.path = "/custom/faas/put/" + form.data.code;
+  } else if (form.data.method == "post") {
+    form.data.path = "/custom/faas/post/" + form.data.code;
+  } else if (form.data.method == "remove") {
+    form.data.path = "/custom/faas/remove/" + form.data.code;
   }
-  // form.data.path = "/custom/faas/" + form.data.code;
 };
 </script>
 <style lang="less" scoped>

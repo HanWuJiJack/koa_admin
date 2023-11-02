@@ -10,7 +10,7 @@ import store from './store'
 import directives from "@/directives";
 import {
     getPublicras
-} from "@/api/syetem/login";
+} from "@/api/system/login";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {

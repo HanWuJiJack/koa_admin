@@ -6,6 +6,7 @@ module.exports = async function ({
     ctx,
     code
 }) {
+
     userInfo = ctx.state.userInfo;
     if(!userInfo){
         throw ExceptionCode.LOGIN_VERIFY_API

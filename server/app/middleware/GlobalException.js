@@ -6,7 +6,7 @@ const {
 } = require(path.join(process.cwd(), "./config/logger"))
 
 const Exception = async (ctx, next) => {
-    let start = new Date();
+    // let start = new Date();
     try {
         if (ctx.request.body && ctx.request.body.isEncrypt) {
             for (const key in ctx.request.body) {
@@ -26,10 +26,8 @@ const Exception = async (ctx, next) => {
         if (ctx.response.status === 404) {
             ctx.body = ExceptionCode.FILE_ROUTER_ERR;
         }
-        logger.info(`'SUCCESS'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms`);
         return ctx.body
     } catch (error) {
-        logger.info("GlobalError=>", error)
         if (error && error.code) {
             // 错误类code :1000 - 2000
             if (error.code >= 1000 && error.code < 2000) {
@@ -37,7 +35,6 @@ const Exception = async (ctx, next) => {
                 ctx.response.status = status
                 ctx.body = error
             }
-
             // 通知类code:2000 - 6000
             if (error.code >= 2000 && error.code < 6000) {
                 const status = 200
@@ -65,7 +62,14 @@ const Exception = async (ctx, next) => {
                 ctx.body = { ...ExceptionCode.FILE_TYPE_ERR, title: error.message };
             }
         }
-        logger.info(`'ERROR'|  ${ctx.method} |  ${ctx.url} |  ${new Date() - start}ms `);
+        logger._globalErr.error(`
+        [用户:${ctx.state.userInfo.userName}]--
+        [id:${ctx.state.userInfo.userId}]--
+        [访问 ${ctx.url}]--[query:${JSON.stringify(ctx.query)}]--
+        [body:${JSON.stringify(ctx.request.body)}]--
+        [返回值:${JSON.stringify(ctx.body)}]--
+        [原始错误信息:${error.message}]
+        `);
         return ctx.body
     }
 }

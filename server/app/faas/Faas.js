@@ -9,14 +9,16 @@ const {
 } = require(path.join(process.cwd(), "./config/logger"))
 
 exports.faas = async (ctx, next, method) => {
+    // console.log(9999)
     const {
         code
     } = ctx.params
     const faasInfo = await Schema.faasSchema.findOne({
         method,
-        code
+        code,
+        state: 1
     }) // 查询所有数据
-    console.log(faasInfo)
+    // console.log(9999, faasInfo)
     if (faasInfo) {
         if (faasInfo._doc.isAuth === "1") {
             await Auth(ctx, next)
@@ -39,5 +41,7 @@ exports.faas = async (ctx, next, method) => {
             // next(error)
             // throw error
         }
+    } else {
+        throw ExceptionCode.FILE_ROUTER_ERR
     }
 }

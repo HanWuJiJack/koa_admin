@@ -24,7 +24,23 @@ log4js.configure({
     out: {
       type: 'console'
     },
-    // 服务器接口
+    // 请求
+    request: {
+      type: "dateFile",
+      //按日期分割
+      filename: path.join(__dirname, '../logs/', 'request.log'),
+      //存储的日志文件位置
+      pattern: "yyyy-MM-dd.log",
+      //日志文件的命名
+      backups: 300,
+      //最多保存的文件数量
+      layout: {
+        type: "pattern",
+        pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %m' //输出的内容样式
+
+      }
+    },
+    // 服务器
     httplog: {
       type: "dateFile",
       //按日期分割
@@ -40,13 +56,29 @@ log4js.configure({
 
       }
     },
-    // 订单日志分割
-    order: {
+    // 全局错误
+    globalErr: {
       type: "dateFile",
       //按日期分割
-      filename: path.join(__dirname, '../logs/', 'order.log'),
+      filename: path.join(__dirname, '../logs/', 'globalErr.log'),
       //存储的日志文件位置
-      pattern: "yyyy-MM-dd-hh.log",
+      pattern: "yyyy-MM-dd.log",
+      //日志文件的命名
+      backups: 300,
+      //最多保存的文件数量
+      layout: {
+        type: "pattern",
+        pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %m' //输出的内容样式
+
+      }
+    },
+    // 全局错误
+    koa2: {
+      type: "dateFile",
+      //按日期分割
+      filename: path.join(__dirname, '../logs/', 'koa2.log'),
+      //存储的日志文件位置
+      pattern: "yyyy-MM-dd.log",
       //日志文件的命名
       backups: 300,
       //最多保存的文件数量
@@ -63,14 +95,26 @@ log4js.configure({
       level: "all" //可输出等级
 
     },
-    httplog: {
-      appenders: ["httplog", "console"],
-      //只保存到文件里，不输出到控制台
+    koa2: {
+      appenders: ["koa2"],
+      //保存到文件里，不输出到控制台
       level: "all" //可输出等级
 
     },
-    order: {
-      appenders: ["order", "console"],
+    request: {
+      appenders: ["request"],
+      //保存到文件里，不输出到控制台
+      level: "all" //可输出等级
+
+    },
+    httplog: {
+      appenders: ["httplog", "console"],
+      //保存到文件里，并输出到控制台
+      level: "all" //可输出等级
+
+    },
+    globalErr: {
+      appenders: ["globalErr", "console"],
       //保存到文件里，并输出到控制台
       level: "all" //可输出等级
 
@@ -79,7 +123,9 @@ log4js.configure({
 });
 var logger = {
   _systemLogger: log4js.getLogger('application'),
-  _order: log4js.getLogger("order")
+  _order: log4js.getLogger("order"),
+  _request: log4js.getLogger("request"),
+  _globalErr: log4js.getLogger("globalErr")
 };
 
 logger.trace = function () {
@@ -126,5 +172,5 @@ exports.logger = logger; // logger.trace("测试trace");
 // logger.fatal("测试fatal");
 
 exports.accessLogger = function () {
-  return log4js.koaLogger(log4js.getLogger("httplog"));
+  return log4js.koaLogger(log4js.getLogger("koa2"));
 };

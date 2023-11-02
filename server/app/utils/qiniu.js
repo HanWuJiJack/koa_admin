@@ -21,7 +21,7 @@ async function uploadFile(uptoken, key, localFile) {
             if (respInfo.statusCode == 200) {
                 resolve(respBody);
             } else {
-                logger.info(respInfo)
+                // logger.info(respInfo)
                 reject(new Error("上传服务器失败，错误代码：" + respInfo.statusCode));
             }
         });
@@ -55,7 +55,7 @@ function deleteFile(bucket, key) {
         if (err) {
             logger.error(err);
         } else {
-            logger.info(respInfo.statusCode);
+            // logger.info(respInfo.statusCode);
         }
     });
 }

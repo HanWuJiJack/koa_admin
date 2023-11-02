@@ -121,8 +121,8 @@
 
 <script setup>
 import publicFn from "../../utils/publicFn";
-import { getAllUserList } from "@/api/syetem/users";
-import { getDeptList, postDeptC_U_D } from "@/api/syetem/dept";
+import { getAllUserList } from "@/api/system/users";
+import { getDeptList, postDeptC_U_D } from "@/api/system/dept";
 import { onMounted, reactive, ref, getCurrentInstance, toRefs, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 

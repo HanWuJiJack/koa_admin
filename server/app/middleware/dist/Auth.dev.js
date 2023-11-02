@@ -17,7 +17,6 @@ function checkAuth(ctx) {
   }
 
   var id = tools.UserId(ctx.header.authorization.split(" ")[1]);
-  logger.info("\u7528\u6237".concat(id, " \u8BBF\u95EE ").concat(ctx.url));
   /* 在这里注入 user 参数 */
 
   ctx.state.userId = {

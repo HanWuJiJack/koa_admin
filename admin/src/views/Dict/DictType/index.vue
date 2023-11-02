@@ -146,7 +146,7 @@ import {
   addDictType,
   updataDictType,
   removeDictType,
-} from "@/api/syetem/dictType";
+} from "@/api/system/dictType";
 const { proxy } = getCurrentInstance();
 const router = useRouter();
 const selectData = reactive({

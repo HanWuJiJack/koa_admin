@@ -245,8 +245,8 @@
 <script setup>
 import { onMounted, reactive, ref, getCurrentInstance, toRefs } from "vue";
 import publicFn from "../../utils/publicFn";
-import { getRolesNameList } from "@/api/syetem/roles";
-import { getDeptList } from "@/api/syetem/dept";
+import { getRolesNameList } from "@/api/system/roles";
+import { getDeptList } from "@/api/system/dept";
 import {
   getUserList,
   postDelUser,
@@ -254,8 +254,8 @@ import {
   changePWS,
   removeUser,
   putUserInfo,
-} from "@/api/syetem/users";
-import { getDictTypes } from "@/api/syetem/dictType";
+} from "@/api/system/users";
+import { getDictTypes } from "@/api/system/dictType";
 
 const { proxy } = getCurrentInstance();
 const selectData = reactive({

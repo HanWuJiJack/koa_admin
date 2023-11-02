@@ -13,8 +13,8 @@ const {
   generator
 } = require("./app/utils/Tools_rsa")
 require('./config/Datebase')
-const redis = require("./config/Redis")
 
+const redis = require("./config/Redis")
 // process.env.DB_CONNECTION
 // redis.init({ username,
 //   password ,

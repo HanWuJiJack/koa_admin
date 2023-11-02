@@ -13,17 +13,17 @@ module.exports = app => {
                 method: 'get',
             },
             {
-                api: '/faas/:code',
+                api: '/faas/post/:code',
                 fn: (ctx, next) => faas(ctx, next, "post"),
                 method: 'post',
             },
             {
-                api: '/faas/:code',
+                api: '/faas/put/:code',
                 fn: (ctx, next) => faas(ctx, next, "put"),
                 method: 'put',
             },
             {
-                api: '/faas/:code',
+                api: '/faas/remove/:code',
                 fn: (ctx, next) => faas(ctx, next, "remove"),
                 method: 'delete',
             },

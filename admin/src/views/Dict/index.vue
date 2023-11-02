@@ -117,7 +117,7 @@
 import { onMounted, reactive, ref, getCurrentInstance, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import publicFn from "../../utils/publicFn";
-import { getDict, getDictList, addDict, updataDict, removeDict } from "@/api/syetem/dict";
+import { getDict, getDictList, addDict, updataDict, removeDict } from "@/api/system/dict";
 const { proxy } = getCurrentInstance();
 const selectData = reactive({
   state: 1,

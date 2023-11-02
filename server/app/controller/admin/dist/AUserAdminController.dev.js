@@ -44,6 +44,8 @@ var path = require("path");
 var _require2 = require(path.join(process.cwd(), "./config/logger")),
     logger = _require2.logger;
 
+var AutoID = require('./../../utils/AutoID');
+
 var UserAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -135,7 +137,7 @@ function (_BaseController) {
   }, {
     key: "create",
     value: function create() {
-      var _this$ctx$request$bod, userId, userName, userEmail, mobile, job, state, roleList, deptId, action, brand, company, companyAddress, InvoiceTitle, dutyParagraph, expressAddress, expressName, expressPhone, repeat, countDoc, addUser;
+      var _this$ctx$request$bod, userId, userName, userEmail, mobile, job, state, roleList, deptId, action, brand, company, companyAddress, InvoiceTitle, dutyParagraph, expressAddress, expressName, expressPhone, repeat, currentIndex, addUser;
 
       return regeneratorRuntime.async(function create$(_context2) {
         while (1) {
@@ -177,20 +179,14 @@ function (_BaseController) {
             case 11:
               _context2.prev = 11;
               _context2.next = 14;
-              return regeneratorRuntime.awrap(Schema.counterSchema.findOneAndUpdate({
-                _id: 'userId'
-              }, {
-                $inc: {
-                  currentIndex: 1
-                }
-              }, {
-                "new": true
+              return regeneratorRuntime.awrap(AutoID({
+                code: "userId"
               }));
 
             case 14:
-              countDoc = _context2.sent;
+              currentIndex = _context2.sent;
               addUser = new Schema.usersSchema({
-                userId: countDoc.currentIndex,
+                userId: currentIndex,
                 userName: userName,
                 userPwd: hash('123456'),
                 userEmail: userEmail,
