@@ -218,6 +218,10 @@ async function postDeptC_U_DRequest() {
     if (!Data.addRuleForm.parentId || Data.addRuleForm.parentId.length === 0) {
       Data.addRuleForm.parentId = [null];
     }
+    if (Data.addRuleForm.parentId[0] === Data.addRuleForm.id) {
+      ElMessage.error("不能选本节点为父级！");
+      return;
+    }
     await postDeptC_U_D({
       ...Data.addRuleForm,
       action: Data.action,

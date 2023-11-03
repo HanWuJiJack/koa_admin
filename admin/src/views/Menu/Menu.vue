@@ -287,6 +287,10 @@ async function postMenuC_U_DRequest() {
     if (!Data.menuForm.parentId || Data.menuForm.parentId === null) {
       Data.menuForm.parentId = [null];
     }
+    if (Data.menuForm.parentId[0] === Data.menuForm.id) {
+      ElMessage.error("不能选本节点为父级！");
+      return;
+    }
     await postMenuC_U_D({
       ...Data.menuForm,
       action: Data.action,
