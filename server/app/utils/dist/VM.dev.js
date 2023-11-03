@@ -23,7 +23,7 @@ var defaultSchemas = require('../model/Model');
 var _require2 = require('./ModelSchemas'),
     modelSchemas = _require2.modelSchemas;
 
-function VM2(ctx, next, text) {
+function VM2(ctx, text) {
   var vm = new NodeVM({
     console: 'inherit',
     timeout: 1000,
@@ -32,7 +32,6 @@ function VM2(ctx, next, text) {
     sandbox: {
       ctx: ctx,
       _: lodash,
-      next: next,
       moment: moment,
       Promise: Promise,
       console: console,

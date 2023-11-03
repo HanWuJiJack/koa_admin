@@ -43,7 +43,7 @@
                 <el-dropdown-item command="emain"
                   >邮箱：{{ data.userInfo.userEmail }}</el-dropdown-item
                 >
-                <el-dropdown-item command="userMain" @click="router.push('/system/my')"
+                <el-dropdown-item command="userMain" @click="router.push('/system/mine')"
                   >个人中心</el-dropdown-item
                 >
                 <el-dropdown-item command="logout">退出</el-dropdown-item>

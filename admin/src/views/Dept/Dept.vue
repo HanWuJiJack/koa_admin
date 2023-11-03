@@ -25,7 +25,7 @@
       <el-table
         :data="Data.deptListData"
         style="width: 100%; margin-bottom: 20px"
-        row-key="_id"
+        row-key="id"
         :tree-props="{ children: 'children' }"
       >
         <el-table-column
@@ -77,7 +77,7 @@
         <el-form-item label="上级部门" prop="parentId">
           <el-cascader
             :options="Data.deptListData"
-            :props="{ checkStrictly: true, value: '_id', label: 'deptName' }"
+            :props="{ checkStrictly: true, value: 'id', label: 'deptName' }"
             clearable
             v-model="Data.addRuleForm.parentId"
             placeholder="请选择"
@@ -98,9 +98,9 @@
           >
             <el-option
               v-for="item in Data.userList"
-              :key="item.userId"
+              :key="item.id"
               :label="item.userName"
-              :value="`${item.userId}/${item.userName}/${item.userEmail}`"
+              :value="`${item.id}/${item.userName}/${item.userEmail}`"
             >
             </el-option>
           </el-select>
@@ -215,6 +215,9 @@ async function getAllUserListRequest() {
 //添加-修改-删除请求
 async function postDeptC_U_DRequest() {
   try {
+    if (!Data.addRuleForm.parentId || Data.addRuleForm.parentId.length === 0) {
+      Data.addRuleForm.parentId = [null];
+    }
     await postDeptC_U_D({
       ...Data.addRuleForm,
       action: Data.action,
@@ -244,8 +247,11 @@ function addHandler(type, row) {
   nextTick(() => {
     addRuleFormRef._value.resetFields();
     addRuleFormRef._value.clearValidate();
+    Data.addRuleForm = {
+      parentId: [null],
+    };
     if (row) {
-      Data.addRuleForm.parentId = [...row.parentId, row._id].filter((item) => item);
+      Data.addRuleForm.parentId = [...row.parentId, row.id].filter((item) => item);
     }
   });
 }
@@ -269,8 +275,8 @@ function onCancelHandler() {
 
 // 负责人下拉选中触发事件
 function selectHandler(val) {
-  const [userId, userName, userEmail] = val.split("/");
-  Object.assign(Data.addRuleForm, { userId, userEmail, userName });
+  const [id, userName, userEmail] = val.split("/");
+  Object.assign(Data.addRuleForm, { userId: id, userEmail, userName });
 }
 //编辑按钮事件
 function handleEdit(row) {
@@ -283,7 +289,7 @@ function handleEdit(row) {
 //删除菜单按钮事件
 async function handleDelete(row) {
   Data.action = "delete";
-  await postDeptC_U_D({ _id: row._id, action: Data.action });
+  await postDeptC_U_D({ id: row.id, action: Data.action });
   ElMessage.success("删除成功");
   getDeptListRequest();
 }

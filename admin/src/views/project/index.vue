@@ -12,7 +12,7 @@
               v-for="item in local.companyType"
               :label="item.dictLabel"
               :value="item.dictValue"
-              :key="item._id"
+              :key="item.id"
             />
           </el-select>
         </el-form-item>
@@ -22,7 +22,7 @@
               v-for="item in local.project_status"
               :label="item.dictLabel"
               :value="item.dictValue"
-              :key="item._id"
+              :key="item.id"
             />
           </el-select>
         </el-form-item>
@@ -345,7 +345,7 @@ const onResetHandler = (name) => {
 const selectHandler = (selection, row) => {
   var arr = [];
   selection.map((item) => {
-    arr.push(item._id);
+    arr.push(item.id);
   });
   selectArr.value = arr;
 };
@@ -357,7 +357,7 @@ const handleDelete = async (row, state) => {
 };
 const handleDelete1 = async (row, action) => {
   if (action === "del") {
-    var res = await removeProject({ ids: row._id });
+    var res = await removeProject({ ids: row.id });
   } else {
     if (selectArr.value.length > 0) {
       var res = await removeProject({
@@ -432,7 +432,7 @@ const handleEdit = (row, type = "edit") => {
 
 // 创建报价单
 const handleCreatePrice = async (row) => {
-  const res = await getGoodsAllList({ projectInfo: row._id });
+  const res = await getGoodsAllList({ projectInfo: row.id });
   const errArr = [];
   for (const key in res) {
     if (Object.hasOwnProperty.call(res, key)) {
@@ -458,7 +458,7 @@ const addHandler = () => {
   action.value = "add";
 };
 const handleDetail = (row) => {
-  router.push(`/business/project/goods/${row._id}/${row.company}`);
+  router.push(`/business/project/goods/${row.id}/${row.company}`);
 };
 </script>
 <style lang="less" scoped>

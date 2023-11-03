@@ -33,7 +33,7 @@ class LoginAdminController extends BaseController {
                 state: 1,
             });
             if (res) {
-                var token = encode(res._doc.userId)
+                var token = encode(res._doc.id)
                 var data = res._doc;
                 data.token = token;
                 this.ctx.body = super.success({ data: data, msg: '登陆成功！' });

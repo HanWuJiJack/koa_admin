@@ -8,15 +8,17 @@ const dictTypeSchema = mongoose.Schema({
     "state": {
         type: Number,
         default: 1
-    },// 1:正常  2：停用 
-    "createTime": {
+    },
+    updateTime: {
         type: Date,
         default: Date.now()
-    },//创建时间
-    "lastLoginTime": {
+    },
+    updateByUser:Number,
+    createTime: {
         type: Date,
         default: Date.now()
-    },//更新时间
+    },
+    createByUser:Number,
     remark: String
 }, { autoIndex: true, autoCreate: true })
 module.exports = mongoose.model("dictType", dictTypeSchema, "dictType")

@@ -9,7 +9,7 @@ const ExceptionCode = require("./ExceptionCode")
 const defaultSchemas = require('../model/Model')
 const { modelSchemas } = require('./ModelSchemas')
 
-function VM2(ctx, next, text) {
+function VM2(ctx,text) {
     const vm = new NodeVM({
         console: 'inherit',
         timeout: 1000,
@@ -18,7 +18,6 @@ function VM2(ctx, next, text) {
         sandbox: {
             ctx: ctx,
             _: lodash,
-            next: next,
             moment: moment,
             Promise: Promise,
             console: console,

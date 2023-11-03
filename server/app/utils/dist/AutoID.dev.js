@@ -11,7 +11,7 @@ module.exports = function _callee(_ref) {
           code = _ref.code;
           _context.next = 3;
           return regeneratorRuntime.awrap(Schema.counterSchema.findOneAndUpdate({
-            _id: code
+            id: code
           }, {
             $inc: {
               currentIndex: 1
@@ -29,7 +29,7 @@ module.exports = function _callee(_ref) {
           }
 
           add = new Schema.counterSchema({
-            "_id": code,
+            "id": code,
             //唯一标识
             "currentIndex": 1 //当前ID数
 

@@ -1,5 +1,5 @@
 const path = require("path")
-const InitFaas = require("./../app/faas/InitFaas")
+const InitFaas = require("../app/faas/FaasInit")
 
 const {
     logger

@@ -155,7 +155,7 @@
         <el-upload
           accept="image/*"
           :action="goodsFileForm.url"
-          :data="{ _id: formDataInfo._id }"
+          :data="{ id: formDataInfo.id }"
           v-model:file-list="goodsFileForm.fileList"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
@@ -176,7 +176,7 @@
           accept="image/*"
           drag
           :action="goodsFileForm.url"
-          :data="{ _id: formDataInfo._id }"
+          :data="{ id: formDataInfo.id }"
           v-model:file-list="goodsFileForm.fileList"
           multiple
           :before-upload="beforeAvatarUpload"
@@ -383,14 +383,14 @@ const selectHandler = (selection, row) => {
   console.log("selection", selection);
   var arr = [];
   selection.map((item) => {
-    arr.push(item._id);
+    arr.push(item.id);
   });
   selectArr.value = arr;
 };
 //删除用户事件
 const handleDelete = async (row, action) => {
   if (action === "del") {
-    var res = await removeGoods({ ids: row._id });
+    var res = await removeGoods({ ids: row.id });
   } else {
     if (selectArr.value.length > 0) {
       var res = await removeGoods({
@@ -545,7 +545,7 @@ const afterAvatarGoodsUpload_ = async (uploadFile, uploadFiles) => {
         }
       }
     });
-    const goodInfo = await getGoods({ id: state.formDataInfo._id });
+    const goodInfo = await getGoods({ id: state.formDataInfo.id });
     if (!goodInfo.fileList) {
       goodInfo.fileList = [];
     }
@@ -565,7 +565,7 @@ const afterAvatarGoodsUpload = async (res) => {
   if (res.code !== 200) {
     return;
   }
-  const goodInfo = await getGoods({ id: state.formDataInfo._id });
+  const goodInfo = await getGoods({ id: state.formDataInfo.id });
   // console.log("goodInfo", goodInfo);
   if (!goodInfo.fileList) {
     goodInfo.fileList = [];

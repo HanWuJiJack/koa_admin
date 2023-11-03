@@ -263,7 +263,7 @@ const handleAudit = (row) => {
   detailData.applyState = row.applyState;
   detailData.curAuditUserName = row.curAuditUserName;
   detailData.applyUser = row.applyUser.userName;
-  detailData._id = row._id;
+  detailData.id = row.id;
   detailShow.value = true;
 };
 // 审核事件
@@ -272,7 +272,7 @@ const auditHandler = (type) => {
     if (valid) {
       try {
         await postApprove({
-          _id: detailData._id,
+          id: detailData.id,
           action: type,
           remark: approveForm.remark,
         });

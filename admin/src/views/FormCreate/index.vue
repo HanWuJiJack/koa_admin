@@ -217,14 +217,14 @@ const onResetHandler = (name) => {
 const selectHandler = (selection, row) => {
   var arr = [];
   selection.map((item) => {
-    arr.push(item._id);
+    arr.push(item.id);
   });
   selectArr.value = arr;
 };
 //删除用户事件
 const handleDelete = async (row, action) => {
   if (action === "del") {
-    var res = await removeFormCreate({ ids: row._id });
+    var res = await removeFormCreate({ ids: row.id });
   } else {
     if (selectArr.value.length > 0) {
       var res = await removeFormCreate({
@@ -235,7 +235,7 @@ const handleDelete = async (row, action) => {
       return;
     }
   }
-  if (res.deletedCount >= 1) {
+  if (res.nModified >= 1) {
     proxy.$message.success("删除成功");
     getListRequest();
   } else {
@@ -295,10 +295,6 @@ const addHandler = () => {
     // console.log("elDesign.value", elDesign.value);
     elDesign.value.clear();
   }
-};
-const handleDetail = (row) => {
-  // console.log(`/system/dictType/${row.id}`);
-  router.push(`/system/dictType/${row.id}`);
 };
 </script>
 <style lang="less" scoped>

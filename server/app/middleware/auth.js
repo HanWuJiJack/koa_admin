@@ -7,7 +7,7 @@ const {
 } = require(path.join(process.cwd(), "./config/logger"))
 
 function checkAuth(ctx) {
-    if (!ctx.header.authorization) {
+    if (!ctx.header.authorization) {q
         throw ExceptionCode.AUTH_FAILED
     }
     let id = tools.UserId(ctx.header.authorization.split(" ")[1]);
@@ -20,9 +20,9 @@ module.exports = async (ctx, next) => {
     try {
         checkAuth(ctx); // 在这里实现权限控制与参数注入
         const user = await Schema.usersSchema.findOne({
-            userId: ctx.state.userId.id
+            id: ctx.state.userId.id
         })
-        ctx.state.userInfo = user._doc     
+        ctx.state.userInfo = user._doc
         if (ctx.state.userInfo.state === 2) {
             throw ExceptionCode.DISABLE_LOGIN
         }

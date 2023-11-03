@@ -7,53 +7,52 @@ var path = require("path");
 var redis = require(path.join(process.cwd(), "./config/Redis"));
 
 module.exports = function _callee(_ref) {
-  var ctx, code, _ref2, btnList, i;
+  var _ref$userInfo, userInfo, code, _ref2, btnList, i;
 
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          ctx = _ref.ctx, code = _ref.code;
-          userInfo = ctx.state.userInfo;
+          _ref$userInfo = _ref.userInfo, userInfo = _ref$userInfo === void 0 ? {} : _ref$userInfo, code = _ref.code;
 
-          if (userInfo) {
-            _context.next = 4;
+          if (userInfo.id) {
+            _context.next = 3;
             break;
           }
 
           throw ExceptionCode.LOGIN_VERIFY_API;
 
-        case 4:
-          _context.next = 6;
-          return regeneratorRuntime.awrap(redis.getHashMap(String(userInfo._id)));
+        case 3:
+          _context.next = 5;
+          return regeneratorRuntime.awrap(redis.getHashMap(String(userInfo.id)));
 
-        case 6:
+        case 5:
           _ref2 = _context.sent;
           btnList = _ref2.btnList;
           i = 0;
 
-        case 9:
+        case 8:
           if (!(i < code.length)) {
-            _context.next = 15;
+            _context.next = 14;
             break;
           }
 
           if (!btnList.includes(code[i])) {
-            _context.next = 12;
+            _context.next = 11;
             break;
           }
 
           return _context.abrupt("return");
 
-        case 12:
+        case 11:
           i++;
-          _context.next = 9;
+          _context.next = 8;
           break;
 
-        case 15:
+        case 14:
           throw ExceptionCode.USER_ROLE_NO_PRIVILEGE;
 
-        case 16:
+        case 15:
         case "end":
           return _context.stop();
       }

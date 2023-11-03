@@ -144,7 +144,7 @@ function (_BaseController) {
               _context.prev = 16;
               _context.t0 = _context["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "fail", this).call(this, {
-                msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context.t0.stack)
+                msg: _context.t0.stack
               });
 
             case 19:
@@ -157,18 +157,18 @@ function (_BaseController) {
   }, {
     key: "create",
     value: function create() {
-      var _this$ctx$request$bod, _id, action, params, res, info, userInfo, applyPeoPledept, deptData, orderNo, count, finance, _res;
+      var _this$ctx$request$bod, id, action, params, res, info, userInfo, applyPeoPledept, deptData_, deptData, orderNo, count, finance, _res;
 
       return regeneratorRuntime.async(function create$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this$ctx$request$bod = this.ctx.request.body, _id = _this$ctx$request$bod._id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["_id", "action"]);
+              _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["id", "action"]);
               _context2.prev = 1;
               userInfo = this.userInfo;
 
               if (!(action == 'create')) {
-                _context2.next = 29;
+                _context2.next = 30;
                 break;
               }
 
@@ -177,18 +177,19 @@ function (_BaseController) {
               // 根据部门查找到部门负责人
 
               _context2.next = 7;
-              return regeneratorRuntime.awrap(Schema.deptSchema.findById(applyPeoPledept));
+              return regeneratorRuntime.awrap(Schema.deptSchema.findOne(applyPeoPledept));
 
             case 7:
-              deptData = _context2.sent;
-              // 当前审批人
+              deptData_ = _context2.sent;
+              deptData = deptData_._doc; // 当前审批人
+
               params.curAuditUserName = deptData.userName; // 生成申请单号
 
               orderNo = 'XS' + _get(_getPrototypeOf(LeavesAdminController.prototype), "formateDate", this).call(this, new Date(), 'yyyyMMdd');
-              _context2.next = 12;
+              _context2.next = 13;
               return regeneratorRuntime.awrap(Schema.leavesSchema.countDocuments());
 
-            case 12:
+            case 13:
               count = _context2.sent;
               orderNo += count;
               params.orderNo = orderNo; // 申请人信息数据
@@ -201,14 +202,14 @@ function (_BaseController) {
 
               params.auditUsers = deptData.userName; // 审批流数据
 
-              _context2.next = 19;
+              _context2.next = 20;
               return regeneratorRuntime.awrap(Schema.deptSchema.find({
                 deptName: {
                   $in: ['人事部门', '财务部门']
                 }
               }));
 
-            case 19:
+            case 20:
               finance = _context2.sent;
               params.auditFlows = [{
                 userId: deptData.userId,
@@ -225,71 +226,76 @@ function (_BaseController) {
               }); // 审批日志
 
               params.auditLogs = [];
-              _context2.next = 25;
+              _context2.next = 26;
               return regeneratorRuntime.awrap(Schema.leavesSchema.create(params));
 
-            case 25:
+            case 26:
               res = _context2.sent;
               info = '创建成功';
-              _context2.next = 34;
+              _context2.next = 35;
               break;
 
-            case 29:
+            case 30:
               if (!(action === 'delete')) {
-                _context2.next = 34;
+                _context2.next = 35;
                 break;
               }
 
-              _context2.next = 32;
-              return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
+              _context2.next = 33;
+              return regeneratorRuntime.awrap(Schema.leavesSchema.findOneAndUpdate({
+                id: id
+              }, {
                 applyState: 5
               }));
 
-            case 32:
+            case 33:
               _res = _context2.sent;
               info = '作废成功';
 
-            case 34:
+            case 35:
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "success", this).call(this, {
                 msg: info
               });
-              _context2.next = 40;
+              _context2.next = 41;
               break;
 
-            case 37:
-              _context2.prev = 37;
+            case 38:
+              _context2.prev = 38;
               _context2.t0 = _context2["catch"](1);
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 40:
+            case 41:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[1, 37]]);
+      }, null, this, [[1, 38]]);
     }
   }, {
     key: "create_approve",
     value: function create_approve() {
-      var _this$ctx$request$bod2, _id, action, remark, userInfo, doc, auditLogs, _auditLogs, _auditLogs2, curAuditUserName;
+      var _this$ctx$request$bod2, id, action, remark, userInfo, leavesinfo, doc, auditLogs, _auditLogs, _auditLogs2, curAuditUserName;
 
       return regeneratorRuntime.async(function create_approve$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _this$ctx$request$bod2 = this.ctx.request.body, _id = _this$ctx$request$bod2._id, action = _this$ctx$request$bod2.action, remark = _this$ctx$request$bod2.remark;
+              _this$ctx$request$bod2 = this.ctx.request.body, id = _this$ctx$request$bod2.id, action = _this$ctx$request$bod2.action, remark = _this$ctx$request$bod2.remark;
               userInfo = this.userInfo;
               _context3.prev = 2;
               _context3.next = 5;
-              return regeneratorRuntime.awrap(Schema.leavesSchema.findById(_id));
+              return regeneratorRuntime.awrap(Schema.leavesSchema.findOne({
+                id: id
+              }));
 
             case 5:
-              doc = _context3.sent;
+              leavesinfo = _context3.sent;
+              doc = leavesinfo._doc;
 
               if (!(action === 'refuse')) {
-                _context3.next = 13;
+                _context3.next = 14;
                 break;
               }
 
@@ -301,19 +307,21 @@ function (_BaseController) {
                 remark: remark,
                 action: '驳回'
               });
-              _context3.next = 11;
-              return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
+              _context3.next = 12;
+              return regeneratorRuntime.awrap(Schema.leavesSchema.findOneAndUpdate({
+                id: id
+              }, {
                 applyState: 3,
                 auditLogs: auditLogs
               }));
 
-            case 11:
-              _context3.next = 31;
+            case 12:
+              _context3.next = 32;
               break;
 
-            case 13:
+            case 14:
               if (!(doc.auditLogs.length === doc.auditFlows.length)) {
-                _context3.next = 18;
+                _context3.next = 19;
                 break;
               }
 
@@ -323,9 +331,9 @@ function (_BaseController) {
               });
               return _context3.abrupt("return");
 
-            case 18:
+            case 19:
               if (!(doc.auditLogs.length > 1)) {
-                _context3.next = 25;
+                _context3.next = 26;
                 break;
               }
 
@@ -340,19 +348,21 @@ function (_BaseController) {
                 action: '通过'
               });
 
-              _context3.next = 23;
-              return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
+              _context3.next = 24;
+              return regeneratorRuntime.awrap(Schema.leavesSchema.findOneAndUpdate({
+                id: id
+              }, {
                 applyState: 4,
                 auditLogs: _auditLogs
               }));
 
-            case 23:
-              _context3.next = 31;
+            case 24:
+              _context3.next = 32;
               break;
 
-            case 25:
+            case 26:
               if (!(doc.auditLogs.length === doc.auditFlows.length - 1)) {
-                _context3.next = 31;
+                _context3.next = 32;
                 break;
               }
 
@@ -368,33 +378,35 @@ function (_BaseController) {
 
 
               curAuditUserName = _auditLogs2[_auditLogs2.length - 1].userName;
-              _context3.next = 31;
-              return regeneratorRuntime.awrap(Schema.leavesSchema.findByIdAndUpdate(_id, {
+              _context3.next = 32;
+              return regeneratorRuntime.awrap(Schema.leavesSchema.findOneAndUpdate({
+                id: id
+              }, {
                 applyState: 2,
                 auditLogs: _auditLogs2,
                 curAuditUserName: curAuditUserName
               }));
 
-            case 31:
+            case 32:
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "success", this).call(this, {
                 msg: "处理成功"
               });
-              _context3.next = 37;
+              _context3.next = 38;
               break;
 
-            case 34:
-              _context3.prev = 34;
+            case 35:
+              _context3.prev = 35;
               _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(LeavesAdminController.prototype), "fail", this).call(this, {
                 msg: "\u5BA1\u6838\u5931\u8D25=>".concat(_context3.t0.stack)
               });
 
-            case 37:
+            case 38:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[2, 34]]);
+      }, null, this, [[2, 35]]);
     }
   }, {
     key: "list_count",

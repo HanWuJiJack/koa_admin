@@ -13,6 +13,7 @@ var _require = require(path.join(process.cwd(), "./config/logger")),
 
 function checkAuth(ctx) {
   if (!ctx.header.authorization) {
+    q;
     throw ExceptionCode.AUTH_FAILED;
   }
 
@@ -35,7 +36,7 @@ module.exports = function _callee(ctx, next) {
 
           _context.next = 4;
           return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
-            userId: ctx.state.userId.id
+            id: ctx.state.userId.id
           }));
 
         case 4:

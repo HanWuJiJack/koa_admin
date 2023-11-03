@@ -40,8 +40,8 @@ var mongoose = require('mongoose');
 var _require = require('./../../utils/ModelSchemas'),
     modelSchemas = _require.modelSchemas;
 
-var _require2 = require("./../../faas/InitFaas"),
-    initFaas = _require2.initFaas;
+var _require2 = require("./../../faas/FaasInit"),
+    FaasInit = _require2.FaasInit;
 
 var path = require("path");
 
@@ -79,24 +79,26 @@ function (_BaseController) {
   _createClass(DictTypeAdminController, [{
     key: "list",
     value: function list() {
-      var _this$ctx$request$que, state, dictId, dictLabel, dictValue, _get$call, page, skipIndex, params, query, list, total;
+      var _this$ctx$request$que, _this$ctx$request$que2, state, dictId, dictLabel, dictValue, _get$call, page, skipIndex, params, query, list, total;
 
       return regeneratorRuntime.async(function list$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _this$ctx$request$que = this.ctx.request.query, state = _this$ctx$request$que.state, dictId = _this$ctx$request$que.dictId, dictLabel = _this$ctx$request$que.dictLabel, dictValue = _this$ctx$request$que.dictValue;
+              _this$ctx$request$que = this.ctx.request.query, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2, dictId = _this$ctx$request$que.dictId, dictLabel = _this$ctx$request$que.dictLabel, dictValue = _this$ctx$request$que.dictValue;
               _get$call = _get(_getPrototypeOf(DictTypeAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
               if (dictId) params.dictId = parseInt(dictId);
-              if (state && state != '0') params.state = parseInt(state);
+              params.state = parseInt(state);
               if (dictLabel) params.dictLabel = new RegExp("".concat(dictLabel), 'ig');
               if (dictValue) params.dictValue = new RegExp("".concat(dictValue), 'ig');
               query = Schema.dictTypeSchema.find(params); // 查询所有数据
 
               _context.next = 11;
-              return regeneratorRuntime.awrap(query.skip(skipIndex).limit(page.pageSize));
+              return regeneratorRuntime.awrap(query.sort({
+                id: -1
+              }).skip(skipIndex).limit(page.pageSize));
 
             case 11:
               list = _context.sent;
@@ -164,6 +166,7 @@ function (_BaseController) {
                 id: currentIndex,
                 remark: remark,
                 dictId: dictId,
+                createByUser: this.ctx.state.userId.id,
                 dictLabel: dictLabel,
                 dictValue: dictValue,
                 dictSort: dictSort,
@@ -173,13 +176,6 @@ function (_BaseController) {
               return regeneratorRuntime.awrap(add.save());
 
             case 13:
-              // const params = {}
-              // params.id = parseInt(dictId)
-              // const query = await Schema.dictSchema.findOne(params)
-              // if (query._doc.nameCode === "Schema_type") {
-              //     // logger.info(`-----create-------`)
-              //     await initFaas()
-              // }
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
                 msg: '添加成功'
               });
@@ -192,7 +188,7 @@ function (_BaseController) {
               _context2.prev = 16;
               _context2.t0 = _context2["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "fail", this).call(this, {
-                msg: '添加失败，请联系管理员' + _context2.t0.stack
+                msg: _context2.t0.stack
               });
 
             case 19:
@@ -214,43 +210,36 @@ function (_BaseController) {
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
               params.updateTime = new Date();
-              _context3.next = 6;
+              params.updateByUser = this.ctx.state.userId.id;
+              _context3.next = 7;
               return regeneratorRuntime.awrap(Schema.dictTypeSchema.findOneAndUpdate({
                 id: parseInt(id)
               }, params, {
                 "new": true
               }));
 
-            case 6:
+            case 7:
               res = _context3.sent;
-              // const par = {}
-              // par.id = parseInt(res._doc.dictId)
-              // const query = await Schema.dictSchema.findOne(par)
-              // // logger.info(`res._doc.dictId:${res._doc.dictId}`)
-              // if (query._doc.nameCode === "Schema_type") {
-              //     // logger.info(`-----create-------update`)
-              //     await initFaas()
-              // }
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 13;
+              _context3.next = 14;
               break;
 
-            case 10:
-              _context3.prev = 10;
+            case 11:
+              _context3.prev = 11;
               _context3.t0 = _context3["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 10]]);
+      }, null, this, [[0, 11]]);
     }
   }, {
     key: "remove",
@@ -266,35 +255,23 @@ function (_BaseController) {
                 return item;
               }).map(function (item) {
                 return parseInt(item);
-              });
-              _context4.next = 5;
-              return regeneratorRuntime.awrap(Schema.dictTypeSchema.deleteMany({
-                id: {
-                  $in: arrId
-                }
-              }));
-
-            case 5:
-              res = _context4.sent;
-              // const dictTypes = await Schema.dictTypeSchema.find({
+              }); // let res = await Schema.dictTypeSchema.deleteMany({
               //     id: {
               //         $in: arrId
               //     }
               // })
-              // logger.info(dictTypes)
-              // const par = {}
-              // par.id = parseInt(dictTypes[0].dictId)
-              // const query = await Schema.dictSchema.findOne(par)
-              // if (query._doc.nameCode === "Schema_type") {
-              //     // logger.info(`-----create-------update-------remove`)
-              //     // 删除model
-              //     dictTypes.forEach(item => {
-              //         const arr = item.dictValue.split("-")
-              //         mongoose.deleteModel(arr[1]);
-              //         delete modelSchemas[arr[0]]
-              //     })
-              // }
-              // logger.info("modelSchemas", modelSchemas)
+
+              _context4.next = 5;
+              return regeneratorRuntime.awrap(Schema.dictTypeSchema.updateMany({
+                id: {
+                  $in: arrId
+                }
+              }, {
+                state: 2
+              }));
+
+            case 5:
+              res = _context4.sent;
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: "\u5220\u9664\u6210\u529F"
@@ -342,8 +319,7 @@ function (_BaseController) {
               query = _context5.sent;
               // 查询所有数据
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
-                data: query,
-                msg: "\u5220\u9664\u6210\u529F"
+                data: query
               });
               _context5.next = 14;
               break;
@@ -363,82 +339,39 @@ function (_BaseController) {
       }, null, this, [[0, 11]]);
     }
   }, {
-    key: "get_open_type",
-    value: function get_open_type() {
-      var type, dictInfo, query;
-      return regeneratorRuntime.async(function get_open_type$(_context6) {
+    key: "get",
+    value: function get() {
+      var id, params, query;
+      return regeneratorRuntime.async(function get$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.prev = 0;
-              type = this.ctx.params.type;
-              _context6.next = 4;
-              return regeneratorRuntime.awrap(Schema.dictSchema.findOne({
-                nameCode: type
-              }));
+              id = this.ctx.params.id;
+              params = {};
+              if (id) params.id = parseInt(id);
+              _context6.next = 6;
+              return regeneratorRuntime.awrap(Schema.dictTypeSchema.findOne(params));
 
-            case 4:
-              dictInfo = _context6.sent;
-              _context6.next = 7;
-              return regeneratorRuntime.awrap(Schema.dictTypeSchema.find({
-                dictId: dictInfo.id
-              }));
-
-            case 7:
+            case 6:
               query = _context6.sent;
               // 查询所有数据
-              this.ctx.body = query;
-              _context6.next = 14;
+              this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
+                data: _objectSpread({}, query._doc)
+              });
+              _context6.next = 13;
               break;
 
-            case 11:
-              _context6.prev = 11;
+            case 10:
+              _context6.prev = 10;
               _context6.t0 = _context6["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "fail", this).call(this, {
                 msg: _context6.t0.stack
               });
 
-            case 14:
-            case "end":
-              return _context6.stop();
-          }
-        }
-      }, null, this, [[0, 11]]);
-    }
-  }, {
-    key: "get",
-    value: function get() {
-      var id, params, query;
-      return regeneratorRuntime.async(function get$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              _context7.prev = 0;
-              id = this.ctx.params.id;
-              params = {};
-              if (id) params.id = parseInt(id);
-              _context7.next = 6;
-              return regeneratorRuntime.awrap(Schema.dictTypeSchema.findOne(params));
-
-            case 6:
-              query = _context7.sent;
-              // 查询所有数据
-              this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "success", this).call(this, {
-                data: _objectSpread({}, query._doc)
-              });
-              _context7.next = 13;
-              break;
-
-            case 10:
-              _context7.prev = 10;
-              _context7.t0 = _context7["catch"](0);
-              this.ctx.body = _get(_getPrototypeOf(DictTypeAdminController.prototype), "fail", this).call(this, {
-                msg: _context7.t0.stack
-              });
-
             case 13:
             case "end":
-              return _context7.stop();
+              return _context6.stop();
           }
         }
       }, null, this, [[0, 10]]);

@@ -70,23 +70,25 @@ function (_BaseController) {
   _createClass(DictAdminController, [{
     key: "list",
     value: function list() {
-      var _this$ctx$request$que, name, nameCode, state, _get$call, page, skipIndex, params, query, list, total;
+      var _this$ctx$request$que, name, nameCode, _this$ctx$request$que2, state, _get$call, page, skipIndex, params, query, list, total;
 
       return regeneratorRuntime.async(function list$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _this$ctx$request$que = this.ctx.request.query, name = _this$ctx$request$que.name, nameCode = _this$ctx$request$que.nameCode, state = _this$ctx$request$que.state;
+              _this$ctx$request$que = this.ctx.request.query, name = _this$ctx$request$que.name, nameCode = _this$ctx$request$que.nameCode, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(DictAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
               if (name) params.name = new RegExp("^".concat(name), 'ig');
               if (nameCode) params.nameCode = new RegExp("^".concat(nameCode), 'ig');
-              if (state && state != '0') params.state = parseInt(state);
+              params.state = parseInt(state);
               query = Schema.dictSchema.find(params); // 查询所有数据
 
               _context.next = 10;
-              return regeneratorRuntime.awrap(query.skip(skipIndex).limit(page.pageSize));
+              return regeneratorRuntime.awrap(query.sort({
+                id: -1
+              }).skip(skipIndex).limit(page.pageSize));
 
             case 10:
               list = _context.sent;
@@ -172,6 +174,7 @@ function (_BaseController) {
               add = new Schema.dictSchema({
                 id: currentIndex,
                 name: name,
+                createByUser: this.ctx.state.userId.id,
                 nameCode: nameCode,
                 state: state ? state : undefined,
                 remark: remark ? remark : ''
@@ -192,7 +195,7 @@ function (_BaseController) {
               _context2.prev = 22;
               _context2.t0 = _context2["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
-                msg: '添加失败，请联系管理员' + _context2.t0.stack
+                msg: _context2.t0.stack
               });
 
             case 25:
@@ -214,33 +217,34 @@ function (_BaseController) {
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
               params.updateTime = new Date();
-              _context3.next = 6;
+              params.updateByUser = this.ctx.state.userId.id;
+              _context3.next = 7;
               return regeneratorRuntime.awrap(Schema.dictSchema.findOneAndUpdate({
                 id: parseInt(id)
               }, params));
 
-            case 6:
+            case 7:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 13;
+              _context3.next = 14;
               break;
 
-            case 10:
-              _context3.prev = 10;
+            case 11:
+              _context3.prev = 11;
               _context3.t0 = _context3["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 10]]);
+      }, null, this, [[0, 11]]);
     }
   }, {
     key: "remove",
@@ -274,10 +278,12 @@ function (_BaseController) {
               }
 
               _context4.next = 9;
-              return regeneratorRuntime.awrap(Schema.dictSchema.deleteMany({
+              return regeneratorRuntime.awrap(Schema.dictSchema.updateMany({
                 id: {
                   $in: arrId
                 }
+              }, {
+                state: 2
               }));
 
             case 9:
@@ -340,7 +346,9 @@ function (_BaseController) {
             case 10:
               _context5.prev = 10;
               _context5.t0 = _context5["catch"](0);
-              this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, _context5.t0.stack);
+              this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
+                msg: _context5.t0.stack
+              });
 
             case 13:
             case "end":

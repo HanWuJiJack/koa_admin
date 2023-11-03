@@ -223,7 +223,7 @@ const TreeMenu = (rootList, id) => {
     }
     // 把遍历出来的一级菜单 加children字段，然后把属于其的菜单往children里加
     result.map(item => {
-        item.children = this.TreeMenu(rootList, item._id)
+        item.children = this.TreeMenu(rootList, item.id)
         if (item.children.length === 0) {
             delete item.children
         } else if (item.children.length > 0 && item.children[0].menuType === 2) {

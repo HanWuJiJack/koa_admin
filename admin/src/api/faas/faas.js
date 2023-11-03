@@ -30,7 +30,7 @@ export function addFaas(data) {
 //编辑
 export function updataFaas(data) {
     return request({
-        url: `auth/admin/faas/update/${data._id}`,
+        url: `auth/admin/faas/update/${data.id}`,
         method: 'put',
         data: data
     })

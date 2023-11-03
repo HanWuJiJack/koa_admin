@@ -35,8 +35,11 @@ module.exports = {
             _routers$key$name = _routers$key.name,
             name = _routers$key$name === void 0 ? undefined : _routers$key$name,
             method = _routers$key.method; // 路径前缀
-        // logger.info("接口列表:", routers[key])
-        // 路由是否需要name
+
+        if (routers[key].api.indexOf("user") > -1) {
+          logger.info("接口列表:", routers[key]);
+        } // 路由是否需要name
+
 
         if (name) {
           app[method].apply(app, [name, api].concat(_toConsumableArray(middleware), [fn]));

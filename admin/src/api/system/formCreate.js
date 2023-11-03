@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getFormCreate(query) {
     return request({
-        url: `custom/faas/get/100002`,
+        url: `custom/faas/get/form`,
         method: 'get',
         params: query
     })
@@ -13,7 +13,7 @@ export function getFormCreate(query) {
 // 获取列表
 export function getFormCreateList(query) {
     return request({
-        url: 'custom/faas/list/100002',
+        url: 'custom/faas/list/form',
         method: 'get',
         params: query
     })
@@ -21,7 +21,7 @@ export function getFormCreateList(query) {
 //新建
 export function addFormCreate(data) {
     return request({
-        url: 'custom/faas/100002',
+        url: 'custom/faas/post/form',
         method: 'post',
         data: data
     })
@@ -30,7 +30,7 @@ export function addFormCreate(data) {
 //编辑
 export function updataFormCreate(data) {
     return request({
-        url: `custom/faas/100002`,
+        url: `/custom/faas/put/form`,
         method: 'put',
         data: data
     })
@@ -39,8 +39,8 @@ export function updataFormCreate(data) {
 //删除
 export function removeFormCreate(data) {
     return request({
-        url: `custom/faas/100002`,
+        url: `/custom/faas/remove/form`,
         method: 'delete',
-        data: data
+        params: data
     })
 }

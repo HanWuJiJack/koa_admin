@@ -6,8 +6,6 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/Logger"))
-
-
 class LeavesAdminController extends BaseController {
     constructor({
         ctx = {
@@ -78,14 +76,14 @@ class LeavesAdminController extends BaseController {
             })
         } catch (error) {
             this.ctx.body = super.fail({
-                msg: `查询异常:${error.stack}`
+                msg: error.stack
             })
         }
     }
 
     async create() {
         const {
-            _id,
+            id,
             action,
             ...params
         } = this.ctx.request.body;
@@ -97,7 +95,8 @@ class LeavesAdminController extends BaseController {
                 let applyPeoPledept = userInfo.deptId.pop()
                 // logger.info("applyPeoPledept", applyPeoPledept)
                 // 根据部门查找到部门负责人
-                const deptData = await Schema.deptSchema.findById(applyPeoPledept)
+                const deptData_ = await Schema.deptSchema.findOne(applyPeoPledept)
+                const deptData = deptData_._doc
                 // 当前审批人
                 params.curAuditUserName = deptData.userName
                 // 生成申请单号
@@ -137,7 +136,7 @@ class LeavesAdminController extends BaseController {
                 res = await Schema.leavesSchema.create(params)
                 info = '创建成功'
             } else if (action === 'delete') {
-                const res = await Schema.leavesSchema.findByIdAndUpdate(_id, {
+                const res = await Schema.leavesSchema.findOneAndUpdate({id}, {
                     applyState: 5
                 })
                 info = '作废成功'
@@ -153,13 +152,14 @@ class LeavesAdminController extends BaseController {
     }
     async create_approve() {
         const {
-            _id,
+            id,
             action,
             remark
         } = this.ctx.request.body;
         const userInfo = this.userInfo
         try {
-            const doc = await Schema.leavesSchema.findById(_id)
+            const leavesinfo = await Schema.leavesSchema.findOne({id})
+            const doc = leavesinfo._doc
             if (action === 'refuse') {
                 const auditLogs = doc.auditLogs
                 auditLogs.push({
@@ -169,12 +169,11 @@ class LeavesAdminController extends BaseController {
                     remark,
                     action: '驳回'
                 })
-                await Schema.leavesSchema.findByIdAndUpdate(_id, {
+                await Schema.leavesSchema.findOneAndUpdate({id}, {
                     applyState: 3,
                     auditLogs
                 })
             } else {
-                // logger.info("doc", doc)
                 if (doc.auditLogs.length === doc.auditFlows.length) { // 证明已经审核完了
                     ctx.body = super.success({
                         msg: '此单子已审核完成，无需再次审核！'
@@ -190,7 +189,7 @@ class LeavesAdminController extends BaseController {
                         remark,
                         action: '通过'
                     })
-                    await Schema.leavesSchema.findByIdAndUpdate(_id, {
+                    await Schema.leavesSchema.findOneAndUpdate({id}, {
                         applyState: 4,
                         auditLogs
                     })
@@ -205,7 +204,7 @@ class LeavesAdminController extends BaseController {
                     })
                     // logger.info(777,auditLogs)
                     const curAuditUserName = auditLogs[auditLogs.length - 1].userName
-                    await Schema.leavesSchema.findByIdAndUpdate(_id, {
+                    await Schema.leavesSchema.findOneAndUpdate({id}, {
                         applyState: 2,
                         auditLogs,
                         curAuditUserName

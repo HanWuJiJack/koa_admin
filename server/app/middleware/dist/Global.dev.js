@@ -22,9 +22,13 @@ module.exports = function _callee(ctx, next) {
 
         case 3:
           // console.log("ctx.body",ctx.body)
+          if (!ctx.body) {
+            ctx.body = ExceptionCode.FILE_ROUTER_ERR;
+          }
+
           logger._request.info("\n    [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n    [id:").concat(ctx.state.userInfo.userId, "]--\n    [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n    [body:").concat(JSON.stringify(ctx.request.body), "]--\n    [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]\n    "));
 
-        case 4:
+        case 5:
         case "end":
           return _context.stop();
       }

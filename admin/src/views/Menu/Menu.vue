@@ -9,8 +9,8 @@
             placeholder="请输入菜单名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="菜单状态" prop="menuState">
-          <el-select v-model="Data.selectData.menuState" placeholder="请选择">
+        <el-form-item label="菜单状态" prop="state">
+          <el-select v-model="Data.selectData.state" placeholder="请选择">
             <el-option label="正常" :value="1"></el-option>
             <el-option label="停用" :value="2"></el-option>
           </el-select>
@@ -31,7 +31,7 @@
       <el-table
         :data="Data.menuListData"
         style="width: 100%; margin-bottom: 20px"
-        row-key="_id"
+        row-key="id"
         :tree-props="{ children: 'children' }"
       >
         <el-table-column
@@ -84,7 +84,7 @@
         <el-form-item label="父级菜单" prop="parentId">
           <el-cascader
             :options="Data.menuListData"
-            :props="{ checkStrictly: true, value: '_id', label: 'menuName' }"
+            :props="{ checkStrictly: true, value: 'id', label: 'menuName' }"
             clearable
             v-model="Data.menuForm.parentId"
             placeholder="请选择"
@@ -130,8 +130,8 @@
         <el-form-item label="code" prop="code" v-if="Data.menuForm.menuType != 3">
           <el-input v-model="Data.menuForm.code" placeholder="请输入code"></el-input>
         </el-form-item>
-        <el-form-item label="状态" prop="menuState" v-if="Data.menuForm.menuType != 3">
-          <el-radio-group v-model="Data.menuForm.menuState">
+        <el-form-item label="状态" prop="state" v-if="Data.menuForm.menuType != 3">
+          <el-radio-group v-model="Data.menuForm.state">
             <el-radio :label="1">正常</el-radio>
             <el-radio :label="2">停用</el-radio>
           </el-radio-group>
@@ -179,7 +179,7 @@ const menuRuleFormRef = ref(null);
 const Data = reactive({
   //查询数据对象
   selectData: {
-    menuState: 1,
+    state: 1,
   },
   //动态表格字段
   tablePros: [
@@ -215,7 +215,7 @@ const Data = reactive({
       label: "组件路径",
     },
     {
-      props: "menuState",
+      props: "state",
       label: "菜单状态",
       formatter(row, col, value) {
         return {
@@ -237,7 +237,7 @@ const Data = reactive({
   //添加菜单表单数据
   menuForm: {
     menuType: 1,
-    menuState: 1,
+    state: 1,
     isShow: 1,
     parentId: [null],
   },
@@ -268,7 +268,7 @@ const menuTypeChange = () => {
     icon: "", //图标
     component: "", //组件地址
     code: "", //code
-    menuState: 1,
+    state: 1,
     isShow: 1,
   };
 };
@@ -284,7 +284,7 @@ async function getMenuListRequest() {
 //添加-修改-删除请求
 async function postMenuC_U_DRequest() {
   try {
-    if (Data.menuForm.parentId === null) {
+    if (!Data.menuForm.parentId || Data.menuForm.parentId === null) {
       Data.menuForm.parentId = [null];
     }
     await postMenuC_U_D({
@@ -317,7 +317,7 @@ function addMenuHandler(type, row) {
   Data.dialogVisible = true;
   Data.menuForm = {
     menuType: 1,
-    menuState: 1,
+    state: 1,
     isShow: 1,
     parentId: [null],
   };
@@ -326,7 +326,7 @@ function addMenuHandler(type, row) {
   } else {
     //每行的添加按钮
     nextTick(() => {
-      Data.menuForm.parentId = [...row.parentId, row._id].filter((item) => item);
+      Data.menuForm.parentId = [...row.parentId, row.id].filter((item) => item);
       Data.menuForm.menuType = 1;
     });
   }
@@ -364,7 +364,7 @@ function handleEdit(row) {
 //删除菜单按钮事件
 async function handleDelete(row) {
   Data.action = "delete";
-  await postMenuC_U_D({ _id: row._id, action: Data.action });
+  await postMenuC_U_D({ id: row.id, action: Data.action });
   ElMessage.success("删除成功");
   getMenuListRequest();
 }

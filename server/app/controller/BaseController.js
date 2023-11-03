@@ -71,7 +71,7 @@ class BaseController {
         }
         // 把遍历出来的一级菜单 加children字段，然后把属于其的菜单往children里加
         result.map(item => {
-            item.children = this.TreeMenu(rootList, item._id)
+            item.children = this.TreeMenu(rootList, item.id)
             if (item.children.length === 0) {
                 delete item.children
             }
@@ -93,7 +93,7 @@ class BaseController {
         }
         // 把遍历出来的一级菜单 加children字段，然后把属于其的菜单往children里加
         result.map(item => {
-            item.children = this.TreeMenuShow(rootList, item._id)
+            item.children = this.TreeMenuShow(rootList, item.id)
             if (item.children.length === 0) {
                 delete item.children
             }
@@ -126,12 +126,12 @@ class BaseController {
         var rootList
         if (role === 0) { // 0是超级管理员
             rootList = await Schema.menusSchema.find({
-                menuState: 1, //状态值：正常 | 停用
+                state: 1, //状态值：正常 | 停用
             }) || []
         } else { // 1普通用户
             // 先根据用户的角色列表字段查出对应角色数据
             var roleData = await Schema.rolesSchema.find({
-                _id: {
+                id: {
                     $in: roleList
                 }
             })
@@ -142,10 +142,10 @@ class BaseController {
             })
             resultPermissonList = [...new Set(resultPermissonList)] // 去重相同的菜单id
             rootList = await Schema.menusSchema.find({
-                _id: {
+                id: {
                     $in: resultPermissonList
                 },
-                menuState: 1, //状态值：正常 | 停用
+                state: 1, //状态值：正常 | 停用
             }) || []
         }
         const btnList = rootList.map(item => item.menuCode).filter(item => item)
@@ -185,7 +185,7 @@ class BaseController {
         }
         // 把遍历出来的一级菜单 加children字段，然后把属于其的菜单往children里加
         result.map(item => {
-            item.children = this.TreeDept(rootList, item._id)
+            item.children = this.TreeDept(rootList, item.id)
             if (item.children.length === 0) {
                 delete item.children
             }

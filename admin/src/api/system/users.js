@@ -53,7 +53,7 @@ export function getUserInfo() {
 
 export function changePWS(data) {
     return request({
-        url: '/auth/admin/user/update_pwd/'+ data.userId,
+        url: '/auth/admin/user/update_pwd/'+ data.id,
         method: 'put',
         data: data
     })
@@ -61,7 +61,7 @@ export function changePWS(data) {
 
 export function putUserInfo(data) {
     return request({
-        url: '/auth/admin/user/update/' + data.userId,
+        url: '/auth/admin/user/update/' + data.id,
         method: 'put',
         data: data
     })

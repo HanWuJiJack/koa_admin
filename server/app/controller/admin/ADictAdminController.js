@@ -27,7 +27,7 @@ class DictAdminController extends BaseController {
             const {
                 name,
                 nameCode,
-                state
+                state = 1
             } = this.ctx.request.query
             const {
                 page,
@@ -36,9 +36,11 @@ class DictAdminController extends BaseController {
             const params = {}
             if (name) params.name = new RegExp(`^${name}`, 'ig')
             if (nameCode) params.nameCode = new RegExp(`^${nameCode}`, 'ig')
-            if (state && state != '0') params.state = parseInt(state);
+            params.state = parseInt(state);
             const query = Schema.dictSchema.find(params) // 查询所有数据
-            const list = await query.skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据
+            const list = await query.sort({
+                id: -1
+            }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据
             const total = await Schema.dictSchema.countDocuments(params);
             this.ctx.body = super.success({
                 data: {
@@ -83,9 +85,11 @@ class DictAdminController extends BaseController {
                 const currentIndex = await AutoID({
                     code: "dictId"
                 })
+
                 const add = new Schema.dictSchema({
                     id: currentIndex,
                     name,
+                    createByUser: this.ctx.state.userId.id,
                     nameCode,
                     state: state ? state : undefined,
                     remark: remark ? remark : ''
@@ -97,7 +101,7 @@ class DictAdminController extends BaseController {
             }
         } catch (error) {
             this.ctx.body = super.fail({
-                msg: '添加失败，请联系管理员' + error.stack
+                msg: error.stack
             })
         }
     }
@@ -111,6 +115,7 @@ class DictAdminController extends BaseController {
                 ...params
             } = this.ctx.request.body;
             params.updateTime = new Date();
+            params.updateByUser = this.ctx.state.userId.id
             const res = await Schema.dictSchema.findOneAndUpdate({
                 id: parseInt(id)
             }, params);
@@ -137,14 +142,20 @@ class DictAdminController extends BaseController {
                     $in: arrId
                 }
             })
-            // logger.info(`1dictTypes=>:${dictTypes[0]}`)
+
             if (!dictTypes[0]) {
-                // logger.info(`2dictTypes=>:${dictTypes}`)
-                let res = await Schema.dictSchema.deleteMany({
+                // let res = await Schema.dictSchema.deleteMany({
+                //     id: {
+                //         $in: arrId
+                //     }
+                // })
+                let res = await Schema.dictSchema.updateMany({
                     id: {
                         $in: arrId
                     }
-                })
+                }, {
+                    state: 2
+                });
                 this.ctx.body = super.success({
                     data: res,
                     msg: `删除成功`
@@ -176,7 +187,9 @@ class DictAdminController extends BaseController {
                 }
             })
         } catch (error) {
-            this.ctx.body = super.fail(error.stack)
+            this.ctx.body = super.fail({
+                msg: error.stack
+            })
         }
     }
 }

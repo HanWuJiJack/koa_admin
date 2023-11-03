@@ -8,4 +8,5 @@ module.exports = {
     menusSchema: require('./MenusSchema'),
     rolesSchema: require('./RolesSchema'),
     usersSchema: require('./UsersSchema'),
+    ModelsSchema: require('./ModelsSchema'),
 }

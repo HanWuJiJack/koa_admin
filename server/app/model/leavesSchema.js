@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const leavesSchema = mongoose.Schema({
+    id: Number,
     orderNo: String,
     applyType: Number,
     startTime: { type: Date, default: Date.now },
@@ -30,7 +31,16 @@ const leavesSchema = mongoose.Schema({
         }
     ],
     applyState: { type: Number, default: 1 },
-    createTime: { type: Date, default: Date.now }
-})
+    updateTime: {
+        type: Date,
+        default: Date.now()
+    },
+    updateByUser:Number,
+    createTime: {
+        type: Date,
+        default: Date.now()
+    },
+    createByUser:Number,
+}, { autoCreate: true })
 
 module.exports = mongoose.model("leaves",leavesSchema,"leaves")

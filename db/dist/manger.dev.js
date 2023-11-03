@@ -1,5 +1,9 @@
 "use strict";
 
+var _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /*
  Navicat Premium Data Transfer
 
@@ -24,15 +28,15 @@ db.createCollection("counter"); // ----------------------------
 // ----------------------------
 
 db.getCollection("counter").insert([{
-  _id: "userId",
+  id: "userId",
   currentIndex: NumberInt("1000012")
 }]);
 db.getCollection("counter").insert([{
-  _id: "dictId",
+  id: "dictId",
   currentIndex: 30
 }]);
 db.getCollection("counter").insert([{
-  _id: "dictTypeId",
+  id: "dictTypeId",
   currentIndex: 45
 }]); // ----------------------------
 // Collection structure for depts
@@ -44,7 +48,7 @@ db.createCollection("depts"); // ----------------------------
 // ----------------------------
 
 db.getCollection("depts").insert([{
-  _id: ObjectId("62a9701548ec890bb426a354"),
+  id: ObjectId("62a9701548ec890bb426a354"),
   parentId: [null],
   updateTime: ISODate("2022-06-24T03:08:16.966Z"),
   createTime: ISODate("2022-06-15T03:16:23.195Z"),
@@ -55,7 +59,7 @@ db.getCollection("depts").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("depts").insert([{
-  _id: ObjectId("6541c46f2464651f9d1c7d31"),
+  id: ObjectId("6541c46f2464651f9d1c7d31"),
   parentId: [null],
   updateTime: ISODate("2023-11-01T02:49:47.353Z"),
   createTime: ISODate("2023-11-01T02:49:47.353Z"),
@@ -80,61 +84,36 @@ db.getCollection("dict").createIndex({
 // Documents of dict
 // ----------------------------
 
-db.getCollection("dict").insert([{
-  _id: ObjectId("62ac302a4a59940e9803016a"),
+db.getCollection("dict").insert([(_ref = {
+  id: ObjectId("62ac302a4a59940e9803016a"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-17T07:39:58.439Z"),
-  lastLoginTime: ISODate("2022-06-17T07:39:58.439Z"),
-  id: NumberInt("9"),
-  name: "FAAS方法类型",
-  nameCode: "FAAS_Method_type",
-  remark: "nisi commodo occaecat sunt esse",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dict").insert([{
-  _id: ObjectId("62b935bf392d8739a48eb8f7"),
+  lastLoginTime: ISODate("2022-06-17T07:39:58.439Z")
+}, _defineProperty(_ref, "id", NumberInt("9")), _defineProperty(_ref, "name", "FAAS方法类型"), _defineProperty(_ref, "nameCode", "FAAS_Method_type"), _defineProperty(_ref, "remark", "nisi commodo occaecat sunt esse"), _defineProperty(_ref, "__v", NumberInt("0")), _ref)]);
+db.getCollection("dict").insert([(_ref2 = {
+  id: ObjectId("62b935bf392d8739a48eb8f7"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T03:16:18.492Z"),
-  lastLoginTime: ISODate("2022-06-27T03:16:18.492Z"),
-  id: NumberInt("25"),
-  name: "公司类型",
-  nameCode: "company-type",
-  remark: "",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dict").insert([{
-  _id: ObjectId("62ba51711725a24020a2a68d"),
+  lastLoginTime: ISODate("2022-06-27T03:16:18.492Z")
+}, _defineProperty(_ref2, "id", NumberInt("25")), _defineProperty(_ref2, "name", "公司类型"), _defineProperty(_ref2, "nameCode", "company-type"), _defineProperty(_ref2, "remark", ""), _defineProperty(_ref2, "__v", NumberInt("0")), _ref2)]);
+db.getCollection("dict").insert([(_ref3 = {
+  id: ObjectId("62ba51711725a24020a2a68d"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-28T00:52:57.122Z"),
-  lastLoginTime: ISODate("2022-06-28T00:52:57.122Z"),
-  id: NumberInt("26"),
-  name: "faas模型类型",
-  nameCode: "Schema_type",
-  remark: "",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dict").insert([{
-  _id: ObjectId("62bcf710efdb000588ce45f7"),
+  lastLoginTime: ISODate("2022-06-28T00:52:57.122Z")
+}, _defineProperty(_ref3, "id", NumberInt("26")), _defineProperty(_ref3, "name", "faas模型类型"), _defineProperty(_ref3, "nameCode", "Schema_type"), _defineProperty(_ref3, "remark", ""), _defineProperty(_ref3, "__v", NumberInt("0")), _ref3)]);
+db.getCollection("dict").insert([(_ref4 = {
+  id: ObjectId("62bcf710efdb000588ce45f7"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T01:05:24.482Z"),
-  lastLoginTime: ISODate("2022-06-30T01:05:24.482Z"),
-  id: NumberInt("27"),
-  name: "场景表单",
-  nameCode: "environment_form",
-  remark: "",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dict").insert([{
-  _id: ObjectId("62bd4a79cfdcc02a10354636"),
+  lastLoginTime: ISODate("2022-06-30T01:05:24.482Z")
+}, _defineProperty(_ref4, "id", NumberInt("27")), _defineProperty(_ref4, "name", "场景表单"), _defineProperty(_ref4, "nameCode", "environment_form"), _defineProperty(_ref4, "remark", ""), _defineProperty(_ref4, "__v", NumberInt("0")), _ref4)]);
+db.getCollection("dict").insert([(_ref5 = {
+  id: ObjectId("62bd4a79cfdcc02a10354636"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T06:59:26.122Z"),
-  lastLoginTime: ISODate("2022-06-30T06:59:26.122Z"),
-  id: NumberInt("28"),
-  name: "项目状态",
-  nameCode: "project_status",
-  remark: "",
-  __v: NumberInt("0")
-}]); // ----------------------------
+  lastLoginTime: ISODate("2022-06-30T06:59:26.122Z")
+}, _defineProperty(_ref5, "id", NumberInt("28")), _defineProperty(_ref5, "name", "项目状态"), _defineProperty(_ref5, "nameCode", "project_status"), _defineProperty(_ref5, "remark", ""), _defineProperty(_ref5, "__v", NumberInt("0")), _ref5)]); // ----------------------------
 // Collection structure for dictType
 // ----------------------------
 
@@ -143,149 +122,78 @@ db.createCollection("dictType"); // ----------------------------
 // Documents of dictType
 // ----------------------------
 
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62ac32c23c6f20329476928c"),
+db.getCollection("dictType").insert([(_ref6 = {
+  id: ObjectId("62ac32c23c6f20329476928c"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-17T07:51:54.536Z"),
-  lastLoginTime: ISODate("2022-06-17T07:51:54.536Z"),
-  id: NumberInt("3"),
-  dictId: NumberInt("9"),
-  dictLabel: "get(单条)",
-  dictValue: "get",
-  dictSort: NumberInt("1"),
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62b557e1fc17e80e40b2d65e"),
+  lastLoginTime: ISODate("2022-06-17T07:51:54.536Z")
+}, _defineProperty(_ref6, "id", NumberInt("3")), _defineProperty(_ref6, "dictId", NumberInt("9")), _defineProperty(_ref6, "dictLabel", "get(单条)"), _defineProperty(_ref6, "dictValue", "get"), _defineProperty(_ref6, "dictSort", NumberInt("1")), _defineProperty(_ref6, "__v", NumberInt("0")), _ref6)]);
+db.getCollection("dictType").insert([(_ref7 = {
+  id: ObjectId("62b557e1fc17e80e40b2d65e"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-24T04:57:20.737Z"),
-  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z"),
-  id: NumberInt("7"),
-  dictId: NumberInt("9"),
-  dictLabel: "get(列表)",
-  dictValue: "list",
-  dictSort: NumberInt("1"),
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62b557eefc17e80e40b2d665"),
+  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z")
+}, _defineProperty(_ref7, "id", NumberInt("7")), _defineProperty(_ref7, "dictId", NumberInt("9")), _defineProperty(_ref7, "dictLabel", "get(列表)"), _defineProperty(_ref7, "dictValue", "list"), _defineProperty(_ref7, "dictSort", NumberInt("1")), _defineProperty(_ref7, "__v", NumberInt("0")), _ref7)]);
+db.getCollection("dictType").insert([(_ref8 = {
+  id: ObjectId("62b557eefc17e80e40b2d665"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-24T04:57:20.737Z"),
-  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z"),
-  id: NumberInt("8"),
-  dictId: NumberInt("9"),
-  dictLabel: "post",
-  dictValue: "post",
-  dictSort: NumberInt("1"),
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62b557f8fc17e80e40b2d66c"),
+  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z")
+}, _defineProperty(_ref8, "id", NumberInt("8")), _defineProperty(_ref8, "dictId", NumberInt("9")), _defineProperty(_ref8, "dictLabel", "post"), _defineProperty(_ref8, "dictValue", "post"), _defineProperty(_ref8, "dictSort", NumberInt("1")), _defineProperty(_ref8, "__v", NumberInt("0")), _ref8)]);
+db.getCollection("dictType").insert([(_ref9 = {
+  id: ObjectId("62b557f8fc17e80e40b2d66c"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-24T04:57:20.737Z"),
-  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z"),
-  id: NumberInt("9"),
-  dictId: NumberInt("9"),
-  dictLabel: "put",
-  dictValue: "put",
-  dictSort: NumberInt("1"),
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62b55806fc17e80e40b2d673"),
+  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z")
+}, _defineProperty(_ref9, "id", NumberInt("9")), _defineProperty(_ref9, "dictId", NumberInt("9")), _defineProperty(_ref9, "dictLabel", "put"), _defineProperty(_ref9, "dictValue", "put"), _defineProperty(_ref9, "dictSort", NumberInt("1")), _defineProperty(_ref9, "__v", NumberInt("0")), _ref9)]);
+db.getCollection("dictType").insert([(_ref10 = {
+  id: ObjectId("62b55806fc17e80e40b2d673"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-24T04:57:20.737Z"),
-  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z"),
-  id: NumberInt("10"),
-  dictId: NumberInt("9"),
-  dictLabel: "delete",
-  dictValue: "remove",
-  dictSort: NumberInt("1"),
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62b935f2392d8739a48eb90b"),
+  lastLoginTime: ISODate("2022-06-24T04:57:20.737Z")
+}, _defineProperty(_ref10, "id", NumberInt("10")), _defineProperty(_ref10, "dictId", NumberInt("9")), _defineProperty(_ref10, "dictLabel", "delete"), _defineProperty(_ref10, "dictValue", "remove"), _defineProperty(_ref10, "dictSort", NumberInt("1")), _defineProperty(_ref10, "__v", NumberInt("0")), _ref10)]);
+db.getCollection("dictType").insert([(_ref11 = {
+  id: ObjectId("62b935f2392d8739a48eb90b"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T03:16:18.494Z"),
-  lastLoginTime: ISODate("2022-06-27T03:16:18.494Z"),
-  id: NumberInt("11"),
-  dictId: NumberInt("25"),
-  dictLabel: "公司1",
-  dictValue: "1",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62ba51a01725a24020a2a6a3"),
+  lastLoginTime: ISODate("2022-06-27T03:16:18.494Z")
+}, _defineProperty(_ref11, "id", NumberInt("11")), _defineProperty(_ref11, "dictId", NumberInt("25")), _defineProperty(_ref11, "dictLabel", "公司1"), _defineProperty(_ref11, "dictValue", "1"), _defineProperty(_ref11, "__v", NumberInt("0")), _ref11)]);
+db.getCollection("dictType").insert([(_ref12 = {
+  id: ObjectId("62ba51a01725a24020a2a6a3"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-28T00:52:57.137Z"),
-  lastLoginTime: ISODate("2022-06-28T00:52:57.137Z"),
-  id: NumberInt("12"),
-  dictId: NumberInt("26"),
-  dictLabel: "module.exports = async () => {     if (!modelSchemas.model100001) {         modelSchemas.model100001 = mongoose.model('test1', mongoose.Schema({             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'test1')     } }",
-  dictValue: "model100001-test1",
-  __v: NumberInt("0"),
-  remark: "测试",
-  dictSort: null
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62bbf9c15ee56f4014349703"),
+  lastLoginTime: ISODate("2022-06-28T00:52:57.137Z")
+}, _defineProperty(_ref12, "id", NumberInt("12")), _defineProperty(_ref12, "dictId", NumberInt("26")), _defineProperty(_ref12, "dictLabel", "module.exports = async () => {     if (!modelSchemas.model100001) {         modelSchemas.model100001 = mongoose.model('test1', mongoose.Schema({             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'test1')     } }"), _defineProperty(_ref12, "dictValue", "model100001-test1"), _defineProperty(_ref12, "__v", NumberInt("0")), _defineProperty(_ref12, "remark", "测试"), _defineProperty(_ref12, "dictSort", null), _ref12)]);
+db.getCollection("dictType").insert([(_ref13 = {
+  id: ObjectId("62bbf9c15ee56f4014349703"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.807Z"),
-  lastLoginTime: ISODate("2022-06-29T07:01:44.807Z"),
-  id: NumberInt("14"),
-  dictId: NumberInt("26"),
-  dictLabel: "module.exports =  async () => {     if (!modelSchemas.model100002) {         modelSchemas.model100002 = mongoose.model('form_create', mongoose.Schema({             \"name\": String,             \"code\":String,             \"config\": mongoose.Schema.Types.Mixed,             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, { autoIndex: true, autoCreate: true }), 'form_create')     } }",
-  dictValue: "model100002-form_create",
-  __v: NumberInt("0"),
-  remark: "表单",
-  dictSort: null
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62bcf8b3efdb000588ce461b"),
+  lastLoginTime: ISODate("2022-06-29T07:01:44.807Z")
+}, _defineProperty(_ref13, "id", NumberInt("14")), _defineProperty(_ref13, "dictId", NumberInt("26")), _defineProperty(_ref13, "dictLabel", "module.exports =  async () => {     if (!modelSchemas.model100002) {         modelSchemas.model100002 = mongoose.model('form_create', mongoose.Schema({             \"name\": String,             \"code\":String,             \"config\": mongoose.Schema.Types.Mixed,             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, { autoIndex: true, autoCreate: true }), 'form_create')     } }"), _defineProperty(_ref13, "dictValue", "model100002-form_create"), _defineProperty(_ref13, "__v", NumberInt("0")), _defineProperty(_ref13, "remark", "表单"), _defineProperty(_ref13, "dictSort", null), _ref13)]);
+db.getCollection("dictType").insert([(_ref14 = {
+  id: ObjectId("62bcf8b3efdb000588ce461b"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T01:05:24.483Z"),
-  lastLoginTime: ISODate("2022-06-30T01:05:24.483Z"),
-  id: NumberInt("15"),
-  dictId: NumberInt("27"),
-  dictLabel: "200001",
-  dictValue: "100001",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62bd0709efdb000588ce476f"),
+  lastLoginTime: ISODate("2022-06-30T01:05:24.483Z")
+}, _defineProperty(_ref14, "id", NumberInt("15")), _defineProperty(_ref14, "dictId", NumberInt("27")), _defineProperty(_ref14, "dictLabel", "200001"), _defineProperty(_ref14, "dictValue", "100001"), _defineProperty(_ref14, "__v", NumberInt("0")), _ref14)]);
+db.getCollection("dictType").insert([(_ref15 = {
+  id: ObjectId("62bd0709efdb000588ce476f"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T01:05:24.483Z"),
-  lastLoginTime: ISODate("2022-06-30T01:05:24.483Z"),
-  id: NumberInt("16"),
-  dictId: NumberInt("26"),
-  dictLabel: "module.exports = async () => {     if (!modelSchemas.model100003) {         modelSchemas.model100003 = mongoose.model('project', mongoose.Schema({             \"name\": String,             \"startTime\": {                 type: Date,                 default: Date.now()             },             \"makeTime\": {                 type: Date,                 default: Date.now()             },             \"endTime\": {                 type: Date,                 default: Date.now()             },             \"state\": {                 type: String,                 default: 1             },             \"company\": String,             userInfo: {                 type: mongoose.Schema.Types.ObjectId,                 ref: 'users'             },             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'project')     } }",
-  dictValue: "model100003-project",
-  __v: NumberInt("0"),
-  remark: "项目",
-  dictSort: null
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62bd4a86cfdcc02a10354640"),
+  lastLoginTime: ISODate("2022-06-30T01:05:24.483Z")
+}, _defineProperty(_ref15, "id", NumberInt("16")), _defineProperty(_ref15, "dictId", NumberInt("26")), _defineProperty(_ref15, "dictLabel", "module.exports = async () => {     if (!modelSchemas.model100003) {         modelSchemas.model100003 = mongoose.model('project', mongoose.Schema({             \"name\": String,             \"startTime\": {                 type: Date,                 default: Date.now()             },             \"makeTime\": {                 type: Date,                 default: Date.now()             },             \"endTime\": {                 type: Date,                 default: Date.now()             },             \"state\": {                 type: String,                 default: 1             },             \"company\": String,             userInfo: {                 type: mongoose.Schema.Types.ObjectId,                 ref: 'users'             },             \"createTime\": {                 type: Date,                 default: Date.now()             },             \"lastLoginTime\": {                 type: Date,                 default: Date.now()             },             remark: String         }, {             autoIndex: true,             autoCreate: true         }), 'project')     } }"), _defineProperty(_ref15, "dictValue", "model100003-project"), _defineProperty(_ref15, "__v", NumberInt("0")), _defineProperty(_ref15, "remark", "项目"), _defineProperty(_ref15, "dictSort", null), _ref15)]);
+db.getCollection("dictType").insert([(_ref16 = {
+  id: ObjectId("62bd4a86cfdcc02a10354640"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T06:59:26.123Z"),
-  lastLoginTime: ISODate("2022-06-30T06:59:26.123Z"),
-  id: NumberInt("17"),
-  dictId: NumberInt("28"),
-  dictLabel: "开始",
-  dictValue: "1",
-  __v: NumberInt("0")
-}]);
-db.getCollection("dictType").insert([{
-  _id: ObjectId("62bd6089cfdcc02a10354f9e"),
+  lastLoginTime: ISODate("2022-06-30T06:59:26.123Z")
+}, _defineProperty(_ref16, "id", NumberInt("17")), _defineProperty(_ref16, "dictId", NumberInt("28")), _defineProperty(_ref16, "dictLabel", "开始"), _defineProperty(_ref16, "dictValue", "1"), _defineProperty(_ref16, "__v", NumberInt("0")), _ref16)]);
+db.getCollection("dictType").insert([(_ref17 = {
+  id: ObjectId("62bd6089cfdcc02a10354f9e"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T06:59:26.123Z"),
-  lastLoginTime: ISODate("2022-06-30T06:59:26.123Z"),
-  id: NumberInt("18"),
-  dictId: NumberInt("25"),
-  dictLabel: "公司2",
-  dictValue: "2",
-  __v: NumberInt("0")
-}]); // ----------------------------
+  lastLoginTime: ISODate("2022-06-30T06:59:26.123Z")
+}, _defineProperty(_ref17, "id", NumberInt("18")), _defineProperty(_ref17, "dictId", NumberInt("25")), _defineProperty(_ref17, "dictLabel", "公司2"), _defineProperty(_ref17, "dictValue", "2"), _defineProperty(_ref17, "__v", NumberInt("0")), _ref17)]); // ----------------------------
 // Collection structure for faas
 // ----------------------------
 
@@ -301,12 +209,12 @@ db.getCollection("faas").createIndex({
 // ----------------------------
 
 db.getCollection("faas").insert([{
-  _id: ObjectId("62b90e1abeea342cd09a1fe3"),
+  id: ObjectId("62b90e1abeea342cd09a1fe3"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T01:54:06.881Z"),
   lastLoginTime: ISODate("2022-06-27T01:54:06.881Z"),
   method: "list",
-  fn: "// list\nmodule.exports = async () => {\n\n    try {\n        const { name, state } = ctx.request.query\n        const { page, skipIndex } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`^${name}`, 'ig')\n        if (state && state != '0') params.state = parseInt(state);\n\n        const query = modelSchemas.model100001.find(params) // 查询所有数据\n        const list = await query.sort({ _id: -1 }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100001.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}\n",
+  fn: "// list\nmodule.exports = async () => {\n\n    try {\n        const { name, state } = ctx.request.query\n        const { page, skipIndex } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`^${name}`, 'ig')\n        if (state && state != '0') params.state = parseInt(state);\n\n        const query = modelSchemas.model100001.find(params) // 查询所有数据\n        const list = await query.sort({ id: -1 }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100001.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}\n",
   code: "100001",
   path: "/custom/faas/list/100001",
   isAuth: "1",
@@ -315,7 +223,7 @@ db.getCollection("faas").insert([{
   schemaCode: "100001"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62b90e40beea342cd09a1fee"),
+  id: ObjectId("62b90e40beea342cd09a1fee"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T01:54:06.881Z"),
   lastLoginTime: ISODate("2022-06-27T01:54:06.881Z"),
@@ -329,12 +237,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100001"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62b90e5bbeea342cd09a1ff4"),
+  id: ObjectId("62b90e5bbeea342cd09a1ff4"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T01:54:06.881Z"),
   lastLoginTime: ISODate("2022-06-27T01:54:06.881Z"),
   method: "put",
-  fn: "// put\nmodule.exports = async () => {\n    try {\n        const { _id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100001.findOneAndUpdate({ _id }, params,{new:true});\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "// put\nmodule.exports = async () => {\n    try {\n        const { id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100001.findOneAndUpdate({ id }, params,{new:true});\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100001",
   path: "/custom/faas/100001",
   isAuth: "1",
@@ -343,12 +251,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100001"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62b90e6dbeea342cd09a1ffa"),
+  id: ObjectId("62b90e6dbeea342cd09a1ffa"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T01:54:06.881Z"),
   lastLoginTime: ISODate("2022-06-27T01:54:06.881Z"),
   method: "remove",
-  fn: "// delete\nmodule.exports = async () => {\n\n    try {\n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100001.deleteMany({ _id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "// delete\nmodule.exports = async () => {\n\n    try {\n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100001.deleteMany({ id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100001",
   path: "/custom/faas/100001",
   isAuth: "1",
@@ -357,12 +265,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100001"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62b90e9cbeea342cd09a2000"),
+  id: ObjectId("62b90e9cbeea342cd09a2000"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-27T01:54:06.881Z"),
   lastLoginTime: ISODate("2022-06-27T01:54:06.881Z"),
   method: "get",
-  fn: "// get\nmodule.exports = async () => {\n    try {\n        const { id } = ctx.params\n        const params = {}\n        if (id) params._id = id\n        const query = await modelSchemas.model100001.findOne(params) // 查询所有数据\n        return Tools.success({\n            data: { ...query._doc }\n        })\n    } catch (error) {\n        return Tools.fail(error.stack)\n    }\n}",
+  fn: "// get\nmodule.exports = async () => {\n    try {\n        const { id } = ctx.params\n        const params = {}\n        if (id) params.id = id\n        const query = await modelSchemas.model100001.findOne(params) // 查询所有数据\n        return Tools.success({\n            data: { ...query._doc }\n        })\n    } catch (error) {\n        return Tools.fail(error.stack)\n    }\n}",
   code: "100001",
   path: "/custom/faas/100001/:id",
   isAuth: "1",
@@ -371,12 +279,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100001"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bbf9fb5ee56f401434970f"),
+  id: ObjectId("62bbf9fb5ee56f401434970f"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.817Z"),
   lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
   method: "get",
-  fn: "// get\nmodule.exports = async () => {\n    try {\n        const { id,code} = ctx.request.query;\n        const params = {}\n        if (id) params._id = id\n        if (code) params.code = code\n        const query = await modelSchemas.model100002.findOne(params) // 查询所有数据\n        return Tools.success({\n            data: { ...query._doc }\n        })\n    } catch (error) {\n        return Tools.fail(error.stack)\n    }\n}",
+  fn: "// get\nmodule.exports = async () => {\n    try {\n        const { id,code} = ctx.request.query;\n        const params = {}\n        if (id) params.id = id\n        if (code) params.code = code\n        const query = await modelSchemas.model100002.findOne(params) // 查询所有数据\n        return Tools.success({\n            data: { ...query._doc }\n        })\n    } catch (error) {\n        return Tools.fail(error.stack)\n    }\n}",
   code: "100002",
   path: "/custom/faas/100002/:id",
   isAuth: "1",
@@ -385,12 +293,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100002"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bbfa315ee56f4014349715"),
+  id: ObjectId("62bbfa315ee56f4014349715"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.817Z"),
   lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
   method: "list",
-  fn: "// list\nmodule.exports = async () => {\n    try {\n      throw 555\n        console.log(789456431545)\n        const {\n            name,\n            code\n        } = ctx.request.query\n        const {\n            page,\n            skipIndex\n        } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`${name}`, 'ig')\n        if (code) params.code = new RegExp(`${code}`, 'ig')\n        const query = modelSchemas.model100002.find(params) // 查询所有数据\n        const list = await query.sort({\n            _id: -1\n        }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100002.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        console.log(788899888)\n        return Tools.success({\n            data: {}\n        })\n    }\n}",
+  fn: "// list\nmodule.exports = async () => {\n    try {\n      throw 555\n        console.log(789456431545)\n        const {\n            name,\n            code\n        } = ctx.request.query\n        const {\n            page,\n            skipIndex\n        } = Tools.pager(ctx.request.query)\n        const params = {}\n        if (name) params.name = new RegExp(`${name}`, 'ig')\n        if (code) params.code = new RegExp(`${code}`, 'ig')\n        const query = modelSchemas.model100002.find(params) // 查询所有数据\n        const list = await query.sort({\n            id: -1\n        }).skip(skipIndex).limit(page.pageSize) // 根据查出的所有数据截取对应页数的数据\n        const total = await modelSchemas.model100002.countDocuments(params);\n        return Tools.success({\n            data: {\n                page: {\n                    ...page,\n                    total\n                },\n                list\n            }\n\n        })\n    } catch (error) {\n        console.log(788899888)\n        return Tools.success({\n            data: {}\n        })\n    }\n}",
   code: "100002",
   path: "/custom/faas/list/100002",
   remark: "",
@@ -399,7 +307,7 @@ db.getCollection("faas").insert([{
   schemaCode: "100002"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bbfb2f5ee56f401434971b"),
+  id: ObjectId("62bbfb2f5ee56f401434971b"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.817Z"),
   lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
@@ -413,12 +321,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100002"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bbfb645ee56f4014349732"),
+  id: ObjectId("62bbfb645ee56f4014349732"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.817Z"),
   lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
   method: "put",
-  fn: "// put\nmodule.exports = async () => {\n    try {\n        const { _id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100002.findOneAndUpdate({ _id }, params, { new: true });\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "// put\nmodule.exports = async () => {\n    try {\n        const { id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100002.findOneAndUpdate({ id }, params, { new: true });\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100002",
   path: "/custom/faas/100002",
   isAuth: "1",
@@ -427,12 +335,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100002"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bbfb7d5ee56f4014349738"),
+  id: ObjectId("62bbfb7d5ee56f4014349738"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-29T07:01:44.817Z"),
   lastLoginTime: ISODate("2022-06-29T07:01:44.817Z"),
   method: "remove",
-  fn: "// delete\nmodule.exports = async () => {\n    try {\n      \n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100002.deleteMany({ _id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "// delete\nmodule.exports = async () => {\n    try {\n      \n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100002.deleteMany({ id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100002",
   path: "/custom/faas/100002",
   remark: "",
@@ -441,12 +349,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100002"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bd08d5efdb000588ce479a"),
+  id: ObjectId("62bd08d5efdb000588ce479a"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T01:05:24.484Z"),
   lastLoginTime: ISODate("2022-06-30T01:05:24.484Z"),
   method: "post",
-  fn: "module.exports = async () => {\n    try {\n        ctx.verifyParams({\n          name: 'string',\n        })\n        const { name, startTime, makeTime, remark, endTime, state, company,userId } = ctx.request.body;\n        const add = new modelSchemas.model100003({\n            userInfo: userId || ctx.state.userInfo._id,\n            name, startTime, makeTime, remark, endTime, state,\n            company: company || ctx.state.userInfo.company,\n            remark: remark ? remark : ''\n        });\n        await add.save();\n        return Tools.success({ msg: '添加成功' })\n    } catch (error) {\n        return Tools.fail({ msg: '添加失败，请联系管理员' + error.stack })\n    }\n}",
+  fn: "module.exports = async () => {\n    try {\n        ctx.verifyParams({\n          name: 'string',\n        })\n        const { name, startTime, makeTime, remark, endTime, state, company,userId } = ctx.request.body;\n        const add = new modelSchemas.model100003({\n            userInfo: userId || ctx.state.userInfo.id,\n            name, startTime, makeTime, remark, endTime, state,\n            company: company || ctx.state.userInfo.company,\n            remark: remark ? remark : ''\n        });\n        await add.save();\n        return Tools.success({ msg: '添加成功' })\n    } catch (error) {\n        return Tools.fail({ msg: '添加失败，请联系管理员' + error.stack })\n    }\n}",
   code: "100003",
   path: "/custom/faas/100003",
   isAuth: "1",
@@ -455,7 +363,7 @@ db.getCollection("faas").insert([{
   schemaCode: "100003"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bd16074563a03d880060eb"),
+  id: ObjectId("62bd16074563a03d880060eb"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T03:07:29.274Z"),
   lastLoginTime: ISODate("2022-06-30T03:07:29.274Z"),
@@ -469,12 +377,12 @@ db.getCollection("faas").insert([{
   schemaCode: "100003"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bd16414563a03d880060f6"),
+  id: ObjectId("62bd16414563a03d880060f6"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T03:07:29.274Z"),
   lastLoginTime: ISODate("2022-06-30T03:07:29.274Z"),
   method: "put",
-  fn: "module.exports = async () => {\n    try {\n        const { _id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        console.log(\"params7777\",params)\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100003.findOneAndUpdate({ _id }, params, { new: true });\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "module.exports = async () => {\n    try {\n        const { id } = ctx.request.body\n        const { ...params } = ctx.request.body;\n        console.log(\"params7777\",params)\n        params.updateTime = new Date();\n        const res = await modelSchemas.model100003.findOneAndUpdate({ id }, params, { new: true });\n        return Tools.success({ data: res, msg: '修改成功！' })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100003",
   path: "/custom/faas/100003",
   remark: "",
@@ -482,12 +390,12 @@ db.getCollection("faas").insert([{
   isAuth: "1"
 }]);
 db.getCollection("faas").insert([{
-  _id: ObjectId("62bd17a74563a03d880060fc"),
+  id: ObjectId("62bd17a74563a03d880060fc"),
   state: NumberInt("1"),
   createTime: ISODate("2022-06-30T03:07:29.274Z"),
   lastLoginTime: ISODate("2022-06-30T03:07:29.274Z"),
   method: "remove",
-  fn: "module.exports = async () => {\n    try {\n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100003.deleteMany({ _id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
+  fn: "module.exports = async () => {\n    try {\n        const { ids } = ctx.request.body\n        let arrId = ids.split(\",\").filter((item) => item)\n        let res = await modelSchemas.model100003.deleteMany({ id: { $in: arrId } })\n        return Tools.success({ data: res, msg: `删除成功` })\n    } catch (error) {\n        return Tools.fail({ msg: error.stack })\n    }\n}",
   code: "100003",
   path: "/custom/faas/100003",
   remark: "",
@@ -504,7 +412,7 @@ db.createCollection("form_create"); // ----------------------------
 // ----------------------------
 
 db.getCollection("form_create").insert([{
-  _id: ObjectId("6541eb88cba1d838a66ea4fc"),
+  id: ObjectId("6541eb88cba1d838a66ea4fc"),
   createTime: ISODate("2023-11-01T05:26:36.256Z"),
   lastLoginTime: ISODate("2023-11-01T05:26:36.256Z"),
   code: "aa",
@@ -645,7 +553,7 @@ db.createCollection("leaves"); // ----------------------------
 // ----------------------------
 
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62b173b28fa4ac3a8cb62abf"),
+  id: ObjectId("62b173b28fa4ac3a8cb62abf"),
   applyState: NumberInt("2"),
   applyType: NumberInt("1"),
   leaveTime: "29",
@@ -661,13 +569,13 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh",
   auditFlows: [{
-    _id: ObjectId("62b173b28fa4ac3a8cb62ac0"),
+    id: ObjectId("62b173b28fa4ac3a8cb62ac0"),
     userId: "1000005",
     userName: "hsueh",
     userEmail: "7957@123.com"
   }],
   auditLogs: [{
-    _id: ObjectId("62b173d98fa4ac3a8cb62ae3"),
+    id: ObjectId("62b173d98fa4ac3a8cb62ae3"),
     userId: "1000005",
     userName: "hsueh",
     createTime: ISODate("2022-06-21T07:31:37.988Z"),
@@ -678,7 +586,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62b173c08fa4ac3a8cb62ac9"),
+  id: ObjectId("62b173c08fa4ac3a8cb62ac9"),
   applyState: NumberInt("5"),
   applyType: NumberInt("1"),
   leaveTime: "29",
@@ -694,7 +602,7 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh",
   auditFlows: [{
-    _id: ObjectId("62b173c08fa4ac3a8cb62aca"),
+    id: ObjectId("62b173c08fa4ac3a8cb62aca"),
     userId: "1000005",
     userName: "hsueh",
     userEmail: "7957@123.com"
@@ -704,7 +612,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62b26a2cbac26d15c8120132"),
+  id: ObjectId("62b26a2cbac26d15c8120132"),
   applyState: NumberInt("5"),
   applyType: NumberInt("1"),
   leaveTime: "32",
@@ -720,7 +628,7 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "admin",
   auditFlows: [{
-    _id: ObjectId("62b26a2cbac26d15c8120133"),
+    id: ObjectId("62b26a2cbac26d15c8120133"),
     userId: "1000006",
     userName: "admin",
     userEmail: "admin@qq.com"
@@ -730,7 +638,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62b26a4dbac26d15c812014c"),
+  id: ObjectId("62b26a4dbac26d15c812014c"),
   applyState: NumberInt("1"),
   applyType: NumberInt("1"),
   leaveTime: "47",
@@ -746,7 +654,7 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh",
   auditFlows: [{
-    _id: ObjectId("62b26a4dbac26d15c812014d"),
+    id: ObjectId("62b26a4dbac26d15c812014d"),
     userId: "1000005",
     userName: "hsueh",
     userEmail: "7957@123.com"
@@ -756,7 +664,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62be54505768281544b7c696"),
+  id: ObjectId("62be54505768281544b7c696"),
   applyState: NumberInt("5"),
   applyType: NumberInt("1"),
   leaveTime: "34",
@@ -772,7 +680,7 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh",
   auditFlows: [{
-    _id: ObjectId("62be54505768281544b7c697"),
+    id: ObjectId("62be54505768281544b7c697"),
     userId: "1000009",
     userName: "hsueh",
     userEmail: "hsueh1@qq.com"
@@ -782,7 +690,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("62be55315768281544b7c6b6"),
+  id: ObjectId("62be55315768281544b7c6b6"),
   applyState: NumberInt("5"),
   applyType: NumberInt("1"),
   leaveTime: "35",
@@ -798,7 +706,7 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh",
   auditFlows: [{
-    _id: ObjectId("62be55315768281544b7c6b7"),
+    id: ObjectId("62be55315768281544b7c6b7"),
     userId: "1000009",
     userName: "hsueh",
     userEmail: "hsueh1@qq.com"
@@ -808,7 +716,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("6541c6fd2464651f9d1c7dd2"),
+  id: ObjectId("6541c6fd2464651f9d1c7dd2"),
   applyState: NumberInt("1"),
   applyType: NumberInt("1"),
   leaveTime: "29",
@@ -824,12 +732,12 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh,admin",
   auditFlows: [{
-    _id: ObjectId("6541c6fd2464651f9d1c7dd3"),
+    id: ObjectId("6541c6fd2464651f9d1c7dd3"),
     userId: "1000009",
     userName: "hsueh",
     userEmail: "hsueh1@qq.com"
   }, {
-    _id: ObjectId("6541c6fd2464651f9d1c7dd4"),
+    id: ObjectId("6541c6fd2464651f9d1c7dd4"),
     userId: "1000010",
     userName: "admin",
     userEmail: "admin@qq.com"
@@ -839,7 +747,7 @@ db.getCollection("leaves").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("leaves").insert([{
-  _id: ObjectId("6541c7e82464651f9d1c7e43"),
+  id: ObjectId("6541c7e82464651f9d1c7e43"),
   applyState: NumberInt("1"),
   applyType: NumberInt("1"),
   leaveTime: "26",
@@ -855,12 +763,12 @@ db.getCollection("leaves").insert([{
   },
   auditUsers: "hsueh,admin",
   auditFlows: [{
-    _id: ObjectId("6541c7e82464651f9d1c7e44"),
+    id: ObjectId("6541c7e82464651f9d1c7e44"),
     userId: "1000009",
     userName: "hsueh",
     userEmail: "hsueh1@qq.com"
   }, {
-    _id: ObjectId("6541c7e82464651f9d1c7e45"),
+    id: ObjectId("6541c7e82464651f9d1c7e45"),
     userId: "1000010",
     userName: "admin",
     userEmail: "admin@qq.com"
@@ -878,7 +786,7 @@ db.createCollection("menus"); // ----------------------------
 // ----------------------------
 
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a956fe48ec890bb426a157"),
+  id: ObjectId("62a956fe48ec890bb426a157"),
   parentId: [null],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:31:49.469Z"),
@@ -893,7 +801,7 @@ db.getCollection("menus").insert([{
   code: "10001"
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9578748ec890bb426a160"),
+  id: ObjectId("62a9578748ec890bb426a160"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:31:55.649Z"),
@@ -909,7 +817,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a957c548ec890bb426a163"),
+  id: ObjectId("62a957c548ec890bb426a163"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:32:08.108Z"),
@@ -925,7 +833,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9616548ec890bb426a19d"),
+  id: ObjectId("62a9616548ec890bb426a19d"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:32:15.176Z"),
@@ -941,7 +849,7 @@ db.getCollection("menus").insert([{
   menuCode: "menu-create"
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a961d448ec890bb426a1b7"),
+  id: ObjectId("62a961d448ec890bb426a1b7"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9578748ec890bb426a160")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:35:49.468Z"),
@@ -954,7 +862,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a961e248ec890bb426a1ba"),
+  id: ObjectId("62a961e248ec890bb426a1ba"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9578748ec890bb426a160")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:35:59.335Z"),
@@ -967,7 +875,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a961ef48ec890bb426a1bd"),
+  id: ObjectId("62a961ef48ec890bb426a1bd"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9578748ec890bb426a160")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:06.108Z"),
@@ -980,7 +888,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9622f48ec890bb426a1c0"),
+  id: ObjectId("62a9622f48ec890bb426a1c0"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a957c548ec890bb426a163")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:14.642Z"),
@@ -993,7 +901,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9624048ec890bb426a1c3"),
+  id: ObjectId("62a9624048ec890bb426a1c3"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a957c548ec890bb426a163")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:20.41Z"),
@@ -1006,7 +914,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9625048ec890bb426a1c6"),
+  id: ObjectId("62a9625048ec890bb426a1c6"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a957c548ec890bb426a163")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:28.172Z"),
@@ -1019,7 +927,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9626b48ec890bb426a1c9"),
+  id: ObjectId("62a9626b48ec890bb426a1c9"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a957c548ec890bb426a163")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:33.423Z"),
@@ -1032,7 +940,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9670c48ec890bb426a1d2"),
+  id: ObjectId("62a9670c48ec890bb426a1d2"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9616548ec890bb426a19d")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:40.894Z"),
@@ -1045,7 +953,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9672148ec890bb426a1d5"),
+  id: ObjectId("62a9672148ec890bb426a1d5"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9616548ec890bb426a19d")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:48.184Z"),
@@ -1058,7 +966,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9672c48ec890bb426a1d8"),
+  id: ObjectId("62a9672c48ec890bb426a1d8"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9616548ec890bb426a19d")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:36:55.987Z"),
@@ -1071,7 +979,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a967de48ec890bb426a1f4"),
+  id: ObjectId("62a967de48ec890bb426a1f4"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:32:22.578Z"),
@@ -1087,7 +995,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a9681e48ec890bb426a1fd"),
+  id: ObjectId("62a9681e48ec890bb426a1fd"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:32:28.382Z"),
@@ -1103,7 +1011,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a96e1748ec890bb426a2d6"),
+  id: ObjectId("62a96e1748ec890bb426a2d6"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:32:34.278Z"),
@@ -1119,7 +1027,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a96e3948ec890bb426a2d9"),
+  id: ObjectId("62a96e3948ec890bb426a2d9"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a96e1748ec890bb426a2d6")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:30.428Z"),
@@ -1132,7 +1040,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a96e5048ec890bb426a2dc"),
+  id: ObjectId("62a96e5048ec890bb426a2dc"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a96e1748ec890bb426a2d6")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:35.483Z"),
@@ -1145,7 +1053,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a96e6748ec890bb426a2df"),
+  id: ObjectId("62a96e6748ec890bb426a2df"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a96e1748ec890bb426a2d6")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:41.444Z"),
@@ -1158,7 +1066,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a96e7348ec890bb426a2e2"),
+  id: ObjectId("62a96e7348ec890bb426a2e2"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a96e1748ec890bb426a2d6")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:46.613Z"),
@@ -1171,7 +1079,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a973ba48ec890bb426a3f0"),
+  id: ObjectId("62a973ba48ec890bb426a3f0"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a967de48ec890bb426a1f4")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:01.719Z"),
@@ -1184,7 +1092,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a973cf48ec890bb426a3f3"),
+  id: ObjectId("62a973cf48ec890bb426a3f3"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a967de48ec890bb426a1f4")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:07.843Z"),
@@ -1197,7 +1105,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a973df48ec890bb426a3f6"),
+  id: ObjectId("62a973df48ec890bb426a3f6"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a967de48ec890bb426a1f4")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:13.244Z"),
@@ -1210,7 +1118,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62a973fc48ec890bb426a3f9"),
+  id: ObjectId("62a973fc48ec890bb426a3f9"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9681e48ec890bb426a1fd")],
   createTime: ISODate("2022-06-15T03:16:23.192Z"),
   updateTime: ISODate("2023-10-31T07:37:21.82Z"),
@@ -1223,7 +1131,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62afff407435064330e7b50c"),
+  id: ObjectId("62afff407435064330e7b50c"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-20T04:54:55.508Z"),
   updateTime: ISODate("2023-10-31T07:32:39.081Z"),
@@ -1239,7 +1147,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b000f97435064330e7b52c"),
+  id: ObjectId("62b000f97435064330e7b52c"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62afff407435064330e7b50c")],
   createTime: ISODate("2022-06-20T04:54:55.508Z"),
   updateTime: ISODate("2023-10-31T07:37:54.65Z"),
@@ -1252,7 +1160,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b0010b7435064330e7b52f"),
+  id: ObjectId("62b0010b7435064330e7b52f"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62afff407435064330e7b50c")],
   createTime: ISODate("2022-06-20T04:54:55.508Z"),
   updateTime: ISODate("2023-10-31T07:38:00.521Z"),
@@ -1265,7 +1173,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b001177435064330e7b532"),
+  id: ObjectId("62b001177435064330e7b532"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62afff407435064330e7b50c")],
   createTime: ISODate("2022-06-20T04:54:55.508Z"),
   updateTime: ISODate("2023-10-31T07:38:06.912Z"),
@@ -1278,7 +1186,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b001257435064330e7b535"),
+  id: ObjectId("62b001257435064330e7b535"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62afff407435064330e7b50c")],
   createTime: ISODate("2022-06-20T04:54:55.508Z"),
   updateTime: ISODate("2023-11-01T05:27:57.28Z"),
@@ -1291,7 +1199,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b005bd53614a2c4c03cd31"),
+  id: ObjectId("62b005bd53614a2c4c03cd31"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-20T05:12:10.66Z"),
   updateTime: ISODate("2023-11-01T03:39:12.103Z"),
@@ -1307,7 +1215,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b0346c53614a2c4c03ce2f"),
+  id: ObjectId("62b0346c53614a2c4c03ce2f"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b005bd53614a2c4c03cd31")],
   createTime: ISODate("2022-06-20T05:12:10.66Z"),
   updateTime: ISODate("2023-10-31T07:38:20.626Z"),
@@ -1320,7 +1228,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b0348053614a2c4c03ce32"),
+  id: ObjectId("62b0348053614a2c4c03ce32"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b005bd53614a2c4c03cd31")],
   createTime: ISODate("2022-06-20T05:12:10.66Z"),
   updateTime: ISODate("2023-10-31T07:38:26.689Z"),
@@ -1333,7 +1241,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b0348b53614a2c4c03ce35"),
+  id: ObjectId("62b0348b53614a2c4c03ce35"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b005bd53614a2c4c03cd31")],
   createTime: ISODate("2022-06-20T05:12:10.66Z"),
   updateTime: ISODate("2023-10-31T07:38:33.06Z"),
@@ -1346,7 +1254,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b54458fc17e80e40b2d4f1"),
+  id: ObjectId("62b54458fc17e80e40b2d4f1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-24T04:57:20.742Z"),
   updateTime: ISODate("2023-11-01T06:07:25.785Z"),
@@ -1362,7 +1270,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b544d5fc17e80e40b2d516"),
+  id: ObjectId("62b544d5fc17e80e40b2d516"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b54458fc17e80e40b2d4f1")],
   createTime: ISODate("2022-06-24T04:57:20.742Z"),
   updateTime: ISODate("2023-10-31T07:38:41.409Z"),
@@ -1375,7 +1283,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b544e4fc17e80e40b2d51b"),
+  id: ObjectId("62b544e4fc17e80e40b2d51b"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b54458fc17e80e40b2d4f1")],
   createTime: ISODate("2022-06-24T04:57:20.742Z"),
   updateTime: ISODate("2023-10-31T07:38:46.664Z"),
@@ -1388,7 +1296,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b544f2fc17e80e40b2d520"),
+  id: ObjectId("62b544f2fc17e80e40b2d520"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b54458fc17e80e40b2d4f1")],
   createTime: ISODate("2022-06-24T04:57:20.742Z"),
   updateTime: ISODate("2023-10-31T07:38:52.259Z"),
@@ -1401,7 +1309,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b544fffc17e80e40b2d525"),
+  id: ObjectId("62b544fffc17e80e40b2d525"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b54458fc17e80e40b2d4f1")],
   createTime: ISODate("2022-06-24T04:57:20.742Z"),
   updateTime: ISODate("2023-10-31T07:38:57.73Z"),
@@ -1414,7 +1322,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62b94a59e213d535c87592f0"),
+  id: ObjectId("62b94a59e213d535c87592f0"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-27T06:00:16.5Z"),
   updateTime: ISODate("2023-11-01T05:37:05.907Z"),
@@ -1429,7 +1337,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfc2e5ee56f4014349740"),
+  id: ObjectId("62bbfc2e5ee56f4014349740"),
   parentId: [ObjectId("62a956fe48ec890bb426a157")],
   createTime: ISODate("2022-06-29T07:01:44.833Z"),
   updateTime: ISODate("2023-11-01T06:07:31.812Z"),
@@ -1445,7 +1353,7 @@ db.getCollection("menus").insert([{
   menuCode: ""
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfd170b77a1414c078f0c"),
+  id: ObjectId("62bbfd170b77a1414c078f0c"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
   createTime: ISODate("2022-06-29T07:16:54.678Z"),
   updateTime: ISODate("2023-10-31T07:39:09.336Z"),
@@ -1458,7 +1366,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfd240b77a1414c078f11"),
+  id: ObjectId("62bbfd240b77a1414c078f11"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
   createTime: ISODate("2022-06-29T07:16:54.678Z"),
   updateTime: ISODate("2023-10-31T07:39:15.144Z"),
@@ -1471,7 +1379,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfd310b77a1414c078f16"),
+  id: ObjectId("62bbfd310b77a1414c078f16"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
   createTime: ISODate("2022-06-29T07:16:54.678Z"),
   updateTime: ISODate("2023-10-31T07:39:20.925Z"),
@@ -1484,7 +1392,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfd3d0b77a1414c078f1b"),
+  id: ObjectId("62bbfd3d0b77a1414c078f1b"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
   createTime: ISODate("2022-06-29T07:16:54.678Z"),
   updateTime: ISODate("2023-10-31T07:39:26.761Z"),
@@ -1497,7 +1405,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bbfd490b77a1414c078f20"),
+  id: ObjectId("62bbfd490b77a1414c078f20"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
   createTime: ISODate("2022-06-29T07:16:54.678Z"),
   updateTime: ISODate("2023-10-31T07:39:32.425Z"),
@@ -1510,7 +1418,7 @@ db.getCollection("menus").insert([{
   isShow: NumberInt("1")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bd011eefdb000588ce46a8"),
+  id: ObjectId("62bd011eefdb000588ce46a8"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bd00d0efdb000588ce469f")],
   createTime: ISODate("2022-06-30T01:05:24.488Z"),
   updateTime: ISODate("2022-06-30T01:05:24.488Z"),
@@ -1522,7 +1430,7 @@ db.getCollection("menus").insert([{
   code: 0
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bd012cefdb000588ce46ad"),
+  id: ObjectId("62bd012cefdb000588ce46ad"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bd00d0efdb000588ce469f")],
   createTime: ISODate("2022-06-30T01:05:24.488Z"),
   updateTime: ISODate("2022-06-30T01:05:24.488Z"),
@@ -1534,7 +1442,7 @@ db.getCollection("menus").insert([{
   code: 0
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bd013befdb000588ce46b2"),
+  id: ObjectId("62bd013befdb000588ce46b2"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bd00d0efdb000588ce469f")],
   createTime: ISODate("2022-06-30T01:05:24.488Z"),
   updateTime: ISODate("2022-06-30T01:05:24.488Z"),
@@ -1546,7 +1454,7 @@ db.getCollection("menus").insert([{
   code: 0
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bd014defdb000588ce46b7"),
+  id: ObjectId("62bd014defdb000588ce46b7"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bd00d0efdb000588ce469f")],
   createTime: ISODate("2022-06-30T01:05:24.488Z"),
   updateTime: ISODate("2022-06-30T01:05:24.488Z"),
@@ -1558,7 +1466,7 @@ db.getCollection("menus").insert([{
   code: 0
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("62bd0157efdb000588ce46bc"),
+  id: ObjectId("62bd0157efdb000588ce46bc"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bd00d0efdb000588ce469f")],
   createTime: ISODate("2022-06-30T01:05:24.488Z"),
   updateTime: ISODate("2022-06-30T01:05:24.488Z"),
@@ -1570,7 +1478,7 @@ db.getCollection("menus").insert([{
   code: 0
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541e8b0cba1d838a66ea47e"),
+  id: ObjectId("6541e8b0cba1d838a66ea47e"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9578748ec890bb426a160")],
@@ -1582,7 +1490,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541e9efcba1d838a66ea48e"),
+  id: ObjectId("6541e9efcba1d838a66ea48e"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a957c548ec890bb426a163")],
@@ -1594,7 +1502,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541ea3dcba1d838a66ea497"),
+  id: ObjectId("6541ea3dcba1d838a66ea497"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a9616548ec890bb426a19d")],
@@ -1606,7 +1514,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541ea54cba1d838a66ea49e"),
+  id: ObjectId("6541ea54cba1d838a66ea49e"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62a96e1748ec890bb426a2d6")],
@@ -1618,7 +1526,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541ea68cba1d838a66ea4a5"),
+  id: ObjectId("6541ea68cba1d838a66ea4a5"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62afff407435064330e7b50c")],
@@ -1630,7 +1538,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541ea78cba1d838a66ea4ac"),
+  id: ObjectId("6541ea78cba1d838a66ea4ac"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b005bd53614a2c4c03cd31")],
@@ -1642,7 +1550,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541eaa5cba1d838a66ea4b3"),
+  id: ObjectId("6541eaa5cba1d838a66ea4b3"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b54458fc17e80e40b2d4f1")],
@@ -1654,7 +1562,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541eac6cba1d838a66ea4ba"),
+  id: ObjectId("6541eac6cba1d838a66ea4ba"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62b94a59e213d535c87592f0")],
@@ -1666,7 +1574,7 @@ db.getCollection("menus").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("menus").insert([{
-  _id: ObjectId("6541eadccba1d838a66ea4c1"),
+  id: ObjectId("6541eadccba1d838a66ea4c1"),
   menuState: NumberInt("1"),
   isShow: NumberInt("1"),
   parentId: [ObjectId("62a956fe48ec890bb426a157"), ObjectId("62bbfc2e5ee56f4014349740")],
@@ -1686,7 +1594,7 @@ db.createCollection("project"); // ----------------------------
 // ----------------------------
 
 db.getCollection("project").insert([{
-  _id: ObjectId("6333b771afe8905249238571"),
+  id: ObjectId("6333b771afe8905249238571"),
   startTime: ISODate("2022-08-31T16:00:00.000Z"),
   makeTime: ISODate("2022-08-31T16:00:00.000Z"),
   endTime: ISODate("2022-08-31T16:00:00.000Z"),
@@ -1708,7 +1616,7 @@ db.createCollection("roles"); // ----------------------------
 // ----------------------------
 
 db.getCollection("roles").insert([{
-  _id: ObjectId("62a96fa748ec890bb426a323"),
+  id: ObjectId("62a96fa748ec890bb426a323"),
   permissionList: {
     checkedKeys: ["62a961d448ec890bb426a1b7", "62a961e248ec890bb426a1ba", "62a961ef48ec890bb426a1bd", "62a9622f48ec890bb426a1c0", "62a9624048ec890bb426a1c3", "62a9625048ec890bb426a1c6", "62a9626b48ec890bb426a1c9", "62a9670c48ec890bb426a1d2", "62a9672148ec890bb426a1d5", "62a9672c48ec890bb426a1d8", "62a973ba48ec890bb426a3f0", "62a973cf48ec890bb426a3f3", "62a973df48ec890bb426a3f6", "62a973fc48ec890bb426a3f9", "62a96e3948ec890bb426a2d9", "62a96e5048ec890bb426a2dc", "62a96e6748ec890bb426a2df", "62a96e7348ec890bb426a2e2", "62b000f97435064330e7b52c", "62b0010b7435064330e7b52f", "62b001177435064330e7b532", "62b001257435064330e7b535", "62b0346c53614a2c4c03ce2f", "62b0348053614a2c4c03ce32", "62b0348b53614a2c4c03ce35", "62b544d5fc17e80e40b2d516", "62b544e4fc17e80e40b2d51b", "62b544f2fc17e80e40b2d520", "62b544fffc17e80e40b2d525", "62b94a59e213d535c87592f0", "62bbfd170b77a1414c078f0c", "62bbfd240b77a1414c078f11", "62bbfd310b77a1414c078f16", "62bbfd3d0b77a1414c078f1b", "62bbfd490b77a1414c078f20", "62bd011eefdb000588ce46a8", "62bd012cefdb000588ce46ad", "62bd013befdb000588ce46b2", "62bd014defdb000588ce46b7", "62bd0157efdb000588ce46bc"],
     halfCheckedKeys: ["62a956fe48ec890bb426a157", "62a9578748ec890bb426a160", "62a957c548ec890bb426a163", "62a9616548ec890bb426a19d", "62a967de48ec890bb426a1f4", "62a9681e48ec890bb426a1fd", "62a96e1748ec890bb426a2d6", "62afff407435064330e7b50c", "62b005bd53614a2c4c03cd31", "62b54458fc17e80e40b2d4f1", "62bbfc2e5ee56f4014349740", "62be6e9f5d9e5f43706ddc09", "62bd00d0efdb000588ce469f"]
@@ -1719,7 +1627,7 @@ db.getCollection("roles").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("roles").insert([{
-  _id: ObjectId("6540afb73a6f8952c1d73ec6"),
+  id: ObjectId("6540afb73a6f8952c1d73ec6"),
   permissionList: {
     checkedKeys: ["62a961d448ec890bb426a1b7"],
     halfCheckedKeys: ["62a956fe48ec890bb426a157", "62a9578748ec890bb426a160"]
@@ -1730,7 +1638,7 @@ db.getCollection("roles").insert([{
   __v: NumberInt("0")
 }]);
 db.getCollection("roles").insert([{
-  _id: ObjectId("6541c4502464651f9d1c7d1d"),
+  id: ObjectId("6541c4502464651f9d1c7d1d"),
   permissionList: {
     checkedKeys: ["62a961d448ec890bb426a1b7", "62a961e248ec890bb426a1ba", "62a961ef48ec890bb426a1bd", "62a9622f48ec890bb426a1c0", "62a9624048ec890bb426a1c3", "62a9625048ec890bb426a1c6", "62a9626b48ec890bb426a1c9", "62a9670c48ec890bb426a1d2", "62a9672148ec890bb426a1d5", "62a9672c48ec890bb426a1d8", "62a973ba48ec890bb426a3f0", "62a973cf48ec890bb426a3f3", "62a973df48ec890bb426a3f6", "62a973fc48ec890bb426a3f9"],
     halfCheckedKeys: ["62a9578748ec890bb426a160", "62a957c548ec890bb426a163", "62a9616548ec890bb426a19d", "62a967de48ec890bb426a1f4", "62a9681e48ec890bb426a1fd", "62a956fe48ec890bb426a157"]
@@ -1773,7 +1681,7 @@ db.createCollection("users"); // ----------------------------
 // ----------------------------
 
 db.getCollection("users").insert([{
-  _id: ObjectId("62b52a27b7e86a21986a2328"),
+  id: ObjectId("62b52a27b7e86a21986a2328"),
   deptId: ["62a9701548ec890bb426a354"],
   state: NumberInt("1"),
   role: NumberInt("0"),
@@ -1797,7 +1705,7 @@ db.getCollection("users").insert([{
   job: "岗位"
 }]);
 db.getCollection("users").insert([{
-  _id: ObjectId("62b9390c392d8739a48eb926"),
+  id: ObjectId("62b9390c392d8739a48eb926"),
   deptId: ["62a9701548ec890bb426a354"],
   state: NumberInt("1"),
   role: NumberInt("1"),
@@ -1821,7 +1729,7 @@ db.getCollection("users").insert([{
   expressPhone: null
 }]);
 db.getCollection("users").insert([{
-  _id: ObjectId("6541c8432464651f9d1c7e80"),
+  id: ObjectId("6541c8432464651f9d1c7e80"),
   deptId: ["6541c46f2464651f9d1c7d31"],
   state: NumberInt("2"),
   role: NumberInt("1"),

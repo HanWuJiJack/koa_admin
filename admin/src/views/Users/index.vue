@@ -123,10 +123,10 @@ onMounted(() => {
   getUserListRequest();
   getRolesRequest();
   getDeptListRequest();
-  getDictTypes("company-type").then((res) => {
-    local.companyType = res;
-    // console.log(res);
-  });
+  // getDictTypes("company-type").then((res) => {
+  //   local.companyType = res;
+  //   // console.log(res);
+  // });
 });
 //获取用户列表数据
 const getUserListRequest = async () => {

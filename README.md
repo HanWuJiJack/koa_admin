@@ -75,14 +75,14 @@ module.exports = async () => {
 async () => {
     try {
         const {
-            _id
+            id
         } = ctx.request.body
         const {
             ...params
         } = ctx.request.body;
         params.updateTime = new Date();
         const res = await modelSchemas.model100001.findOneAndUpdate({
-            _id
+            id
         }, params, {
             new: true
         });
@@ -105,7 +105,7 @@ async () => {
         } = ctx.request.body
         let arrId = ids.split(",").filter((item) => item)
         let res = await modelSchemas.model100001.deleteMany({
-            _id: {
+            id: {
                 $in: arrId
             }
         })
@@ -127,7 +127,7 @@ async () => {
             id
         } = ctx.params
         const params = {}
-        if (id) params._id = id
+        if (id) params.id = id
         const query = await modelSchemas.model100001.findOne(params) // 查询所有数据
         return Tools.success({
             data: {

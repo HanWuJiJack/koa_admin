@@ -27,8 +27,7 @@ var userSchema = mongoose.Schema({
   //快递联系人
   expressPhone: String,
   //快递联系人手机号
-  "userId": Number,
-  //用户ID，自增长
+  id: Number,
   "userPwd": String,
   //用户密码，hash加密
   "sex": Number,
@@ -47,19 +46,18 @@ var userSchema = mongoose.Schema({
   // 用户角色 0：系统管理员  1： 普通用户
   "roleList": [],
   //系统角色
-  "createTime": {
+  updateTime: {
     type: Date,
     "default": Date.now()
   },
-  //创建时间
-  "lastLoginTime": {
+  updateByUser: Number,
+  createTime: {
     type: Date,
     "default": Date.now()
   },
-  //更新时间
-  // 微信openid和session_key
-  openid: String,
-  session_key: String,
+  createByUser: Number,
   remark: String
+}, {
+  autoCreate: true
 });
 module.exports = mongoose.model("users", userSchema, "users");

@@ -51,7 +51,7 @@
                 v-if="[1, 2].includes(scope.row.applyState)"
                 size="small"
                 type="danger"
-                @click="handleDelete(scope.row._id)"
+                @click="handleDelete(scope.row.id)"
                 v-permisson="'leave-delete'"
                 >作废</el-button
               >
@@ -356,8 +356,8 @@ const handleSee = (row) => {
   detailShow.value = true;
 };
 // 表格每行的作废按钮事件
-const handleDelete = (_id) => {
-  let params = { _id, action: "delete" };
+const handleDelete = (id) => {
+  let params = { id, action: "delete" };
   postLeave_C(params)
     .then((res) => {
       proxy.$message.success("作废成功！");

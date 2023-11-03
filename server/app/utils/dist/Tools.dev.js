@@ -274,7 +274,7 @@ var TreeMenu = function TreeMenu(rootList, id) {
 
 
   result.map(function (item) {
-    item.children = _this.TreeMenu(rootList, item._id);
+    item.children = _this.TreeMenu(rootList, item.id);
 
     if (item.children.length === 0) {
       delete item.children;

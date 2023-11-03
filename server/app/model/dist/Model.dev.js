@@ -9,5 +9,6 @@ module.exports = {
   leavesSchema: require('./LeavesSchema'),
   menusSchema: require('./MenusSchema'),
   rolesSchema: require('./RolesSchema'),
-  usersSchema: require('./UsersSchema')
+  usersSchema: require('./UsersSchema'),
+  ModelsSchema: require('./ModelsSchema')
 };

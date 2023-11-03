@@ -30,10 +30,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-// const Controller = require('../../../../core/controller/admin.js');
 var BaseController = require('../BaseController');
 
 var Schema = require('./../../model/Model.js');
+
+var AutoID = require('./../../utils/AutoID');
 
 var FaasAdminController =
 /*#__PURE__*/
@@ -64,25 +65,25 @@ function (_BaseController) {
   _createClass(FaasAdminController, [{
     key: "list",
     value: function list() {
-      var _this$ctx$request$que, method, code, state, _get$call, page, skipIndex, params, query, list, total;
+      var _this$ctx$request$que, method, code, _this$ctx$request$que2, state, _get$call, page, skipIndex, params, query, list, total;
 
       return regeneratorRuntime.async(function list$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _this$ctx$request$que = this.ctx.request.query, method = _this$ctx$request$que.method, code = _this$ctx$request$que.code, state = _this$ctx$request$que.state;
+              _this$ctx$request$que = this.ctx.request.query, method = _this$ctx$request$que.method, code = _this$ctx$request$que.code, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(FaasAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
               if (method) params.method = new RegExp("^".concat(method), 'ig');
               if (code) params.code = new RegExp("^".concat(code), 'ig');
-              if (state && state != '0') params.state = parseInt(state);
+              params.state = parseInt(state);
               query = Schema.faasSchema.find(params); // 查询所有数据
-              // sort({ _id: -1 }) 倒叙 1正序
+              // sort({ id: -1 }) //倒叙 1正序
 
               _context.next = 10;
               return regeneratorRuntime.awrap(query.sort({
-                _id: -1
+                id: -1
               }).skip(skipIndex).limit(page.pageSize).exec());
 
             case 10:
@@ -120,7 +121,7 @@ function (_BaseController) {
   }, {
     key: "create",
     value: function create() {
-      var _this$ctx$request$bod, method, fn, code, schemaCode, state, path, isAuth, remark, add;
+      var _this$ctx$request$bod, method, fn, code, schemaCode, state, path, isAuth, remark, currentIndex, add;
 
       return regeneratorRuntime.async(function create$(_context2) {
         while (1) {
@@ -140,12 +141,16 @@ function (_BaseController) {
               return _context2.abrupt("return");
 
             case 7:
-              // let check = await Schema.faasSchema.findOne({ code })
-              // if (check) {
-              //     this.ctx.body = super.fail({ msg: '添加失败，请联系管理员:code不可重复！' })
-              //     return
-              // }
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(AutoID({
+                code: "faasFuncId"
+              }));
+
+            case 9:
+              currentIndex = _context2.sent;
               add = new Schema.faasSchema({
+                id: currentIndex,
+                createByUser: this.ctx.state.userId.id,
                 method: method,
                 fn: fn,
                 code: code,
@@ -155,31 +160,31 @@ function (_BaseController) {
                 state: state ? state : undefined,
                 remark: remark ? remark : ''
               });
-              _context2.next = 10;
+              _context2.next = 13;
               return regeneratorRuntime.awrap(add.save());
 
-            case 10:
+            case 13:
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 msg: '添加成功'
               });
 
-            case 11:
-              _context2.next = 16;
+            case 14:
+              _context2.next = 19;
               break;
 
-            case 13:
-              _context2.prev = 13;
+            case 16:
+              _context2.prev = 16;
               _context2.t0 = _context2["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: '添加失败，请联系管理员' + _context2.t0.stack
               });
 
-            case 16:
+            case 19:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[0, 13]]);
+      }, null, this, [[0, 16]]);
     }
   }, {
     key: "update",
@@ -193,35 +198,36 @@ function (_BaseController) {
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
               params.updateTime = new Date();
-              _context3.next = 6;
+              params.updateByUser = this.ctx.state.userId.id;
+              _context3.next = 7;
               return regeneratorRuntime.awrap(Schema.faasSchema.findOneAndUpdate({
-                _id: id
+                id: id
               }, params, {
                 "new": true
               }));
 
-            case 6:
+            case 7:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 13;
+              _context3.next = 14;
               break;
 
-            case 10:
-              _context3.prev = 10;
+            case 11:
+              _context3.prev = 11;
               _context3.t0 = _context3["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 10]]);
+      }, null, this, [[0, 11]]);
     }
   }, {
     key: "remove",
@@ -235,12 +241,19 @@ function (_BaseController) {
               ids = this.ctx.params.ids;
               arrId = ids.split(",").filter(function (item) {
                 return item;
-              });
+              }); // let res = await Schema.faasSchema.deleteMany({
+              //     id: {
+              //         $in: arrId
+              //     }
+              // })
+
               _context4.next = 5;
-              return regeneratorRuntime.awrap(Schema.faasSchema.deleteMany({
-                _id: {
+              return regeneratorRuntime.awrap(Schema.dictTypeSchema.updateMany({
+                id: {
                   $in: arrId
                 }
+              }, {
+                state: 2
               }));
 
             case 5:
@@ -277,7 +290,7 @@ function (_BaseController) {
               _context5.prev = 0;
               id = this.ctx.params.id;
               params = {};
-              if (id) params._id = id;
+              if (id) params.id = id;
               _context5.next = 6;
               return regeneratorRuntime.awrap(Schema.faasSchema.findOne(params));
 
@@ -293,7 +306,9 @@ function (_BaseController) {
             case 10:
               _context5.prev = 10;
               _context5.t0 = _context5["catch"](0);
-              this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, _context5.t0.stack);
+              this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
+                msg: _context5.t0.stack
+              });
 
             case 13:
             case "end":

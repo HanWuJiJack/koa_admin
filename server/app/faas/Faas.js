@@ -9,7 +9,6 @@ const {
 } = require(path.join(process.cwd(), "./config/logger"))
 
 exports.faas = async (ctx, next, method) => {
-    // console.log(9999)
     const {
         code
     } = ctx.params
@@ -18,13 +17,12 @@ exports.faas = async (ctx, next, method) => {
         code,
         state: 1
     }) // 查询所有数据
-    // console.log(9999, faasInfo)
     if (faasInfo) {
         if (faasInfo._doc.isAuth === "1") {
             await Auth(ctx, next)
         }
         try {
-            ctx.body = await vm2(ctx, next, faasInfo.fn)()
+            ctx.body = await vm2(ctx, faasInfo._doc.fn)()
         } catch (error) {
             logger.error('FAAS:', error);
             if (error.code) {
@@ -38,8 +36,6 @@ exports.faas = async (ctx, next, method) => {
             // name：异常对象名/类型
             ExceptionCode.FAAS_UNDEFINED.message = error.message
             throw ExceptionCode.FAAS_UNDEFINED
-            // next(error)
-            // throw error
         }
     } else {
         throw ExceptionCode.FILE_ROUTER_ERR

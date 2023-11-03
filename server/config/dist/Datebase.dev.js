@@ -2,7 +2,7 @@
 
 var path = require("path");
 
-var InitFaas = require("./../app/faas/InitFaas");
+var InitFaas = require("../app/faas/FaasInit");
 
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;

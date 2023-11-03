@@ -189,9 +189,9 @@
             >
               <el-option
                 v-for="item in rolesNameList"
-                :key="item._id"
+                :key="item.id"
                 :label="item.roleName"
-                :value="item._id"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -201,7 +201,7 @@
               :options="deptList"
               :props="{
                 checkStrictly: true,
-                value: '_id',
+                value: 'id',
                 label: 'deptName',
                 children: 'children',
               }"
@@ -275,7 +275,7 @@ const pswForm = reactive({
 //动态表格字段格式
 const columList = reactive([
   {
-    prop: "userId",
+    prop: "id",
     label: "用户ID",
   },
   {
@@ -313,13 +313,13 @@ const columList = reactive([
       return publicFn.formateDate(new Date(value));
     },
   },
-  {
-    prop: "lastLoginTime",
-    label: "最后登录时间",
-    formatter(row, col, value) {
-      return publicFn.formateDate(new Date(value));
-    },
-  },
+  // {
+  //   prop: "lastLoginTime",
+  //   label: "最后登录时间",
+  //   formatter(row, col, value) {
+  //     return publicFn.formateDate(new Date(value));
+  //   },
+  // },
 ]);
 // 分页数据对象
 var pageData = reactive({
@@ -362,10 +362,10 @@ onMounted(() => {
   getUserListRequest();
   getRolesRequest();
   getDeptListRequest();
-  getDictTypes("company-type").then((res) => {
-    local.companyType = res;
-    // console.log(res);
-  });
+  // getDictTypes("company-type").then((res) => {
+  //   local.companyType = res;
+  //   // console.log(res);
+  // });
 });
 //获取用户列表数据
 const getUserListRequest = async () => {
@@ -391,7 +391,7 @@ const onResetHandler = (name) => {
 const selectHandler = (selection, row) => {
   var arr = [];
   selection.map((item) => {
-    arr.push(item.userId);
+    arr.push(item.id);
   });
   selectUserArr.value = arr;
 };
@@ -400,7 +400,7 @@ const handleDelete = async (row, action) => {
   let res = undefined;
   if (action === "del") {
     res = await removeUser({
-      userIds: [row.userId],
+      userIds: [row.id],
     });
   } else {
     if (selectUserArr.value.length > 0) {
@@ -444,7 +444,7 @@ const dialogSubmitChangePWS = async () => {
   if (pswForm.data.userPwd) {
     await changePWS({
       userPwd: pswForm.data.userPwd,
-      userId: pswForm.data.userId,
+      id: pswForm.data.id,
     });
     proxy.$message.success("您的新密码为：" + pswForm.data.userPwd);
     pswForm.show = false;

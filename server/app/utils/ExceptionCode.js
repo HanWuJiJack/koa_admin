@@ -94,15 +94,15 @@ module.exports = {
     message: '因未登录无法验证接口权限'
   },
   // RESTFUL
-  RESTFUL_GET_ID: {
+  RESTFUL_GETid: {
     code: 2001,
     message: '查询数据不存在'
   },
-  RESTFUL_DELETE_ID: {
+  RESTFUL_DELETEid: {
     code: 2002,
     message: '删除数据不存在'
   },
-  RESTFUL_UPDATE_ID: {
+  RESTFUL_UPDATEid: {
     code: 2003,
     message: '更新数据不存在'
   },

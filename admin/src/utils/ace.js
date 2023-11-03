@@ -21479,10 +21479,10 @@
         exports.define = define;
     exports.edit = function(el, options) {
         if (typeof el == "string") {
-            var _id = el;
-            el = document.getElementById(_id);
+            var id = el;
+            el = document.getElementById(id);
             if (!el)
-                throw new Error("ace.edit can't find div #" + _id);
+                throw new Error("ace.edit can't find div #" + id);
         }
     
         if (el && el.env && el.env.editor instanceof Editor)

@@ -151,17 +151,17 @@ function (_BaseController) {
   }, {
     key: "create_goods",
     value: function create_goods() {
-      var _this$ctx$request2, body, files, _id, goodsInfo, fileName, goodsPath, targetDir;
+      var _this$ctx$request2, body, files, id, goodsInfo, fileName, goodsPath, targetDir;
 
       return regeneratorRuntime.async(function create_goods$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _this$ctx$request2 = this.ctx.request, body = _this$ctx$request2.body, files = _this$ctx$request2.files;
-              _id = body._id;
+              id = body.id;
               _context3.next = 4;
               return regeneratorRuntime.awrap(modelSchemas.model100004.findOne({
-                _id: _id
+                id: id
               }));
 
             case 4:
@@ -197,13 +197,13 @@ function (_BaseController) {
   }, {
     key: "get_zip",
     value: function get_zip() {
-      var _this$ctx$request$bod, _id, projectInfo, zipType, project, goodsPath, targetDir, filePath, goodsInfo, _goodsPath, _targetDir, _filePath, _goodsInfo, _goodsPath2, _targetDir2, _filePath2;
+      var _this$ctx$request$bod, id, projectInfo, zipType, project, goodsPath, targetDir, filePath, goodsInfo, _goodsPath, _targetDir, _filePath, _goodsInfo, _goodsPath2, _targetDir2, _filePath2;
 
       return regeneratorRuntime.async(function get_zip$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _this$ctx$request$bod = this.ctx.request.body, _id = _this$ctx$request$bod._id, projectInfo = _this$ctx$request$bod.projectInfo, zipType = _this$ctx$request$bod.zipType;
+              _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, projectInfo = _this$ctx$request$bod.projectInfo, zipType = _this$ctx$request$bod.zipType;
 
               if (!(zipType === 'zip')) {
                 _context4.next = 11;
@@ -212,7 +212,7 @@ function (_BaseController) {
 
               _context4.next = 4;
               return regeneratorRuntime.awrap(modelSchemas.model100003.findOne({
-                _id: projectInfo
+                id: projectInfo
               }));
 
             case 4:
@@ -239,7 +239,7 @@ function (_BaseController) {
 
               _context4.next = 14;
               return regeneratorRuntime.awrap(modelSchemas.model100004.findOne({
-                _id: _id
+                id: id
               }));
 
             case 14:
@@ -266,7 +266,7 @@ function (_BaseController) {
 
               _context4.next = 24;
               return regeneratorRuntime.awrap(modelSchemas.model100004.findOne({
-                _id: _id
+                id: id
               }));
 
             case 24:

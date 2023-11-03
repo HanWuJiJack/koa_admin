@@ -1,5 +1,5 @@
 <template>
-  <template v-for="item in props.menuList" :key="item._id">
+  <template v-for="item in props.menuList" :key="item.id">
     <el-sub-menu
       :index="item.code"
       v-if="item.children && item.children.length > 0 && item.menuType == 1"

@@ -1,5 +1,10 @@
 const mongoose = require('mongoose')
 const rolesSchema = mongoose.Schema({
+    id: Number,
+    "state": {
+        type: Number,
+        default: 1
+    },
     roleName: String,// 角色名称
     remark: String,// 备注
     // 权限列表
@@ -7,10 +12,16 @@ const rolesSchema = mongoose.Schema({
         checkedKeys: [],
         halfCheckedKeys: []
     },
-    "createTime": {
+    updateTime: {
         type: Date,
         default: Date.now()
-    }
-})
+    },
+    updateByUser:Number,
+    createTime: {
+        type: Date,
+        default: Date.now()
+    },
+    createByUser:Number,
+}, { autoCreate: true })
 
 module.exports = mongoose.model("roles",rolesSchema,"roles")

@@ -76,8 +76,8 @@ class FileController extends BaseController {
             body,
             files
         } = this.ctx.request
-        const { _id } = body
-        const goodsInfo = await modelSchemas.model100004.findOne({ _id: _id }) // 查询所有数据
+        const { id } = body
+        const goodsInfo = await modelSchemas.model100004.findOne({ id: id }) // 查询所有数据
         const fileName = `${(new Date()).getTime()}-${files.file.name}`
         const goodsPath = `${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.spu}/${goodsInfo._doc.sku}/`
         const targetDir = path.join(rootPath, `../assets/${goodsPath}`, fileName);
@@ -90,12 +90,12 @@ class FileController extends BaseController {
     }
     async get_zip() {
         let {
-            _id,
+            id,
             projectInfo,
             zipType,
         } = this.ctx.request.body
         if (zipType === 'zip') {
-            const project = await modelSchemas.model100003.findOne({ _id: projectInfo })
+            const project = await modelSchemas.model100003.findOne({ id: projectInfo })
             let goodsPath = `${projectInfo}/${projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}`);
             const filePath = path.join(rootPath, `../assets/${projectInfo}/${project.name}.zip`);
@@ -106,7 +106,7 @@ class FileController extends BaseController {
             })
         }
         if (zipType === 'zip-spu') {
-            const goodsInfo = await modelSchemas.model100004.findOne({ _id: _id })
+            const goodsInfo = await modelSchemas.model100004.findOne({ id: id })
             let goodsPath = `${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}/${goodsInfo._doc.spu}`);
             const filePath = path.join(rootPath, `../assets/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.spu}.zip`);
@@ -117,7 +117,7 @@ class FileController extends BaseController {
             })
         }
         if (zipType === 'zip-sku') {
-            const goodsInfo = await modelSchemas.model100004.findOne({ _id: _id })
+            const goodsInfo = await modelSchemas.model100004.findOne({ id: id })
             let goodsPath = `${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}`
             const targetDir = path.join(rootPath, `../assets/${goodsPath}/${goodsInfo._doc.spu}/${goodsInfo._doc.sku}`);
             const filePath = path.join(rootPath, `../assets/${goodsInfo._doc.projectInfo}/${goodsInfo._doc.projectInfo}-${goodsInfo._doc.sku}.zip`);

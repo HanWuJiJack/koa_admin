@@ -161,7 +161,7 @@ import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/javascript/javascript.js";
 // theme
 import "codemirror/theme/dracula.css";
-import { getFaasList, addFaas, updataFaas, removeFaas } from "@/api/system/faas";
+import { getFaasList, addFaas, updataFaas, removeFaas } from "@/api/faas/faas";
 import { getDictTypes } from "@/api/system/dictType";
 const { proxy } = getCurrentInstance();
 const selectData = reactive({
@@ -276,14 +276,14 @@ const onResetHandler = (name) => {
 const selectHandler = (selection, row) => {
   var arr = [];
   selection.map((item) => {
-    arr.push(item._id);
+    arr.push(item.id);
   });
   selectArr.value = arr;
 };
 //删除用户事件
 const handleDelete = async (row, action) => {
   if (action === "del") {
-    var res = await removeFaas(row._id);
+    var res = await removeFaas(row.id);
   } else {
     if (selectArr.value.length > 0) {
       var res = await removeFaas([...selectArr.value].join(","));

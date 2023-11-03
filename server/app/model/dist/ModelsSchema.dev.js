@@ -10,14 +10,16 @@ module.exports = mongoose.model('model', mongoose.Schema({
     type: Number,
     "default": 1
   },
-  "createTime": {
+  updateTime: {
     type: Date,
     "default": Date.now()
   },
-  "lastLoginTime": {
+  updateByUser: Number,
+  createTime: {
     type: Date,
     "default": Date.now()
   },
+  createByUser: Number,
   remark: String
 }, {
   autoCreate: true

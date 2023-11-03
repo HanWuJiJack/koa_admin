@@ -222,14 +222,14 @@ const onResetHandler = (name) => {
 const selectHandler = (selection, row) => {
   var arr = [];
   selection.map((item) => {
-    arr.push(item._id);
+    arr.push(item.id);
   });
   selectArr.value = arr;
 };
 //删除用户事件
 const handleDelete = async (row, action) => {
   if (action === "del") {
-    var res = await removeModel({ids:row._id});
+    var res = await removeModel({ids:row.id});
   } else {
     if (selectArr.value.length > 0) {
       var res = await removeModel({ids:[...selectArr.value].join(",")});

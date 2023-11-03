@@ -27,15 +27,15 @@ class UserAdminController extends BaseController {
     }
     async list() {
         // 接口级别权限判断
-        await apiAuth({
-            ctx: this.ctx,
-            code: ["100017"]
-        })
+        // await apiAuth({
+        //     userInfo: ctx.state.userInfo,
+        //     code: ["100017"]
+        // })
         try {
             const {
                 userId,
                 userName,
-                state
+                state = 1
             } = this.ctx.request.query;
             const {
                 page,
@@ -44,10 +44,12 @@ class UserAdminController extends BaseController {
             let params = {}
             if (userId) params.userId = userId;
             if (userName) params.userName = userName;
-            if (state && state != '0') params.state = parseInt(state);
+            params.state = parseInt(state);
             // 根据条件查询所有用户列表
             const query = Schema.usersSchema.find(params) //查询所有数据
-            const list = await query.skip(skipIndex).limit(page.pageSize) //根据查出的所有数据截取对应页数的数据
+            const list = await query.sort({
+                id: -1
+            }).skip(skipIndex).limit(page.pageSize) //根据查出的所有数据截取对应页数的数据
             const total = await Schema.usersSchema.countDocuments(params);
             this.ctx.body = super.success({
                 data: {
@@ -68,7 +70,7 @@ class UserAdminController extends BaseController {
 
     async create() {
         const {
-            userId,
+            id,
             userName,
             userEmail,
             mobile,
@@ -97,7 +99,7 @@ class UserAdminController extends BaseController {
                 $or: [{
                     userEmail
                 }]
-            }, '_id userName userEmail');
+            }, 'id userName userEmail');
 
             if (repeat) {
                 this.ctx.body = super.fail({
@@ -110,7 +112,8 @@ class UserAdminController extends BaseController {
                         code: "userId"
                     })
                     const addUser = new Schema.usersSchema({
-                        userId: currentIndex,
+                        id: currentIndex,
+                        createByUser: this.ctx.state.userId.id,
                         userName,
                         userPwd: hash('123456'),
                         userEmail,
@@ -132,7 +135,7 @@ class UserAdminController extends BaseController {
                     await addUser.save();
                     this.ctx.body = super.success({}, '添加用户成功')
                 } catch (error) {
-                    this.ctx.body = super.fail('添加用户失败，请联系管理员' + error.stack)
+                    this.ctx.body = super.fail({msg: error.stack})
                 }
             }
         }
@@ -150,8 +153,9 @@ class UserAdminController extends BaseController {
                 delete params.userPwd;
             }
             params.updateTime = new Date();
+            params.updateByUser = this.ctx.state.userId.id
             const res = await Schema.usersSchema.findOneAndUpdate({
-                userId: parseInt(id)
+                id: parseInt(id)
             }, params);
             this.ctx.body = super.success({
                 data: res,
@@ -167,12 +171,14 @@ class UserAdminController extends BaseController {
     async update_pwd() {
         const {
             userPwd,
-            userId
+            id
         } = this.ctx.request.body;
         try {
             await Schema.usersSchema.findOneAndUpdate({
-                userId
+                id
             }, {
+                updateTime: new Date(),
+                updateByUser: this.ctx.state.userId.id,
                 userPwd: hash(userPwd),
             }, {
                 new: true
@@ -194,7 +200,7 @@ class UserAdminController extends BaseController {
             userIds,
         } = this.ctx.request.body;
         let res = await Schema.usersSchema.updateMany({
-            userId: {
+            id: {
                 $in: userIds
             }
         }, {

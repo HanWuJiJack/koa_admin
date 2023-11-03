@@ -3,16 +3,15 @@ const path = require("path")
 const redis = require(path.join(process.cwd(), "./config/Redis"))
 
 module.exports = async function ({
-    ctx,
+    userInfo={},
     code
 }) {
-
-    userInfo = ctx.state.userInfo;
-    if(!userInfo){
+    if (!userInfo.id) {
         throw ExceptionCode.LOGIN_VERIFY_API
     }
-    const {btnList} = await redis.getHashMap(String(userInfo._id))
-    // console.log("codeList", codeList)
+    const {
+        btnList
+    } = await redis.getHashMap(String(userInfo.id))
     for (let i = 0; i < code.length; i++) {
         if (btnList.includes(code[i])) {
             return

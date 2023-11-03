@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 
 var menusSchema = mongoose.Schema({
+  id: Number,
   menuType: Number,
   //菜单类型
   menuName: String,
@@ -17,26 +18,29 @@ var menusSchema = mongoose.Schema({
   //组件地址
   code: String,
   //code
-  menuState: {
+  "state": {
     type: Number,
-    "default": Date.now()
+    "default": 1
   },
-  //菜单状态
+  // 1:正常  2：停用 
   isShow: {
     type: Number,
     "default": Date.now()
   },
   //菜单是否展示
-  parentId: [mongoose.Types.ObjectId],
-  "createTime": {
+  // parentId: [mongoose.Types.ObjectId],
+  parentId: [Number],
+  updateTime: {
     type: Date,
     "default": Date.now()
   },
-  //创建时间
-  "updateTime": {
+  updateByUser: Number,
+  createTime: {
     type: Date,
     "default": Date.now()
-  } //更新时间
-
+  },
+  createByUser: Number
+}, {
+  autoCreate: true
 });
 module.exports = mongoose.model("menus", menusSchema, "menus");

@@ -6,6 +6,9 @@ import {
 import _ from "lodash";
 import Home from '../layout/Home.vue'
 import Welcome from '../views/Welcome/Welcome.vue'
+import Menu from '../views/Menu/Menu.vue'
+import Dict from '../views/Dict/index.vue'
+import DictType from '../views/Dict/DictType/index.vue'
 import Login from '../views/Login/Login.vue'
 import NotFound from '../views/404.vue'
 import publicFn from '../utils/publicFn'
@@ -24,14 +27,46 @@ const routes = [{
             name: '首页'
         },
         children: [{
-            path: '/welcome',
-            name: 'Welcome',
-            component: Welcome,
-            meta: {
-                name: '首页',
-                code: "000"
-            }
-        }, ]
+                path: '/welcome',
+                name: 'Welcome',
+                component: Welcome,
+                meta: {
+                    name: '首页',
+                    code: "000"
+                },
+
+            },
+            // {
+            //     path: '/menu',
+            //     name: 'menu',
+            //     component: Menu,
+            //     meta: {
+            //         name: 'menu',
+            //         code: "menu"
+            //     },
+
+            // },
+            // {
+            //     path: '/dict',
+            //     name: 'dict',
+            //     component: Dict,
+            //     meta: {
+            //         name: 'dict',
+            //         code: "dict"
+            //     },
+
+            // },
+            // {
+            //     path: '/dictType',
+            //     name: 'dictType',
+            //     component: DictType,
+            //     meta: {
+            //         name: 'dictType',
+            //         code: "dictType"
+            //     },
+
+            // },
+        ],
     },
     {
         path: '/login',

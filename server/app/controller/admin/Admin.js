@@ -11,6 +11,7 @@ const AUserAdminController = require('./AUserAdminController');
 const PLoginAdminController = require('./PLoginAdminController');
 const PPublicRasController = require('./PPublicRasController');
 const PUserAdminController = require('./PUserAdminController');
+const AModelsAdminController = require('./AModelsAdminController');
 
 
 
@@ -28,10 +29,11 @@ module.exports = {
         AMenuAdminController,
         ARolesAdminController,
         AUserAdminController,
+        AModelsAdminController
     ],
     public: [
-        PUserAdminController, 
-        PLoginAdminController, 
+        PUserAdminController,
+        PLoginAdminController,
         PPublicRasController
     ]
 };

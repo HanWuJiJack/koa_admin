@@ -107,7 +107,7 @@ function () {
 
 
       result.map(function (item) {
-        item.children = _this.TreeMenu(rootList, item._id);
+        item.children = _this.TreeMenu(rootList, item.id);
 
         if (item.children.length === 0) {
           delete item.children;
@@ -134,7 +134,7 @@ function () {
 
 
       result.map(function (item) {
-        item.children = _this2.TreeMenuShow(rootList, item._id);
+        item.children = _this2.TreeMenuShow(rootList, item.id);
 
         if (item.children.length === 0) {
           delete item.children;
@@ -184,7 +184,7 @@ function () {
 
               _context.next = 3;
               return regeneratorRuntime.awrap(Schema.menusSchema.find({
-                menuState: 1 //状态值：正常 | 停用
+                state: 1 //状态值：正常 | 停用
 
               }));
 
@@ -206,7 +206,7 @@ function () {
             case 9:
               _context.next = 11;
               return regeneratorRuntime.awrap(Schema.rolesSchema.find({
-                _id: {
+                id: {
                   $in: roleList
                 }
               }));
@@ -222,10 +222,10 @@ function () {
 
               _context.next = 17;
               return regeneratorRuntime.awrap(Schema.menusSchema.find({
-                _id: {
+                id: {
                   $in: resultPermissonList
                 },
-                menuState: 1 //状态值：正常 | 停用
+                state: 1 //状态值：正常 | 停用
 
               }));
 
@@ -308,7 +308,7 @@ function () {
 
 
       result.map(function (item) {
-        item.children = _this3.TreeDept(rootList, item._id);
+        item.children = _this3.TreeDept(rootList, item.id);
 
         if (item.children.length === 0) {
           delete item.children;

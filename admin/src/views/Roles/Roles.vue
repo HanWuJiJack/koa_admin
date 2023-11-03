@@ -28,7 +28,7 @@
           <!-- 表字段遍历 -->
           <el-table-column
             v-for="item in Data.columList"
-            :key="item._id"
+            :key="item.id"
             :prop="item.prop"
             :label="item.label"
             show-overflow-tooltip
@@ -51,13 +51,13 @@
                 v-permisson="'role-setpermission'"
                 >设置权限</el-button
               >
-              <!-- <el-button
+              <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'delete')"
                 v-permisson="'role-delete'"
                 >删除</el-button
-              > -->
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -111,7 +111,7 @@
             <el-tree
               :data="Data.menuList"
               show-checkbox
-              node-key="_id"
+              node-key="id"
               ref="menuTreeRef"
               default-expand-all
               :props="{ label: 'menuName' }"
@@ -288,15 +288,18 @@ const handleEdit = (row) => {
 };
 // 表格每行删除按钮事件
 const handleDelete = async (row, action) => {
-  await postRolesC_U_D({ _id: row._id, action });
-  ElMessage.success("删除角色成功");
+  const res = await postRolesC_U_D({ id: row.id, action });
+  if (res.nModified > 0) {
+    ElMessage.success("删除角色成功");
+  }
   getRolesList_();
 };
 // 表格每行设置权限按钮事件
 const handlerSetPermission = (row) => {
   Data.permissionShow = true;
+  Data.action = "edit";
   Data.permissionForm.currentRoleName = row.roleName;
-  Data.permissionForm.currentRoleId = row._id;
+  Data.permissionForm.currentRoleId = row.id;
   nextTick(() => {
     menuTreeRef._value.setCheckedKeys(row.permissionList.checkedKeys);
   });
@@ -311,13 +314,13 @@ const perssionSubmitHandler = async () => {
   const parentCheckedKeys = [];
   checkedNode.forEach((item) => {
     if (!item.children) {
-      checkedKeys.push(item._id);
+      checkedKeys.push(item.id);
     } else {
-      parentCheckedKeys.push(item._id);
+      parentCheckedKeys.push(item.id);
     }
   });
   const params = {
-    _id: Data.permissionForm.currentRoleId,
+    id: Data.permissionForm.currentRoleId,
     permissionList: {
       checkedKeys,
       // 这里concat是因为上面把有子节点的节点当做为半选状态了，用于后面假如有新子节点添加可以直接认为他就是半选状态
@@ -325,9 +328,12 @@ const perssionSubmitHandler = async () => {
       halfCheckedKeys: parentCheckedKeys.concat(halfCheckedKeys),
     },
   };
-  await postUpdatePermission(params);
+  const res = await postUpdatePermission(params);
+  // console.log(res);
+  if (res.nModified > 0) {
+    ElMessage.success("设置权限成功");
+  }
   Data.permissionShow = false;
-  ElMessage.success("设置权限成功");
   getRolesList_();
 };
 // 权限列表id映射对应菜单名称处理
@@ -336,7 +342,7 @@ const permissionMapping = (list) => {
   for (var i = 0; i < list.length; i++) {
     if (list[i].children && list[i].btnList) {
       // 如果btnList存在 那就证明他是最后一个层级的父节点了
-      result[list[i]._id] = list[i].menuName;
+      result[list[i].id] = list[i].menuName;
     } else if (list[i].children && !list[i].btnList) {
       result = { ...result, ...permissionMapping(list[i].children) };
     }
