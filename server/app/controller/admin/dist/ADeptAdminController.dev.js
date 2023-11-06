@@ -58,6 +58,7 @@ function (_BaseController) {
     _this.next = next;
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/dept";
+    _this.limit = ["list"];
     return _this;
   }
 

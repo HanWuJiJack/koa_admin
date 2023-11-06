@@ -8,7 +8,6 @@ const {
 
 module.exports = async (ctx, next) => {
     ctx.state.userInfo = {}
-
     await next();
     // console.log("ctx.state.userId.exp", ctx.state.userId && ctx.state.userId.exp)
     if (!ctx.body) {

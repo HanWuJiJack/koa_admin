@@ -19,6 +19,7 @@ class DeptAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/dept"
+        this.limit = ["list"]
     }
     async list() {
         await ApiAuth({
