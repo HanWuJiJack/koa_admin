@@ -28,8 +28,10 @@ var PUserAdminController = require('./PUserAdminController');
 
 var AModelsAdminController = require('./AModelsAdminController');
 
+var ATokenAdminController = require('./ATokenAdminController');
+
 module.exports = {
-  auth: [ADeptAdminController, ADictAdminController, ADictTypeAdminController, AFaasAdminController, AFileController, AFileExcelController, ALeavesAdminController, AMenuAdminController, ARolesAdminController, AUserAdminController, AModelsAdminController],
+  auth: [ADeptAdminController, ADictAdminController, ADictTypeAdminController, AFaasAdminController, AFileController, AFileExcelController, ALeavesAdminController, AMenuAdminController, ARolesAdminController, AUserAdminController, AModelsAdminController, ATokenAdminController],
   "public": [// PUserAdminController,
   PLoginAdminController, PPublicRasController]
 };

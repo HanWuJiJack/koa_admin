@@ -9,11 +9,20 @@ import stroage from './stroage'
 import router from '../router'
 import errorCode from './errorCode'
 import config from '../config/index'
-import store from './../store'
+import store from "./../store";
 import {
   encrypt
 } from './tools'
 import _ from 'lodash'
+import {
+  refreshToken
+} from "@/api/system/users";
+
+// 十分钟刷新一次token
+const exp = 10 * 60 * 1000
+// const exp = 10 * 1000
+let isRefresh = true
+
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
@@ -122,6 +131,11 @@ service.interceptors.response.use(res => {
     let msg = error.response.data.message || message
     const userInfo = stroage.getItem('userInfo');
     if (error.response.status === 401 && userInfo && userInfo.token) {
+      store.commit("SET_USERINFO", {});
+      store.commit("auth/SET_MENULIST", []);
+      store.commit("auth/SET_BTNLIST", []);
+      store.commit("auth/SET_ROUTER_LIST", []);
+      store.commit("auth/SET_ROUTER_REFRESH");
       debounceToken()
       return Promise.reject('令牌验证失败')
     } else if (error.response.status > 500) {
@@ -186,7 +200,26 @@ function request({
       headers,
       ...config
     }).then((res) => {
-      resolve(res.data)
+      // 刷新token
+      if (res.exp && Date.now() + exp > res.exp) {
+        if (isRefresh) {
+          isRefresh = false
+          refreshToken().then((res) => {
+            const userInfo = stroage.getItem('userInfo');
+            userInfo.token = res.token
+            stroage.setItem('userInfo', userInfo);
+            console.log("token", res.token)
+            isRefresh = true
+
+          }).finally(() => {
+            resolve(res.data)
+          })
+        } else {
+          resolve(res.data)
+        }
+      } else {
+        resolve(res.data)
+      }
     }).catch(error => {
       reject(error)
     }).finally(() => {

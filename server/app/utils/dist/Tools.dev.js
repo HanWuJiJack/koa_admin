@@ -139,10 +139,10 @@ var aesDecrypt = function aesDecrypt(crypted) {
   var decrypted = decipher.update(crypted, "hex", "utf8");
   decrypted += decipher["final"]("utf8");
   return decrypted;
-}; // token过期时间
+}; // token过期时间(30分钟)
 
 
-var ttl = 1000 * 60 * 60 * 12;
+var ttl = 1000 * 60 * 30; // const ttl = 1000 * 20
 
 function encode(key) {
   var payload = {
@@ -157,7 +157,8 @@ function decode(token) {
   if (payload == null) throw ExceptionCode.AUTH_FAILED;
   if (payload.exp > 0 && Date.now() >= payload.exp) throw ExceptionCode.TOKEN_FAILED;
   return {
-    id: payload.id
+    id: payload.id,
+    exp: payload.exp
   };
 }
 
@@ -322,6 +323,7 @@ module.exports = {
   aesDecrypt: aesDecrypt,
   encode: encode,
   UserId: UserId,
+  decode: decode,
   code2Session: code2Session,
   decryptWXData: decryptWXData,
   success: success,

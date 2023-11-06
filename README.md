@@ -1,7 +1,7 @@
 # 功能介绍 
 基础框架：后端：koa+mongodb;前端：vue3+Element Plus  
-系统核心功能：权限管理、OA审批、token验权、Rsa加密登录账户信息、功能即服务（FaaS）、接口权限控制、动态表单等。  
-## 本项目（约定优于配置）有以下约定 
+系统核心功能：权限管理、token验权、token续期、Rsa加密登录账户信息、功能即服务（FaaS）、接口权限控制、动态表单等。  
+## 本项目（约定优于配置）有以下约定
 
 #### 类内部函数方法名包含以下 如：list、get、create、update、remove、del等会默认使用以下对应的method进行请求 
 ```
@@ -50,140 +50,84 @@ if (key.indexOf('list') > -1) {
 字典标签： 
 ```
 module.exports = async () => {
-    if (!modelSchemas.model100001) {
-        modelSchemas.model100001 = mongoose.model('test1', mongoose.Schema({
-            "createTime": {
-                type: Date,
-                default: Date.now()
-            },
-            "lastLoginTime": {
-                type: Date,
-                default: Date.now()
-            },
-            remark: String
-        }, {
-            autoIndex: true,
-            autoCreate: true
-        }), 'test1')
-    }
+    modelSchemas.formSchema = mongoose.model('form', mongoose.Schema({
+        id: Number,
+        "state": {
+            type: Number,
+            default: 1
+        },
+        "name": String,
+        "code": String,
+        "config": mongoose.Schema.Types.Mixed,
+        "createTime": {
+            type: Date,
+            default: Date.now()
+        },
+        updateTime: {
+            type: Date,
+            default: Date.now()
+        },
+        updateByUser:Number,
+        createTime: {
+            type: Date,
+            default: Date.now()
+        },
+        createByUser:Number,
+        remark: String
+    }, {
+        autoCreate: true
+    }), 'form')
 }
 
 ```
 具体实现函数 在faas模块中添加具体的方法
-```
-// put
-async () => {
-    try {
-        const {
-            id
-        } = ctx.request.body
-        const {
-            ...params
-        } = ctx.request.body;
-        params.updateTime = new Date();
-        const res = await modelSchemas.model100001.findOneAndUpdate({
-            id
-        }, params, {
-            new: true
-        });
-        return Tools.success({
-            data: res,
-            msg: '修改成功！'
-        })
-    } catch (error) {
-        return Tools.fail({
-            msg: error.stack
-        })
+module.exports = async () => {
+    await ApiAuth({
+            userInfo: ctx.state.userInfo,
+            code: ["faas:form:get"]
+    })
+    const {
+        id,
+    } = ctx.request.query
+    if (!id) {
+        throw ExceptionCode.INVALID_PARAMS
     }
-}
+    const params = {}
+    params.id = parseInt(id);
+    const query = await modelSchemas.formSchema.findOne(params)
 
-// delete
-async () => {
-    try {
-        const {
-            ids
-        } = ctx.request.body
-        let arrId = ids.split(",").filter((item) => item)
-        let res = await modelSchemas.model100001.deleteMany({
-            id: {
-                $in: arrId
-            }
-        })
-        return Tools.success({
-            data: res,
-            msg: `删除成功`
-        })
-    } catch (error) {
-        return Tools.fail({
-            msg: error.stack
-        })
-    }
-}
-
-// get
-async () => {
-    try {
-        const {
-            id
-        } = ctx.params
-        const params = {}
-        if (id) params.id = id
-        const query = await modelSchemas.model100001.findOne(params) // 查询所有数据
-        return Tools.success({
-            data: {
-                ...query._doc
-            }
-        })
-    } catch (error) {
-        return Tools.fail(error.stack)
-    }
+    return Tools.success({
+        data: {
+            ...query._doc
+        }
+    })
 }
 ```
 
 # 接口权限设置
-核心逻辑：apiAuth函数 如果列表中不存在权限字段 然后进行抛错 通过GlobalException中间件进行捕获处理
+核心逻辑：ApiAuth函数 如果列表中不存在权限字段 然后进行抛错 通过GlobalException中间件进行捕获处理
 ```
-async list() {
-        // 接口级别权限判断
-        apiAuth({
-            ctx: this.ctx,
-            next: this.next,
-            code: "list2"
-        })
-        
-        try {
-            const {
-                userId,
-                userName,
-                state
-            } = this.ctx.request.query;
-            const {
-                page,
-                skipIndex
-            } = super.pager(this.ctx.request.query)
-            let params = {}
-            if (userId) params.userId = userId;
-            if (userName) params.userName = userName;
-            if (state && state != '0') params.state = parseInt(state);
-            // 根据条件查询所有用户列表
-            const query = Schema.usersSchema.find(params) //查询所有数据
-            const list = await query.skip(skipIndex).limit(page.pageSize) //根据查出的所有数据截取对应页数的数据
-            const total = await Schema.usersSchema.countDocuments(params);
-            this.ctx.body = super.success({
-                data: {
-                    page: {
-                        ...page,
-                        total
-                    },
-                    list
-                }
-            })
-        } catch (error) {
-            this.ctx.body = super.fail({
-                data: {},
-                msg: `查询异常:${error.stack}`
-            })
+module.exports = async () => {
+    await ApiAuth({
+            userInfo: ctx.state.userInfo,
+            code: ["faas:form:get"]
+    })
+    const {
+        id,
+    } = ctx.request.query
+    if (!id) {
+        throw ExceptionCode.INVALID_PARAMS
+    }
+    const params = {}
+    params.id = parseInt(id);
+    const query = await modelSchemas.formSchema.findOne(params)
+
+    return Tools.success({
+        data: {
+            ...query._doc
         }
+    })
+}
 ```
 
 # 数据库基础数据
@@ -234,7 +178,7 @@ Map -->
     // async remove(){}
     结果：
         url：xxx/remove
-        method: put 
+        method: delete 
 
 # 体验
 <!-- [后台管理系统链接](https://s1.z100.vip:8555/vue/welcome) -->

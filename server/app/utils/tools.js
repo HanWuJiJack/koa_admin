@@ -1,5 +1,7 @@
 'use strict';
-const { filter } = require('lodash');
+const {
+    filter
+} = require('lodash');
 const _ = require('lodash');
 const moment = require('moment')
 const crypto = require("crypto");
@@ -50,6 +52,7 @@ const cacheEmailCode = (() => {
             }, 1000 * 60 * time)
         }
     }
+
     function get(key) {
         return obj[key]
     }
@@ -107,8 +110,10 @@ const aesDecrypt = (crypted, secret = process.env.APP_KEY) => {
     return decrypted;
 };
 
-// token过期时间
-const ttl = 1000 * 60 * 60 * 12
+// token过期时间(30分钟)
+const ttl = 1000 * 60 * 30
+// const ttl = 1000 * 20
+
 function encode(key) {
     let payload = {
         exp: ttl ? (Date.now() + ttl) : 0,
@@ -123,6 +128,7 @@ function decode(token) {
     if ((payload.exp > 0) && (Date.now() >= payload.exp)) throw ExceptionCode.TOKEN_FAILED;
     return {
         id: payload.id,
+        exp: payload.exp
     }
 }
 
@@ -137,13 +143,17 @@ const code2Session = (code) => {
             .then((res) => {
                 resolve(res.data)
             }, (err) => {
-                logger.error("code2Session",err)
+                logger.error("code2Session", err)
                 reject(err)
             })
     })
 }
 // 微信解密
-const decryptWXData = ({ sessionKey, encryptedData, iv }) => {
+const decryptWXData = ({
+    sessionKey,
+    encryptedData,
+    iv
+}) => {
     // var sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
     // var encryptedData =
     //     'CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM' +
@@ -167,7 +177,10 @@ const decryptWXData = ({ sessionKey, encryptedData, iv }) => {
     var pc = new WXBizDataCrypt(process.env.WX_APPID, sessionKey)
     return pc.decryptData(encryptedData, iv)
 }
-const success = ({ data, msg }) => {
+const success = ({
+    data,
+    msg
+}) => {
     return {
         'status': 'ok',
         'code': 200,
@@ -177,7 +190,10 @@ const success = ({ data, msg }) => {
     }
 }
 
-const fail = ({ data, msg }) => {
+const fail = ({
+    data,
+    msg
+}) => {
     return {
         'status': 'error',
         'code': 403,
@@ -191,7 +207,10 @@ const fail = ({ data, msg }) => {
  * @param {number} pageNum 
  * @param {number} pageSize 
  */
-const pager = ({ pageNum = 1, pageSize = 10 }) => {
+const pager = ({
+    pageNum = 1,
+    pageSize = 10
+}) => {
     pageNum *= 1;
     pageSize *= 1;
     const skipIndex = (pageNum - 1) * pageSize;
@@ -265,6 +284,7 @@ module.exports = {
     aesDecrypt,
     encode,
     UserId,
+    decode,
     code2Session,
     decryptWXData,
     success,

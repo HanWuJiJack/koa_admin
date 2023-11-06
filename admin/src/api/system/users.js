@@ -66,3 +66,10 @@ export function putUserInfo(data) {
         data: data
     })
 }
+
+export function refreshToken() {
+    return request({
+        url: '/auth/admin/token/list',
+        method: 'get',
+    })
+}

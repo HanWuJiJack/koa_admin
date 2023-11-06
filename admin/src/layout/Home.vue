@@ -78,7 +78,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 const route = useRoute();
 const router = useRouter();
-const store = new useStore();
+const store = useStore();
 
 const menuRef = ref(null);
 

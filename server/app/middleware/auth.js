@@ -7,13 +7,17 @@ const {
 } = require(path.join(process.cwd(), "./config/logger"))
 
 function checkAuth(ctx) {
-    if (!ctx.header.authorization) {q
+    if (!ctx.header.authorization) {
         throw ExceptionCode.AUTH_FAILED
     }
-    let id = tools.UserId(ctx.header.authorization.split(" ")[1]);
+    let {
+        id,
+        exp
+    } = tools.decode(ctx.header.authorization.split(" ")[1]);
     /* 在这里注入 user 参数 */
     ctx.state.userId = {
         id: id,
+        exp:exp
     }
 }
 module.exports = async (ctx, next) => {

@@ -13,15 +13,18 @@ var _require = require(path.join(process.cwd(), "./config/logger")),
 
 function checkAuth(ctx) {
   if (!ctx.header.authorization) {
-    q;
     throw ExceptionCode.AUTH_FAILED;
   }
 
-  var id = tools.UserId(ctx.header.authorization.split(" ")[1]);
+  var _tools$decode = tools.decode(ctx.header.authorization.split(" ")[1]),
+      id = _tools$decode.id,
+      exp = _tools$decode.exp;
   /* 在这里注入 user 参数 */
 
+
   ctx.state.userId = {
-    id: id
+    id: id,
+    exp: exp
   };
 }
 

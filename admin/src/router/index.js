@@ -136,6 +136,8 @@ router.beforeEach((to, from, next) => {
                     store.commit("auth/SET_MENULIST", []);
                     store.commit("auth/SET_BTNLIST", []);
                     store.commit("auth/SET_ROUTER_LIST", []);
+                    store.commit("auth/SET_ROUTER_REFRESH");
+                    // console.log("store.state.userInfo", store.state.userInfo)
                     next({
                         path: 'login',
                         replace: true

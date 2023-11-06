@@ -8,11 +8,13 @@ const {
 
 module.exports = async (ctx, next) => {
     ctx.state.userInfo = {}
+
     await next();
-    // console.log("ctx.body",ctx.body)
-    if(!ctx.body){
+    // console.log("ctx.state.userId.exp", ctx.state.userId && ctx.state.userId.exp)
+    if (!ctx.body) {
         ctx.body = ExceptionCode.FILE_ROUTER_ERR
     }
+    ctx.body.exp = ctx.state.userId && ctx.state.userId.exp
     logger._request.info(`
     [用户:${ctx.state.userInfo.userName}]--
     [id:${ctx.state.userInfo.userId}]--
