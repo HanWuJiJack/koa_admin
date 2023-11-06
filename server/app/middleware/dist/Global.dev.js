@@ -28,7 +28,7 @@ module.exports = function _callee(ctx, next) {
 
           ctx.body.exp = ctx.state.userId && ctx.state.userId.exp;
 
-          logger._request.info("\n    [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n    [id:").concat(ctx.state.userInfo.userId, "]--\n    [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n    [body:").concat(JSON.stringify(ctx.request.body), "]--\n    [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]\n    "));
+          logger._request.info("\n    [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n    [id:").concat(ctx.state.userInfo.id, "]--\n    [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n    [body:").concat(JSON.stringify(ctx.request.body), "]--\n    [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]\n    "));
 
         case 6:
         case "end":

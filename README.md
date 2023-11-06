@@ -81,6 +81,7 @@ module.exports = async () => {
 
 ```
 具体实现函数 在faas模块中添加具体的方法
+```
 module.exports = async () => {
     await ApiAuth({
             userInfo: ctx.state.userInfo,
@@ -106,6 +107,7 @@ module.exports = async () => {
 
 # 接口权限设置
 核心逻辑：ApiAuth函数 如果列表中不存在权限字段 然后进行抛错 通过GlobalException中间件进行捕获处理
+
 ```
 module.exports = async () => {
     await ApiAuth({
