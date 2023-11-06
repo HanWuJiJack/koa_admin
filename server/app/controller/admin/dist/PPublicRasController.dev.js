@@ -26,23 +26,15 @@ var BaseController = require('../BaseController');
 
 var Schema = require('./../../model/Model.js');
 
-var _require = require('../../utils/Tools.js'),
-    encode = _require.encode,
-    hash = _require.hash;
+var _require = require("../../utils/Tools_rsa.js"),
+    getPublicKey = _require.getPublicKey;
 
-var path = require("path");
-
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
-    logger = _require2.logger;
-
-var ApiAuth = require('../../utils/ApiAuth.js');
-
-var LoginAdminController =
+var PublicRasController =
 /*#__PURE__*/
 function (_BaseController) {
-  _inherits(LoginAdminController, _BaseController);
+  _inherits(PublicRasController, _BaseController);
 
-  function LoginAdminController(_ref) {
+  function PublicRasController(_ref) {
     var _this;
 
     var _ref$ctx = _ref.ctx,
@@ -53,73 +45,46 @@ function (_BaseController) {
     } : _ref$ctx,
         next = _ref.next;
 
-    _classCallCheck(this, LoginAdminController);
+    _classCallCheck(this, PublicRasController);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(LoginAdminController).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PublicRasController).call(this));
     _this.ctx = ctx;
     _this.next = next;
-    _this.url = "/admin/p/login";
+    _this.url = "/admin/p/ras";
     return _this;
   }
 
-  _createClass(LoginAdminController, [{
-    key: "create",
-    value: function create() {
-      var _this$ctx$request$bod, userEmail, userPwd, res, token, data;
-
-      return regeneratorRuntime.async(function create$(_context) {
+  _createClass(PublicRasController, [{
+    key: "list_one",
+    value: function list_one() {
+      var publicKey;
+      return regeneratorRuntime.async(function list_one$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              this.ctx.verifyParams({
-                userEmail: 'string',
-                userPwd: 'string'
-              });
-              _context.prev = 1;
-              _this$ctx$request$bod = this.ctx.request.body, userEmail = _this$ctx$request$bod.userEmail, userPwd = _this$ctx$request$bod.userPwd;
-              _context.next = 5;
-              return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
-                userEmail: userEmail,
-                userPwd: hash(userPwd),
-                state: 1
-              }));
-
-            case 5:
-              res = _context.sent;
-
-              if (res) {
-                token = encode(res._doc.id);
-                data = res._doc;
-                data.token = token;
-                this.ctx.body = _get(_getPrototypeOf(LoginAdminController.prototype), "success", this).call(this, {
-                  data: data,
-                  msg: '登陆成功！'
+              try {
+                publicKey = getPublicKey();
+                this.ctx.body = _get(_getPrototypeOf(PublicRasController.prototype), "success", this).call(this, {
+                  data: {
+                    publicKey: publicKey.toString()
+                  }
                 });
-              } else {
-                this.ctx.body = _get(_getPrototypeOf(LoginAdminController.prototype), "fail", this).call(this, {
-                  data: {},
-                  msg: '账号被禁用、账号或密码错误！'
+              } catch (error) {
+                this.ctx.body = _get(_getPrototypeOf(PublicRasController.prototype), "fail", this).call(this, {
+                  msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(error.stack)
                 });
               }
 
-              _context.next = 12;
-              break;
-
-            case 9:
-              _context.prev = 9;
-              _context.t0 = _context["catch"](1);
-              logger.error(_context.t0);
-
-            case 12:
+            case 1:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[1, 9]]);
+      }, null, this);
     }
   }]);
 
-  return LoginAdminController;
+  return PublicRasController;
 }(BaseController);
 
-module.exports = LoginAdminController;
+module.exports = PublicRasController;

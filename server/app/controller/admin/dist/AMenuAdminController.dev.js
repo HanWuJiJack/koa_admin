@@ -53,6 +53,8 @@ var _require = require(path.join(process.cwd(), "./config/logger")),
 
 var AutoID = require('./../../utils/AutoID');
 
+var ApiAuth = require('../../utils/ApiAuth.js');
+
 var MenuAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -88,45 +90,52 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:list"]
+              }));
+
+            case 2:
               userInfo = this.userInfo;
-              _context.prev = 1;
+              _context.prev = 3;
               _this$ctx$request$que = this.ctx.request.query, menuName = _this$ctx$request$que.menuName, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               params = {};
-              if (menuName) params.menuName = menuName;
+              if (menuName) params.menuName = new RegExp("^".concat(menuName), 'ig');
               params.state = parseInt(state);
 
               if (!(userInfo.role === 0)) {
-                _context.next = 15;
+                _context.next = 17;
                 break;
               }
 
-              _context.next = 9;
+              _context.next = 11;
               return regeneratorRuntime.awrap(Schema.menusSchema.find(params));
 
-            case 9:
+            case 11:
               _context.t0 = _context.sent;
 
               if (_context.t0) {
-                _context.next = 12;
+                _context.next = 14;
                 break;
               }
 
               _context.t0 = [];
 
-            case 12:
+            case 14:
               rootList = _context.t0;
-              _context.next = 27;
+              _context.next = 29;
               break;
 
-            case 15:
-              _context.next = 17;
+            case 17:
+              _context.next = 19;
               return regeneratorRuntime.awrap(Schema.rolesSchema.find({
                 id: {
                   $in: userInfo.roleList
                 }
               }));
 
-            case 17:
+            case 19:
               roleData = _context.sent;
               // 然后根据取出来的角色，取出角色拥有的菜单数据，多角色出现相同的对他进行合并，也就是并集了【去重处理】~
               resultPermissonList = [];
@@ -135,114 +144,155 @@ function (_BaseController) {
               });
               resultPermissonList = _toConsumableArray(new Set(resultPermissonList)); // 去重相同的菜单id
 
-              _context.next = 23;
+              _context.next = 25;
               return regeneratorRuntime.awrap(Schema.menusSchema.find(_objectSpread({}, params, {
                 id: {
                   $in: resultPermissonList
                 }
               })));
 
-            case 23:
+            case 25:
               _context.t1 = _context.sent;
 
               if (_context.t1) {
-                _context.next = 26;
+                _context.next = 28;
                 break;
               }
 
               _context.t1 = [];
 
-            case 26:
+            case 28:
               rootList = _context.t1;
 
-            case 27:
+            case 29:
               permissionList = _get(_getPrototypeOf(MenuAdminController.prototype), "TreeMenu", this).call(this, rootList, null);
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 data: permissionList
               });
-              _context.next = 34;
+              _context.next = 36;
               break;
 
-            case 31:
-              _context.prev = 31;
-              _context.t2 = _context["catch"](1);
+            case 33:
+              _context.prev = 33;
+              _context.t2 = _context["catch"](3);
               logger.error(_context.t2);
 
-            case 34:
+            case 36:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[1, 31]]);
+      }, null, this, [[3, 33]]);
     }
   }, {
     key: "create",
     value: function create() {
-      var _this$ctx$request$bod, id, action, params, res, info, currentIndex, menusInfo;
+      var _this$ctx$request$bod, id, action, params, res, info, currentIndex, menusInfo, rolesInfo;
 
       return regeneratorRuntime.async(function create$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["id", "action"]);
-              _context2.prev = 1;
 
               if (!(action == 'create')) {
-                _context2.next = 14;
+                _context2.next = 6;
                 break;
               }
 
-              _context2.next = 5;
+              _context2.next = 4;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:post"]
+              }));
+
+            case 4:
+              _context2.next = 13;
+              break;
+
+            case 6:
+              if (!(action == 'edit')) {
+                _context2.next = 11;
+                break;
+              }
+
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:put"]
+              }));
+
+            case 9:
+              _context2.next = 13;
+              break;
+
+            case 11:
+              _context2.next = 13;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:remove"]
+              }));
+
+            case 13:
+              _context2.prev = 13;
+
+              if (!(action == 'create')) {
+                _context2.next = 26;
+                break;
+              }
+
+              _context2.next = 17;
               return regeneratorRuntime.awrap(AutoID({
                 code: "menuId"
               }));
 
-            case 5:
+            case 17:
               currentIndex = _context2.sent;
               params.id = currentIndex;
               params.createByUser = this.ctx.state.userId.id;
-              _context2.next = 10;
+              _context2.next = 22;
               return regeneratorRuntime.awrap(Schema.menusSchema.create(params));
 
-            case 10:
+            case 22:
               res = _context2.sent;
               info = '创建成功';
-              _context2.next = 33;
+              _context2.next = 51;
               break;
 
-            case 14:
+            case 26:
               if (!(action == 'edit')) {
-                _context2.next = 23;
+                _context2.next = 35;
                 break;
               }
 
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id; // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
 
-              _context2.next = 19;
+              _context2.next = 31;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOneAndUpdate({
                 id: id
               }, params));
 
-            case 19:
+            case 31:
               res = _context2.sent;
               info = '编辑成功';
-              _context2.next = 33;
+              _context2.next = 51;
               break;
 
-            case 23:
-              _context2.next = 25;
+            case 35:
+              _context2.next = 37;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOne({
                 parentId: {
                   $all: [id]
-                }
+                },
+                state: 1
               }));
 
-            case 25:
+            case 37:
               menusInfo = _context2.sent;
 
               if (!menusInfo) {
-                _context2.next = 29;
+                _context2.next = 41;
                 break;
               }
 
@@ -251,38 +301,65 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 29:
-              _context2.next = 31;
+            case 41:
+              _context2.next = 43;
+              return regeneratorRuntime.awrap(Schema.rolesSchema.findOne({
+                $or: [{
+                  "permissionList.checkedKeys": {
+                    $all: [id]
+                  }
+                }, {
+                  "permissionList.permissionList": {
+                    $all: [id]
+                  }
+                }]
+              }));
+
+            case 43:
+              rolesInfo = _context2.sent;
+
+              if (!rolesInfo) {
+                _context2.next = 47;
+                break;
+              }
+
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
+                msg: "请先将绑定的角色删除！"
+              });
+              return _context2.abrupt("return");
+
+            case 47:
+              _context2.next = 49;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOneAndUpdate({
                 id: id
               }, {
                 state: 2
               }));
 
-            case 31:
+            case 49:
               res = _context2.sent;
               info = '删除成功';
 
-            case 33:
+            case 51:
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 msg: info
               });
-              _context2.next = 39;
+              _context2.next = 57;
               break;
 
-            case 36:
-              _context2.prev = 36;
-              _context2.t0 = _context2["catch"](1);
+            case 54:
+              _context2.prev = 54;
+              _context2.t0 = _context2["catch"](13);
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 39:
+            case 57:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[1, 36]]);
+      }, null, this, [[13, 54]]);
     }
   }, {
     key: "list_permisson_menu",

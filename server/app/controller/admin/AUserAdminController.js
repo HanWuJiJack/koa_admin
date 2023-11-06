@@ -3,13 +3,12 @@ const Schema = require('./../../model/Model.js')
 const {
     hash
 } = require('../../utils/Tools.js')
-const apiAuth = require('../../utils/ApiAuth.js')
 const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('./../../utils/AutoID')
-
+const ApiAuth = require('../../utils/ApiAuth.js')
 class UserAdminController extends BaseController {
     constructor({
         ctx = {
@@ -27,10 +26,10 @@ class UserAdminController extends BaseController {
     }
     async list() {
         // 接口级别权限判断
-        // await apiAuth({
-        //     userInfo: ctx.state.userInfo,
-        //     code: ["100017"]
-        // })
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:list"]
+        })
         try {
             const {
                 userId,
@@ -69,6 +68,10 @@ class UserAdminController extends BaseController {
     }
 
     async create() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:post"]
+        })
         const {
             id,
             userName,
@@ -88,60 +91,63 @@ class UserAdminController extends BaseController {
             expressName,
             expressPhone,
         } = this.ctx.request.body;
-        if (action === 'add') {
-            this.ctx.verifyParams({
-                userName: 'string',
-                userEmail: 'string',
-                deptId: "array"
+        this.ctx.verifyParams({
+            userName: 'string',
+            userEmail: 'string',
+            deptId: "array"
+        })
+        //先查一下是否数据库里已经存在
+        const repeat = await Schema.usersSchema.findOne({
+            $or: [{
+                userEmail
+            }]
+        }, 'id userName userEmail');
+        if (repeat) {
+            this.ctx.body = super.fail({
+                msg: `您新增的用户:邮箱:${repeat.userEmail}已经存在~`
             })
-            //先查一下是否数据库里已经存在
-            const repeat = await Schema.usersSchema.findOne({
-                $or: [{
-                    userEmail
-                }]
-            }, 'id userName userEmail');
-
-            if (repeat) {
-                this.ctx.body = super.fail({
-                    msg: `您新增的用户:邮箱:${repeat.userEmail}已经存在~`
+            return;
+        } else {
+            try {
+                const currentIndex = await AutoID({
+                    code: "userId"
                 })
-                return;
-            } else {
-                try {
-                    const currentIndex = await AutoID({
-                        code: "userId"
-                    })
-                    const addUser = new Schema.usersSchema({
-                        id: currentIndex,
-                        createByUser: this.ctx.state.userId.id,
-                        userName,
-                        userPwd: hash('123456'),
-                        userEmail,
-                        role: 1, //1:默认普通用户 0是超级管理员
-                        roleList,
-                        job,
-                        state,
-                        deptId,
-                        mobile,
-                        brand,
-                        company,
-                        companyAddress,
-                        InvoiceTitle,
-                        dutyParagraph,
-                        expressAddress,
-                        expressName,
-                        expressPhone,
-                    });
-                    await addUser.save();
-                    this.ctx.body = super.success({}, '添加用户成功')
-                } catch (error) {
-                    this.ctx.body = super.fail({msg: error.stack})
-                }
+                const addUser = new Schema.usersSchema({
+                    id: currentIndex,
+                    createByUser: this.ctx.state.userId.id,
+                    userName,
+                    userPwd: hash('123456'),
+                    userEmail,
+                    role: 1, //1:默认普通用户 0是超级管理员
+                    roleList,
+                    job,
+                    state,
+                    deptId,
+                    mobile,
+                    brand,
+                    company,
+                    companyAddress,
+                    InvoiceTitle,
+                    dutyParagraph,
+                    expressAddress,
+                    expressName,
+                    expressPhone,
+                });
+                await addUser.save();
+                this.ctx.body = super.success({}, '添加用户成功')
+            } catch (error) {
+                this.ctx.body = super.fail({
+                    msg: error.stack
+                })
             }
         }
     }
 
     async update() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:put"]
+        })
         try {
             const {
                 id
@@ -169,6 +175,10 @@ class UserAdminController extends BaseController {
     }
 
     async update_pwd() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:put"]
+        })
         const {
             userPwd,
             id
@@ -196,6 +206,10 @@ class UserAdminController extends BaseController {
 
     // 支持单个删除
     async del() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:remove"]
+        })
         const {
             userIds,
         } = this.ctx.request.body;
@@ -220,6 +234,10 @@ class UserAdminController extends BaseController {
 
     // 永久删除
     async del_force() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:remove"]
+        })
         try {
             const {
                 userIds
@@ -240,6 +258,10 @@ class UserAdminController extends BaseController {
         }
     }
     async list_all() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:list"]
+        })
         try {
             const list = await Schema.usersSchema.find({}) //查询所有数据
             this.ctx.body = super.success({
@@ -253,6 +275,10 @@ class UserAdminController extends BaseController {
     }
 
     async list_one() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:user:mySelf"]
+        })
         this.ctx.body = super.success({
             data: this.userInfo
         })

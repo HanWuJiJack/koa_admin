@@ -29,13 +29,13 @@
     <!-- 表格区域 -->
     <div class="users-bottom">
       <div class="users-bottom-top">
-        <el-button type="primary" @click="addUserHandler" v-permisson="'user-create'"
+        <el-button type="primary" @click="addUserHandler" v-permisson="'system:user:post'"
           >新增用户</el-button
         >
         <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
-          v-permisson="'user-deletes'"
+          v-permisson="'system:user:remove'"
           >批量删除</el-button
         >
       </div>
@@ -58,13 +58,13 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row, 'edit')"
-                v-permisson="'user-edit'"
+                v-permisson="'system:user:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 @click="handleEdit(scope.row, 'psw')"
-                v-permisson="'user-edit'"
+                v-permisson="'system:user:put'"
                 >修改密码</el-button
               >
               <el-button
@@ -72,7 +72,7 @@
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'user-delete'"
+                v-permisson="'system:user:remove'"
                 >删除</el-button
               >
             </template>
@@ -375,7 +375,7 @@ const getUserListRequest = async () => {
     userData.value = res.list;
     pageData.total = res.page.total;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 //查询事件

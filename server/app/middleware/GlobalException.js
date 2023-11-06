@@ -1,5 +1,7 @@
 const ExceptionCode = require('../utils/ExceptionCode');
-const { decrypt } = require("../utils/Tools_rsa")
+const {
+    decrypt
+} = require("../utils/Tools_rsa")
 const path = require("path")
 const {
     logger
@@ -20,7 +22,10 @@ const Exception = async (ctx, next) => {
         await next();
         // 处理字段验证报错
         if (ctx.body && ctx.body.message === 'Validation Failed') {
-            throw { ...ExceptionCode.INVALID_PARAMS, message: ctx.body.errors };
+            throw {
+                ...ExceptionCode.INVALID_PARAMS,
+                message: ctx.body.errors
+            };
         }
         // 处理404
         if (ctx.response.status === 404) {
@@ -29,6 +34,7 @@ const Exception = async (ctx, next) => {
         return ctx.body
     } catch (error) {
         if (error && error.code) {
+            // console.log("22222")
             // 错误类code :1000 - 2000
             if (error.code >= 1000 && error.code < 2000) {
                 const status = error.code === 1003 ? 401 : 403
@@ -42,24 +48,43 @@ const Exception = async (ctx, next) => {
                 ctx.body = error
             }
         } else if (ctx.response.status && ctx.response.status >= 500) {
+            // console.log("33333333")
             ctx.body = {
                 code: 999999,
                 message: "请将接口保存并联系后端！"
             }
         } else if (error || ctx.response.status) {
+            // console.log("4444444444")
             // ctx.body = ExceptionCode.UNDEFINED
             if (error.message === 'Validation Failed') {
-                ctx.body = { ...ExceptionCode.INVALID_PARAMS };
+                ctx.body = {
+                    ...ExceptionCode.INVALID_PARAMS
+                };
+            } else if (error.message === 'Validation error') {
+                ctx.body = {
+                    ...ExceptionCode.INVALID_PARAMS
+                };
+            } else if (error.message.indexOf("文件大于") > -1) {
+                ctx.body = {
+                    ...ExceptionCode.FILE_SIZE_ERR,
+                    title: error.message
+                };
+            } else if (error.message.indexOf("文件格式只支持") > -1) {
+                ctx.body = {
+                    ...ExceptionCode.FILE_TYPE_ERR,
+                    title: error.message
+                };
+            } else {
+                // console.log("55555555")
+                ctx.body = {
+                    code: 999999,
+                    message: error.message
+                }
             }
-            if (error.message === 'Validation error') {
-                ctx.body = { ...ExceptionCode.INVALID_PARAMS };
-            }
-
-            if (error.message.indexOf("文件大于") > -1) {
-                ctx.body = { ...ExceptionCode.FILE_SIZE_ERR, title: error.message };
-            }
-            if (error.message.indexOf("文件格式只支持") > -1) {
-                ctx.body = { ...ExceptionCode.FILE_TYPE_ERR, title: error.message };
+        } else {
+            ctx.body = {
+                code: 999999,
+                message: error.message
             }
         }
         logger._globalErr.error(`

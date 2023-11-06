@@ -16,7 +16,7 @@ module.exports = {
                     method,
                 } = routers[key];
                 // 路径前缀
-                if(routers[key].api.indexOf("user") > -1){
+                if(routers[key].api.indexOf("list_all") > -1){
                     logger.info("接口列表:", routers[key])
                 }
                 // 路由是否需要name

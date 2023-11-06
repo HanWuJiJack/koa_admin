@@ -30,5 +30,6 @@ var AModelsAdminController = require('./AModelsAdminController');
 
 module.exports = {
   auth: [ADeptAdminController, ADictAdminController, ADictTypeAdminController, AFaasAdminController, AFileController, AFileExcelController, ALeavesAdminController, AMenuAdminController, ARolesAdminController, AUserAdminController, AModelsAdminController],
-  "public": [PUserAdminController, PLoginAdminController, PPublicRasController]
+  "public": [// PUserAdminController,
+  PLoginAdminController, PPublicRasController]
 };

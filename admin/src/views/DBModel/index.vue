@@ -21,13 +21,13 @@
     <!-- 表格区域 -->
     <div class="bottom">
       <div class="bottom-top">
-        <el-button type="primary" @click="addHandler" v-permisson="'model-create'"
+        <el-button type="primary" @click="addHandler" v-permisson="'faas:model:post'"
           >新增</el-button
         >
         <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
-          v-permisson="'model-deletes'"
+          v-permisson="'faas:model:remove'"
           >批量删除</el-button
         >
       </div>
@@ -50,14 +50,14 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'model-edit'"
+                v-permisson="'faas:model:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'model-delete'"
+                v-permisson="'faas:model:remove'"
                 >删除</el-button
               >
             </template>

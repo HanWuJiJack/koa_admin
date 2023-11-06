@@ -73,7 +73,7 @@
             placeholder="请输入岗位"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-permisson="'system:user:mySelf'">
           <el-button type="primary" @click="dialogSubmitHandler">确 定</el-button>
         </el-form-item>
       </el-form>

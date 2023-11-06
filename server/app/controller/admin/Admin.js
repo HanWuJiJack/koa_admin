@@ -32,7 +32,7 @@ module.exports = {
         AModelsAdminController
     ],
     public: [
-        PUserAdminController,
+        // PUserAdminController,
         PLoginAdminController,
         PPublicRasController
     ]

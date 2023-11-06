@@ -37,14 +37,14 @@ var Schema = require('./../../model/Model.js');
 var _require = require('../../utils/Tools.js'),
     hash = _require.hash;
 
-var apiAuth = require('../../utils/ApiAuth.js');
-
 var path = require("path");
 
 var _require2 = require(path.join(process.cwd(), "./config/logger")),
     logger = _require2.logger;
 
 var AutoID = require('./../../utils/AutoID');
+
+var ApiAuth = require('../../utils/ApiAuth.js');
 
 var UserAdminController =
 /*#__PURE__*/
@@ -81,7 +81,14 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:list"]
+              }));
+
+            case 2:
+              _context.prev = 2;
               _this$ctx$request$que = this.ctx.request.query, userId = _this$ctx$request$que.userId, userName = _this$ctx$request$que.userName, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(UserAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
@@ -91,17 +98,17 @@ function (_BaseController) {
 
               query = Schema.usersSchema.find(params); //查询所有数据
 
-              _context.next = 10;
+              _context.next = 12;
               return regeneratorRuntime.awrap(query.sort({
                 id: -1
               }).skip(skipIndex).limit(page.pageSize));
 
-            case 10:
+            case 12:
               list = _context.sent;
-              _context.next = 13;
+              _context.next = 15;
               return regeneratorRuntime.awrap(Schema.usersSchema.countDocuments(params));
 
-            case 13:
+            case 15:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -111,23 +118,23 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 20;
+              _context.next = 22;
               break;
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](0);
+            case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 data: {},
                 msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context.t0.stack)
               });
 
-            case 20:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[0, 17]]);
+      }, null, this, [[2, 19]]);
     }
   }, {
     key: "create",
@@ -138,31 +145,32 @@ function (_BaseController) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:post"]
+              }));
+
+            case 2:
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, userName = _this$ctx$request$bod.userName, userEmail = _this$ctx$request$bod.userEmail, mobile = _this$ctx$request$bod.mobile, job = _this$ctx$request$bod.job, state = _this$ctx$request$bod.state, roleList = _this$ctx$request$bod.roleList, deptId = _this$ctx$request$bod.deptId, action = _this$ctx$request$bod.action, brand = _this$ctx$request$bod.brand, company = _this$ctx$request$bod.company, companyAddress = _this$ctx$request$bod.companyAddress, InvoiceTitle = _this$ctx$request$bod.InvoiceTitle, dutyParagraph = _this$ctx$request$bod.dutyParagraph, expressAddress = _this$ctx$request$bod.expressAddress, expressName = _this$ctx$request$bod.expressName, expressPhone = _this$ctx$request$bod.expressPhone;
-
-              if (!(action === 'add')) {
-                _context2.next = 24;
-                break;
-              }
-
               this.ctx.verifyParams({
                 userName: 'string',
                 userEmail: 'string',
                 deptId: "array"
               }); //先查一下是否数据库里已经存在
 
-              _context2.next = 5;
+              _context2.next = 6;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
                 $or: [{
                   userEmail: userEmail
                 }]
               }, 'id userName userEmail'));
 
-            case 5:
+            case 6:
               repeat = _context2.sent;
 
               if (!repeat) {
-                _context2.next = 11;
+                _context2.next = 12;
                 break;
               }
 
@@ -171,14 +179,14 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 11:
-              _context2.prev = 11;
-              _context2.next = 14;
+            case 12:
+              _context2.prev = 12;
+              _context2.next = 15;
               return regeneratorRuntime.awrap(AutoID({
                 code: "userId"
               }));
 
-            case 14:
+            case 15:
               currentIndex = _context2.sent;
               addUser = new Schema.usersSchema({
                 id: currentIndex,
@@ -202,27 +210,27 @@ function (_BaseController) {
                 expressName: expressName,
                 expressPhone: expressPhone
               });
-              _context2.next = 18;
+              _context2.next = 19;
               return regeneratorRuntime.awrap(addUser.save());
 
-            case 18:
+            case 19:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {}, '添加用户成功');
-              _context2.next = 24;
+              _context2.next = 25;
               break;
 
-            case 21:
-              _context2.prev = 21;
-              _context2.t0 = _context2["catch"](11);
+            case 22:
+              _context2.prev = 22;
+              _context2.t0 = _context2["catch"](12);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 24:
+            case 25:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[11, 21]]);
+      }, null, this, [[12, 22]]);
     }
   }, {
     key: "update",
@@ -232,7 +240,14 @@ function (_BaseController) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:put"]
+              }));
+
+            case 2:
+              _context3.prev = 2;
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
 
@@ -242,33 +257,33 @@ function (_BaseController) {
 
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id;
-              _context3.next = 8;
+              _context3.next = 10;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOneAndUpdate({
                 id: parseInt(id)
               }, params));
 
-            case 8:
+            case 10:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 15;
+              _context3.next = 17;
               break;
 
-            case 12:
-              _context3.prev = 12;
-              _context3.t0 = _context3["catch"](0);
+            case 14:
+              _context3.prev = 14;
+              _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 15:
+            case 17:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 12]]);
+      }, null, this, [[2, 14]]);
     }
   }, {
     key: "update_pwd",
@@ -279,9 +294,16 @@ function (_BaseController) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:put"]
+              }));
+
+            case 2:
               _this$ctx$request$bod2 = this.ctx.request.body, userPwd = _this$ctx$request$bod2.userPwd, id = _this$ctx$request$bod2.id;
-              _context4.prev = 1;
-              _context4.next = 4;
+              _context4.prev = 3;
+              _context4.next = 6;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOneAndUpdate({
                 id: id
               }, {
@@ -292,27 +314,27 @@ function (_BaseController) {
                 "new": true
               }));
 
-            case 4:
+            case 6:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 msg: '更新用户数据成功'
               });
-              _context4.next = 11;
+              _context4.next = 13;
               break;
 
-            case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](1);
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](3);
               logger.error(_context4.t0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: '更新用户数据失败'
               });
 
-            case 11:
+            case 13:
             case "end":
               return _context4.stop();
           }
         }
-      }, null, this, [[1, 7]]);
+      }, null, this, [[3, 9]]);
     } // 支持单个删除
 
   }, {
@@ -323,8 +345,15 @@ function (_BaseController) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
+              _context5.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:remove"]
+              }));
+
+            case 2:
               userIds = this.ctx.request.body.userIds;
-              _context5.next = 3;
+              _context5.next = 5;
               return regeneratorRuntime.awrap(Schema.usersSchema.updateMany({
                 id: {
                   $in: userIds
@@ -333,11 +362,11 @@ function (_BaseController) {
                 state: 2
               }));
 
-            case 3:
+            case 5:
               res = _context5.sent;
 
               if (!res.nModified) {
-                _context5.next = 7;
+                _context5.next = 9;
                 break;
               }
 
@@ -347,12 +376,12 @@ function (_BaseController) {
               });
               return _context5.abrupt("return");
 
-            case 7:
+            case 9:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: '删除失败'
               });
 
-            case 8:
+            case 10:
             case "end":
               return _context5.stop();
           }
@@ -368,37 +397,44 @@ function (_BaseController) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              _context6.prev = 0;
+              _context6.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:remove"]
+              }));
+
+            case 2:
+              _context6.prev = 2;
               userIds = this.ctx.request.body.userIds;
-              _context6.next = 4;
+              _context6.next = 6;
               return regeneratorRuntime.awrap(Schema.usersSchema.deleteMany({
                 userId: {
                   $in: userIds
                 }
               }));
 
-            case 4:
+            case 6:
               res = _context6.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: "\u5220\u9664\u6210\u529F"
               });
-              _context6.next = 11;
+              _context6.next = 13;
               break;
 
-            case 8:
-              _context6.prev = 8;
-              _context6.t0 = _context6["catch"](0);
+            case 10:
+              _context6.prev = 10;
+              _context6.t0 = _context6["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context6.t0.stack
               });
 
-            case 11:
+            case 13:
             case "end":
               return _context6.stop();
           }
         }
-      }, null, this, [[0, 8]]);
+      }, null, this, [[2, 10]]);
     }
   }, {
     key: "list_all",
@@ -408,32 +444,39 @@ function (_BaseController) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
-              _context7.prev = 0;
-              _context7.next = 3;
+              _context7.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:list"]
+              }));
+
+            case 2:
+              _context7.prev = 2;
+              _context7.next = 5;
               return regeneratorRuntime.awrap(Schema.usersSchema.find({}));
 
-            case 3:
+            case 5:
               list = _context7.sent;
               //查询所有数据
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: list
               });
-              _context7.next = 10;
+              _context7.next = 12;
               break;
 
-            case 7:
-              _context7.prev = 7;
-              _context7.t0 = _context7["catch"](0);
+            case 9:
+              _context7.prev = 9;
+              _context7.t0 = _context7["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context7.t0.stack)
               });
 
-            case 10:
+            case 12:
             case "end":
               return _context7.stop();
           }
         }
-      }, null, this, [[0, 7]]);
+      }, null, this, [[2, 9]]);
     }
   }, {
     key: "list_one",
@@ -442,11 +485,18 @@ function (_BaseController) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
+              _context8.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:user:mySelf"]
+              }));
+
+            case 2:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: this.userInfo
               });
 
-            case 1:
+            case 3:
             case "end":
               return _context8.stop();
           }

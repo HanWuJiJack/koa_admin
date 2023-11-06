@@ -31,7 +31,6 @@ class UserAdminController extends BaseController {
         }
     }
     async create() {
-        console.log(55555)
         const {
             userName,
             userEmail,
@@ -46,7 +45,7 @@ class UserAdminController extends BaseController {
                 userEmail
             }]
         }, 'id userName userEmail');
-        console.log(repeat)
+        // console.log(repeat)
         if (repeat) {
             this.ctx.body = super.fail({
                 msg: `您新增的用户:邮箱:${repeat.userEmail}已经存在~`
@@ -57,7 +56,7 @@ class UserAdminController extends BaseController {
                 const currentIndex = await AutoID({
                     code: "userId"
                 })
-                console.log(currentIndex)
+                // console.log(currentIndex)
                 const addUser = new Schema.usersSchema({
                     id: currentIndex,
                     // createByUser: this.ctx.state.userId.id,
@@ -69,7 +68,7 @@ class UserAdminController extends BaseController {
                 await addUser.save();
                 this.ctx.body = super.success({}, '添加用户成功')
             } catch (error) {
-                console.log(error)
+                // console.log(error)
                 this.ctx.body = super.fail({
                     msg: error.stack
                 })

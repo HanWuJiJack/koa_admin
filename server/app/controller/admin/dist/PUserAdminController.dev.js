@@ -100,26 +100,24 @@ function (_BaseController) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              console.log(55555);
               _this$ctx$request$bod = this.ctx.request.body, userName = _this$ctx$request$bod.userName, userEmail = _this$ctx$request$bod.userEmail;
               this.ctx.verifyParams({
                 userName: 'string',
                 userEmail: 'string'
               }); //先查一下是否数据库里已经存在
 
-              _context2.next = 5;
+              _context2.next = 4;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
                 $or: [{
                   userEmail: userEmail
                 }]
               }, 'id userName userEmail'));
 
-            case 5:
+            case 4:
               repeat = _context2.sent;
-              console.log(repeat);
 
               if (!repeat) {
-                _context2.next = 12;
+                _context2.next = 10;
                 break;
               }
 
@@ -128,16 +126,16 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 12:
-              _context2.prev = 12;
-              _context2.next = 15;
+            case 10:
+              _context2.prev = 10;
+              _context2.next = 13;
               return regeneratorRuntime.awrap(AutoID({
                 code: "userId"
               }));
 
-            case 15:
+            case 13:
               currentIndex = _context2.sent;
-              console.log(currentIndex);
+              // console.log(currentIndex)
               addUser = new Schema.usersSchema({
                 id: currentIndex,
                 // createByUser: this.ctx.state.userId.id,
@@ -147,28 +145,28 @@ function (_BaseController) {
                 role: 0 //1:默认普通用户 0是超级管理员
 
               });
-              _context2.next = 20;
+              _context2.next = 17;
               return regeneratorRuntime.awrap(addUser.save());
 
-            case 20:
+            case 17:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {}, '添加用户成功');
-              _context2.next = 27;
+              _context2.next = 23;
               break;
 
-            case 23:
-              _context2.prev = 23;
-              _context2.t0 = _context2["catch"](12);
-              console.log(_context2.t0);
+            case 20:
+              _context2.prev = 20;
+              _context2.t0 = _context2["catch"](10);
+              // console.log(error)
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 27:
+            case 23:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[12, 23]]);
+      }, null, this, [[10, 20]]);
     }
   }]);
 

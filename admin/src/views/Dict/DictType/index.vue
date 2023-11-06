@@ -30,13 +30,13 @@
     <!-- 表格区域 -->
     <div class="bottom">
       <div class="bottom-top">
-        <el-button type="primary" @click="addHandler" v-permisson="'dictType-create'"
+        <el-button type="primary" @click="addHandler" v-permisson="'system:dictType:post'"
           >新增</el-button
         >
         <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
-          v-permisson="'user-deletes'"
+          v-permisson="'system:dictType:remove'"
           >批量删除</el-button
         >
       </div>
@@ -59,14 +59,14 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'dictType-edit'"
+                v-permisson="'system:dictType:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'dictType-delete'"
+                v-permisson="'system:dictType:remove'"
                 >删除</el-button
               >
             </template>
@@ -249,7 +249,7 @@ const getListRequest = async () => {
     Data.value = res.list;
     pageData.total = res.page.total;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 //查询事件

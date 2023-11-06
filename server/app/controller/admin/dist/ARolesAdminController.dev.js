@@ -35,6 +35,8 @@ var Schema = require('./../../model/Model.js');
 
 var AutoID = require('../../utils/AutoID');
 
+var ApiAuth = require('../../utils/ApiAuth.js');
+
 var RolesAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -70,7 +72,14 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:list"]
+              }));
+
+            case 2:
+              _context.prev = 2;
               roleName = this.ctx.request.query.roleName;
               _get$call = _get(_getPrototypeOf(RolesAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex, _get$call$state = _get$call.state, state = _get$call$state === void 0 ? 1 : _get$call$state;
               params = {};
@@ -78,17 +87,17 @@ function (_BaseController) {
               params.state = parseInt(state);
               query = Schema.rolesSchema.find(params); // 查询所有数据
 
-              _context.next = 9;
+              _context.next = 11;
               return regeneratorRuntime.awrap(query.sort({
                 id: -1
               }).skip(skipIndex).limit(page.pageSize));
 
-            case 9:
+            case 11:
               list = _context.sent;
-              _context.next = 12;
+              _context.next = 14;
               return regeneratorRuntime.awrap(Schema.rolesSchema.countDocuments(params));
 
-            case 12:
+            case 14:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -98,22 +107,22 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 19;
+              _context.next = 21;
               break;
 
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](0);
+            case 18:
+              _context.prev = 18;
+              _context.t0 = _context["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "fail", this).call(this, {
                 msg: _context.t0.stack
               });
 
-            case 19:
+            case 21:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[0, 16]]);
+      }, null, this, [[2, 18]]);
     }
   }, {
     key: "create",
@@ -124,16 +133,61 @@ function (_BaseController) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.prev = 0;
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, roleName = _this$ctx$request$bod.roleName, remark = _this$ctx$request$bod.remark, action = _this$ctx$request$bod.action;
 
               if (!(action === 'create')) {
-                _context2.next = 31;
+                _context2.next = 6;
+                break;
+              }
+
+              _context2.next = 4;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:post"]
+              }));
+
+            case 4:
+              _context2.next = 14;
+              break;
+
+            case 6:
+              if (!(action === 'edit')) {
+                _context2.next = 11;
+                break;
+              }
+
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:put"]
+              }));
+
+            case 9:
+              _context2.next = 14;
+              break;
+
+            case 11:
+              if (!(action === 'delete')) {
+                _context2.next = 14;
+                break;
+              }
+
+              _context2.next = 14;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:remove"]
+              }));
+
+            case 14:
+              _context2.prev = 14;
+
+              if (!(action === 'create')) {
+                _context2.next = 44;
                 break;
               }
 
               if (roleName) {
-                _context2.next = 8;
+                _context2.next = 21;
                 break;
               }
 
@@ -142,17 +196,17 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 8:
-              _context2.next = 10;
+            case 21:
+              _context2.next = 23;
               return regeneratorRuntime.awrap(Schema.rolesSchema.findOne({
                 roleName: roleName
               }, 'id'));
 
-            case 10:
+            case 23:
               repeat = _context2.sent;
 
               if (!repeat) {
-                _context2.next = 16;
+                _context2.next = 29;
                 break;
               }
 
@@ -161,14 +215,14 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 16:
-              _context2.prev = 16;
-              _context2.next = 19;
+            case 29:
+              _context2.prev = 29;
+              _context2.next = 32;
               return regeneratorRuntime.awrap(AutoID({
                 code: "roleId"
               }));
 
-            case 19:
+            case 32:
               currentIndex = _context2.sent;
               addRoles = new Schema.rolesSchema({
                 id: currentIndex,
@@ -176,34 +230,34 @@ function (_BaseController) {
                 roleName: roleName,
                 remark: remark ? remark : ''
               });
-              _context2.next = 23;
+              _context2.next = 36;
               return regeneratorRuntime.awrap(addRoles.save());
 
-            case 23:
+            case 36:
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 msg: '添加角色成功'
               });
-              _context2.next = 29;
+              _context2.next = 42;
               break;
 
-            case 26:
-              _context2.prev = 26;
-              _context2.t0 = _context2["catch"](16);
+            case 39:
+              _context2.prev = 39;
+              _context2.t0 = _context2["catch"](29);
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "fail", this).call(this, {
                 msg: '添加角色失败，请联系管理员' + _context2.t0.stack
               });
 
-            case 29:
-              _context2.next = 50;
+            case 42:
+              _context2.next = 63;
               break;
 
-            case 31:
+            case 44:
               if (!(action === 'edit')) {
-                _context2.next = 39;
+                _context2.next = 52;
                 break;
               }
 
-              _context2.next = 34;
+              _context2.next = 47;
               return regeneratorRuntime.awrap(Schema.rolesSchema.updateOne({
                 id: id
               }, {
@@ -213,31 +267,31 @@ function (_BaseController) {
                 updateByUser: this.ctx.state.userId.id
               }));
 
-            case 34:
+            case 47:
               res = _context2.sent;
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 data: res
               });
               return _context2.abrupt("return");
 
-            case 39:
+            case 52:
               if (!(action === 'delete')) {
-                _context2.next = 50;
+                _context2.next = 63;
                 break;
               }
 
-              _context2.next = 42;
+              _context2.next = 55;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
                 roleList: {
                   $all: [id]
                 }
               }));
 
-            case 42:
+            case 55:
               usersInfo = _context2.sent;
 
               if (!usersInfo) {
-                _context2.next = 46;
+                _context2.next = 59;
                 break;
               }
 
@@ -246,38 +300,38 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 46:
-              _context2.next = 48;
+            case 59:
+              _context2.next = 61;
               return regeneratorRuntime.awrap(Schema.rolesSchema.updateOne({
                 id: id
               }, {
                 state: 2
               }));
 
-            case 48:
+            case 61:
               _res = _context2.sent;
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 data: _res,
                 msg: "\u5220\u9664\u6210\u529F"
               });
 
-            case 50:
-              _context2.next = 55;
+            case 63:
+              _context2.next = 68;
               break;
 
-            case 52:
-              _context2.prev = 52;
-              _context2.t1 = _context2["catch"](0);
+            case 65:
+              _context2.prev = 65;
+              _context2.t1 = _context2["catch"](14);
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t1.stack
               });
 
-            case 55:
+            case 68:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[0, 52], [16, 26]]);
+      }, null, this, [[14, 65], [29, 39]]);
     }
   }, {
     key: "create_permission",
@@ -288,35 +342,42 @@ function (_BaseController) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:put"]
+              }));
+
+            case 2:
+              _context3.prev = 2;
               _this$ctx$request$bod2 = this.ctx.request.body, id = _this$ctx$request$bod2.id, permissionList = _this$ctx$request$bod2.permissionList;
-              _context3.next = 4;
+              _context3.next = 6;
               return regeneratorRuntime.awrap(Schema.rolesSchema.updateOne({
                 id: id
               }, {
                 permissionList: permissionList
               }));
 
-            case 4:
+            case 6:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 data: res
               });
               return _context3.abrupt("return");
 
-            case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](0);
+            case 11:
+              _context3.prev = 11;
+              _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 12:
+            case 14:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 9]]);
+      }, null, this, [[2, 11]]);
     }
   }, {
     key: "list_all",
@@ -326,31 +387,38 @@ function (_BaseController) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:list"]
+              }));
+
+            case 2:
+              _context4.prev = 2;
+              _context4.next = 5;
               return regeneratorRuntime.awrap(Schema.rolesSchema.find({}, 'id roleName'));
 
-            case 3:
+            case 5:
               res = _context4.sent;
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "success", this).call(this, {
                 data: res
               });
-              _context4.next = 10;
+              _context4.next = 12;
               break;
 
-            case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](0);
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(RolesAdminController.prototype), "fail", this).call(this, {
                 msg: _context4.t0.stack
               });
 
-            case 10:
+            case 12:
             case "end":
               return _context4.stop();
           }
         }
-      }, null, this, [[0, 7]]);
+      }, null, this, [[2, 9]]);
     }
   }]);
 

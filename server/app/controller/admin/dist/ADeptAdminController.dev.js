@@ -33,6 +33,8 @@ var Schema = require('./../../model/Model.js');
 
 var AutoID = require('./../../utils/AutoID');
 
+var ApiAuth = require('../../utils/ApiAuth.js');
+
 var DeptAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -68,24 +70,31 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:list"]
+              }));
+
+            case 2:
               _this$ctx$request$que = this.ctx.request.query, deptName = _this$ctx$request$que.deptName, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               params = {};
               params.state = parseInt(state);
               if (deptName) params.deptName = deptName;
-              _context.next = 6;
+              _context.next = 8;
               return regeneratorRuntime.awrap(Schema.deptSchema.find(params));
 
-            case 6:
+            case 8:
               _context.t0 = _context.sent;
 
               if (_context.t0) {
-                _context.next = 9;
+                _context.next = 11;
                 break;
               }
 
               _context.t0 = [];
 
-            case 9:
+            case 11:
               rootList = _context.t0;
               // console.log(rootList)
               deptList = _get(_getPrototypeOf(DeptAdminController.prototype), "TreeDept", this).call(this, rootList, null);
@@ -93,7 +102,7 @@ function (_BaseController) {
                 data: deptList
               });
 
-            case 12:
+            case 14:
             case "end":
               return _context.stop();
           }
@@ -110,63 +119,103 @@ function (_BaseController) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["id", "action"]);
-              _context2.prev = 1;
 
               if (!(action == 'create')) {
-                _context2.next = 14;
+                _context2.next = 6;
                 break;
               }
 
-              _context2.next = 5;
+              _context2.next = 4;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:post"]
+              }));
+
+            case 4:
+              _context2.next = 13;
+              break;
+
+            case 6:
+              if (!(action == 'edit')) {
+                _context2.next = 11;
+                break;
+              }
+
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:put"]
+              }));
+
+            case 9:
+              _context2.next = 13;
+              break;
+
+            case 11:
+              _context2.next = 13;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:remove"]
+              }));
+
+            case 13:
+              _context2.prev = 13;
+
+              if (!(action == 'create')) {
+                _context2.next = 26;
+                break;
+              }
+
+              _context2.next = 17;
               return regeneratorRuntime.awrap(AutoID({
                 code: "deptId"
               }));
 
-            case 5:
+            case 17:
               currentIndex = _context2.sent;
               params.id = currentIndex;
               params.createByUser = this.ctx.state.userId.id;
-              _context2.next = 10;
+              _context2.next = 22;
               return regeneratorRuntime.awrap(Schema.deptSchema.create(params));
 
-            case 10:
+            case 22:
               res = _context2.sent;
               info = '创建成功';
-              _context2.next = 33;
+              _context2.next = 45;
               break;
 
-            case 14:
+            case 26:
               if (!(action == 'edit')) {
-                _context2.next = 23;
+                _context2.next = 35;
                 break;
               }
 
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id;
-              _context2.next = 19;
+              _context2.next = 31;
               return regeneratorRuntime.awrap(Schema.deptSchema.findOneAndUpdate({
                 id: id
               }, params));
 
-            case 19:
+            case 31:
               res = _context2.sent;
               info = '编辑成功';
-              _context2.next = 33;
+              _context2.next = 45;
               break;
 
-            case 23:
-              _context2.next = 25;
+            case 35:
+              _context2.next = 37;
               return regeneratorRuntime.awrap(Schema.deptSchema.findOne({
                 parentId: {
                   $all: [id]
                 }
               }));
 
-            case 25:
+            case 37:
               deptInfo = _context2.sent;
 
               if (!deptInfo) {
-                _context2.next = 29;
+                _context2.next = 41;
                 break;
               }
 
@@ -175,38 +224,38 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 29:
-              _context2.next = 31;
+            case 41:
+              _context2.next = 43;
               return regeneratorRuntime.awrap(Schema.deptSchema.findOneAndUpdate({
                 id: id
               }, {
                 state: 2
               }));
 
-            case 31:
+            case 43:
               res = _context2.sent;
               info = '删除成功';
 
-            case 33:
+            case 45:
               this.ctx.body = _get(_getPrototypeOf(DeptAdminController.prototype), "success", this).call(this, {
                 msg: info
               });
-              _context2.next = 39;
+              _context2.next = 51;
               break;
 
-            case 36:
-              _context2.prev = 36;
-              _context2.t0 = _context2["catch"](1);
+            case 48:
+              _context2.prev = 48;
+              _context2.t0 = _context2["catch"](13);
               this.ctx.body = _get(_getPrototypeOf(DeptAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 39:
+            case 51:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[1, 36]]);
+      }, null, this, [[13, 48]]);
     }
   }]);
 

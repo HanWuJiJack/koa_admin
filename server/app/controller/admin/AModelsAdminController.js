@@ -8,6 +8,8 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
+
 class DictTypeAdminController extends BaseController {
     constructor({
         ctx = {
@@ -25,10 +27,14 @@ class DictTypeAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:model:list"]
+        })
         try {
             const {
                 state = 1,
-                name,
+                    name,
             } = this.ctx.request.query
             const {
                 page,
@@ -59,6 +65,10 @@ class DictTypeAdminController extends BaseController {
     }
 
     async create() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:model:post"]
+        })
         try {
             const {
                 name,
@@ -93,6 +103,10 @@ class DictTypeAdminController extends BaseController {
     }
 
     async update() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:model:put"]
+        })
         try {
             const {
                 id
@@ -119,6 +133,10 @@ class DictTypeAdminController extends BaseController {
         }
     }
     async remove() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:model:remove"]
+        })
         try {
             const {
                 ids
@@ -143,6 +161,10 @@ class DictTypeAdminController extends BaseController {
         }
     }
     async get() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:model:get"]
+        })
         try {
             const {
                 id

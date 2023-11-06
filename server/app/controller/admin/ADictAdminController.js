@@ -5,6 +5,7 @@ const path = require("path")
 const {
     logger,
 } = require(path.join(process.cwd(), "./config/logger"))
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class DictAdminController extends BaseController {
     constructor({
@@ -23,6 +24,10 @@ class DictAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dict:list"]
+        })
         try {
             const {
                 name,
@@ -60,6 +65,10 @@ class DictAdminController extends BaseController {
     }
 
     async create() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dict:post"]
+        })
         try {
             const {
                 name,
@@ -107,6 +116,10 @@ class DictAdminController extends BaseController {
     }
 
     async update() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dict:put"]
+        })
         try {
             const {
                 id
@@ -131,6 +144,10 @@ class DictAdminController extends BaseController {
     }
 
     async remove() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dict:remove"]
+        })
         try {
             const {
                 ids
@@ -174,6 +191,10 @@ class DictAdminController extends BaseController {
         }
     }
     async get() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dict:get"]
+        })
         try {
             const {
                 id

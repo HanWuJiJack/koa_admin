@@ -6,6 +6,7 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('./../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class MenuAdminController extends BaseController {
     constructor({
@@ -24,6 +25,10 @@ class MenuAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:menu:list"]
+        })
         const userInfo = this.userInfo
         try {
             const {
@@ -31,10 +36,11 @@ class MenuAdminController extends BaseController {
                 state = 1
             } = this.ctx.request.query;
             const params = {}
-            if (menuName) params.menuName = menuName;
+            if (menuName) params.menuName = new RegExp(`^${menuName}`, 'ig')
             params.state = parseInt(state);
             var rootList
             if (userInfo.role === 0) { // 0是超级管理员
+                // console.log("params", params)
                 rootList = await Schema.menusSchema.find(params) || []
             } else { // 1普通用户
                 // 先根据用户的角色列表字段查出对应角色数据
@@ -71,6 +77,22 @@ class MenuAdminController extends BaseController {
             action,
             ...params
         } = this.ctx.request.body;
+        if (action == 'create') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:post"]
+            })
+        } else if (action == 'edit') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:put"]
+            })
+        } else {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:menu:remove"]
+            })
+        }
         let res, info;
         try {
             if (action == 'create') {
@@ -85,14 +107,16 @@ class MenuAdminController extends BaseController {
                 params.updateTime = new Date();
                 params.updateByUser = this.ctx.state.userId.id
                 // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
-                res = await Schema.menusSchema.findOneAndUpdate({id}, params);
+                res = await Schema.menusSchema.findOneAndUpdate({
+                    id
+                }, params);
                 info = '编辑成功'
             } else {
-
                 const menusInfo = await Schema.menusSchema.findOne({
                     parentId: {
                         $all: [id]
-                    }
+                    },
+                    state: 1
                 })
                 if (menusInfo) {
                     this.ctx.body = super.fail({
@@ -100,8 +124,30 @@ class MenuAdminController extends BaseController {
                     });
                     return
                 }
-                // res = await Schema.deptSchema.findByIdAndRemove(id)
-                res = await Schema.menusSchema.findOneAndUpdate({id}, {
+
+                const rolesInfo = await Schema.rolesSchema.findOne({
+                    $or: [{
+                            "permissionList.checkedKeys": {
+                                $all: [id]
+                            }
+                        },
+                        {
+                            "permissionList.permissionList": {
+                                $all: [id]
+                            }
+                        }
+                    ]
+                })
+                // console.log("rolesInfo", rolesInfo)
+                if (rolesInfo) {
+                    this.ctx.body = super.fail({
+                        msg: "请先将绑定的角色删除！"
+                    });
+                    return
+                }
+                res = await Schema.menusSchema.findOneAndUpdate({
+                    id
+                }, {
                     state: 2
                 });
                 info = '删除成功'

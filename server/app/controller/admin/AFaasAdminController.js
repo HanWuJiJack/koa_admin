@@ -1,6 +1,7 @@
 const BaseController = require('../BaseController');
 const Schema = require('./../../model/Model.js')
 const AutoID = require('./../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class FaasAdminController extends BaseController {
     constructor({
@@ -19,6 +20,10 @@ class FaasAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:func:list"]
+        })
         try {
             const {
                 method,
@@ -57,6 +62,10 @@ class FaasAdminController extends BaseController {
     }
 
     async create() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:func:post"]
+        })
         try {
             const {
                 method,
@@ -102,6 +111,10 @@ class FaasAdminController extends BaseController {
     }
 
     async update() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:func:put"]
+        })
         try {
             const {
                 id
@@ -128,6 +141,10 @@ class FaasAdminController extends BaseController {
     }
 
     async remove() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:func:remove"]
+        })
         try {
             const {
                 ids
@@ -156,6 +173,10 @@ class FaasAdminController extends BaseController {
         }
     }
     async get() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["faas:func:get"]
+        })
         try {
             const {
                 id

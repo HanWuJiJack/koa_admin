@@ -11,19 +11,17 @@ const mongoose = require('mongoose');
 const _ = require("lodash")
 
 module.exports = async function () {
-    console.log(Object.keys(modelSchemas))
+    // console.log(Object.keys(modelSchemas))
     const len = Object.keys(modelSchemas).length
     const keys =  _.cloneDeep(Object.keys(modelSchemas))
     // 先全部清理
     for (let i = 0; i < len; i++) {
         let item = keys[i]
-        // console.log("name", i, item)
         const name = item.slice(0, -6)
         mongoose.deleteModel(name);
         delete modelSchemas[item]
     }
-
-    console.log(Object.keys(modelSchemas))
+    // console.log(Object.keys(modelSchemas))
     // 在进行初始化
     let models = []
     const query = await Schema.ModelsSchema.find({
@@ -37,5 +35,5 @@ module.exports = async function () {
             await vm2({}, models[key])()
         }
     }
-    console.log(Object.keys(modelSchemas))
+    // console.log(Object.keys(modelSchemas))
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="menu-main">
     <!-- 头部查询功能区域 -->
-    <div class="menu-top">
+    <!-- <div class="menu-top">
       <el-form :inline="true" :model="Data.selectData" ref="selectFormRef">
         <el-form-item label="菜单名称" prop="menuName">
           <el-input
@@ -9,22 +9,19 @@
             placeholder="请输入菜单名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="菜单状态" prop="state">
-          <el-select v-model="Data.selectData.state" placeholder="请选择">
-            <el-option label="正常" :value="1"></el-option>
-            <el-option label="停用" :value="2"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onQueryHandler">查询</el-button>
           <el-button @click="onResetHandler">重置</el-button>
         </el-form-item>
       </el-form>
-    </div>
+    </div> -->
     <!-- 表格区域 -->
     <div class="menu-bottom">
       <div class="menu-bottom-top">
-        <el-button type="primary" @click="addMenuHandler(1)" v-permisson="'menu-create'"
+        <el-button
+          type="primary"
+          @click="addMenuHandler(1)"
+          v-permisson="'system:menu:post'"
           >新增菜单</el-button
         >
       </div>
@@ -48,20 +45,20 @@
               size="small"
               @click="addMenuHandler(2, scope.row)"
               type="primary"
-              v-permisson="'menu-create'"
+              v-permisson="'system:menu:post'"
               >添加</el-button
             >
             <el-button
               size="small"
               @click="handleEdit(scope.row)"
-              v-permisson="'menu-edit'"
+              v-permisson="'system:menu:put'"
               >编辑</el-button
             >
             <el-button
               size="small"
               type="danger"
               @click="handleDelete(scope.row)"
-              v-permisson="'menu-delete'"
+              v-permisson="'system:menu:remove'"
               >删除</el-button
             >
           </template>
@@ -278,7 +275,8 @@ async function getMenuListRequest() {
     const res = await postMenuList({ ...Data.selectData });
     Data.menuListData = res;
   } catch (error) {
-    ElMessage.error(error.stack);
+    console.error(error);
+    // ElMessage.error(error.stack);
   }
 }
 //添加-修改-删除请求
@@ -308,8 +306,7 @@ async function postMenuC_U_DRequest() {
     await getPermissonMenuList_();
     Data.dialogVisible = false;
   } catch (error) {
-    ElMessage.error(error.stack);
-    return Promise.reject(error.stack);
+    console.error(error);
   }
 }
 //查询按钮事件
@@ -319,21 +316,17 @@ function onQueryHandler() {
 //添加菜单按钮事件
 function addMenuHandler(type, row) {
   Data.dialogVisible = true;
+  Data.action = "create";
   Data.menuForm = {
     menuType: 1,
     state: 1,
     isShow: 1,
-    parentId: [null],
   };
-  if (type === 1) {
-    Data.action = "create";
-  } else {
-    //每行的添加按钮
-    nextTick(() => {
+  nextTick(() => {
+    if (row) {
       Data.menuForm.parentId = [...row.parentId, row.id].filter((item) => item);
-      Data.menuForm.menuType = 1;
-    });
-  }
+    }
+  });
 }
 //弹窗确定按钮事件
 function onSubmitHandler() {

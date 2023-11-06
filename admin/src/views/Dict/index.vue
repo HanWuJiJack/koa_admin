@@ -24,7 +24,7 @@
     <!-- 表格区域 -->
     <div class="bottom">
       <div class="bottom-top">
-        <el-button type="primary" @click="addHandler" v-permisson="'dict-create'"
+        <el-button type="primary" @click="addHandler" v-permisson="'system:dict:post'"
           >新增</el-button
         >
       </div>
@@ -46,20 +46,20 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'dict-edit'"
+                v-permisson="'system:dict:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 @click="handleDetail(scope.row)"
-                v-permisson="'dict-ditail'"
+                v-permisson="'system:dict:get'"
                 >详情</el-button
               >
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'dict-delete'"
+                v-permisson="'system:dict:remove'"
                 >删除</el-button
               >
             </template>
@@ -211,7 +211,7 @@ const getListRequest = async () => {
     Data.value = res.list;
     pageData.total = res.page.total;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 //查询事件

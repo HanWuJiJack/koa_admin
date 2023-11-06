@@ -18,7 +18,7 @@
     <!-- 表格区域 -->
     <div class="roles-bottom">
       <div class="roles-bottom-top">
-        <el-button type="primary" @click="createHandler" v-permisson="'role-create'"
+        <el-button type="primary" @click="createHandler" v-permisson="'system:role:post'"
           >创建角色</el-button
         >
         <!-- <el-button type="primary" @click="createHandler">创建角色</el-button> -->
@@ -41,21 +41,21 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'role-edit'"
+                v-permisson="'system:role:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 type="primary"
                 @click="handlerSetPermission(scope.row)"
-                v-permisson="'role-setpermission'"
+                v-permisson="'system:role:put'"
                 >设置权限</el-button
               >
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'delete')"
-                v-permisson="'role-delete'"
+                v-permisson="'system:role:remove'"
                 >删除</el-button
               >
             </template>
@@ -113,7 +113,7 @@
               show-checkbox
               node-key="id"
               ref="menuTreeRef"
-              default-expand-all
+              accordion
               :props="{ label: 'menuName' }"
             >
             </el-tree>
@@ -226,6 +226,7 @@ const getRolesList_ = async () => {
   Data.rolesData = res.list;
   Data.pageData.total = res.page.total;
 };
+
 // 获取菜单列表数据
 const getMenuList = async () => {
   const res = await postMenuList();
@@ -258,7 +259,7 @@ const dialogCancelHandler = () => {
 };
 // 弹出确定按钮事件
 const dialogSubmitHandler = () => {
-  console.log("addFormRef", addFormRef);
+  // console.log("addFormRef", addFormRef);
   addFormRef._value.validate(async (vaild) => {
     if (vaild) {
       let params = {
@@ -282,6 +283,7 @@ const dialogSubmitHandler = () => {
 };
 // 表格每行编辑按钮事件
 const handleEdit = (row) => {
+  Data.addForm = {};
   Data.action = "edit";
   Object.assign(Data.addForm, row);
   Data.addShow = true;
@@ -335,6 +337,7 @@ const perssionSubmitHandler = async () => {
   }
   Data.permissionShow = false;
   getRolesList_();
+  getMenuList();
 };
 // 权限列表id映射对应菜单名称处理
 const permissionMapping = (list) => {

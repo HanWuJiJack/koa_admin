@@ -41,6 +41,8 @@ var path = require("path");
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;
 
+var ApiAuth = require('../../utils/ApiAuth.js');
+
 var DictAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -76,7 +78,14 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dict:list"]
+              }));
+
+            case 2:
+              _context.prev = 2;
               _this$ctx$request$que = this.ctx.request.query, name = _this$ctx$request$que.name, nameCode = _this$ctx$request$que.nameCode, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(DictAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
@@ -85,17 +94,17 @@ function (_BaseController) {
               params.state = parseInt(state);
               query = Schema.dictSchema.find(params); // 查询所有数据
 
-              _context.next = 10;
+              _context.next = 12;
               return regeneratorRuntime.awrap(query.sort({
                 id: -1
               }).skip(skipIndex).limit(page.pageSize));
 
-            case 10:
+            case 12:
               list = _context.sent;
-              _context.next = 13;
+              _context.next = 15;
               return regeneratorRuntime.awrap(Schema.dictSchema.countDocuments(params));
 
-            case 13:
+            case 15:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -105,22 +114,22 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 20;
+              _context.next = 22;
               break;
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](0);
+            case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context.t0.stack
               });
 
-            case 20:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[0, 17]]);
+      }, null, this, [[2, 19]]);
     }
   }, {
     key: "create",
@@ -131,11 +140,18 @@ function (_BaseController) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.prev = 0;
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dict:post"]
+              }));
+
+            case 2:
+              _context2.prev = 2;
               _this$ctx$request$bod = this.ctx.request.body, name = _this$ctx$request$bod.name, nameCode = _this$ctx$request$bod.nameCode, state = _this$ctx$request$bod.state, remark = _this$ctx$request$bod.remark;
 
               if (!(!name || !nameCode)) {
-                _context2.next = 7;
+                _context2.next = 9;
                 break;
               }
 
@@ -144,17 +160,17 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 7:
-              _context2.next = 9;
+            case 9:
+              _context2.next = 11;
               return regeneratorRuntime.awrap(Schema.dictSchema.findOne({
                 nameCode: nameCode
               }));
 
-            case 9:
+            case 11:
               check = _context2.sent;
 
               if (!check) {
-                _context2.next = 13;
+                _context2.next = 15;
                 break;
               }
 
@@ -163,13 +179,13 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 13:
-              _context2.next = 15;
+            case 15:
+              _context2.next = 17;
               return regeneratorRuntime.awrap(AutoID({
                 code: "dictId"
               }));
 
-            case 15:
+            case 17:
               currentIndex = _context2.sent;
               add = new Schema.dictSchema({
                 id: currentIndex,
@@ -179,31 +195,31 @@ function (_BaseController) {
                 state: state ? state : undefined,
                 remark: remark ? remark : ''
               });
-              _context2.next = 19;
+              _context2.next = 21;
               return regeneratorRuntime.awrap(add.save());
 
-            case 19:
+            case 21:
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 msg: '添加成功'
               });
 
-            case 20:
-              _context2.next = 25;
+            case 22:
+              _context2.next = 27;
               break;
 
-            case 22:
-              _context2.prev = 22;
-              _context2.t0 = _context2["catch"](0);
+            case 24:
+              _context2.prev = 24;
+              _context2.t0 = _context2["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 25:
+            case 27:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[0, 22]]);
+      }, null, this, [[2, 24]]);
     }
   }, {
     key: "update",
@@ -213,38 +229,45 @@ function (_BaseController) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dict:put"]
+              }));
+
+            case 2:
+              _context3.prev = 2;
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id;
-              _context3.next = 7;
+              _context3.next = 9;
               return regeneratorRuntime.awrap(Schema.dictSchema.findOneAndUpdate({
                 id: parseInt(id)
               }, params));
 
-            case 7:
+            case 9:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 14;
+              _context3.next = 16;
               break;
 
-            case 11:
-              _context3.prev = 11;
-              _context3.t0 = _context3["catch"](0);
+            case 13:
+              _context3.prev = 13;
+              _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 14:
+            case 16:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 11]]);
+      }, null, this, [[2, 13]]);
     }
   }, {
     key: "remove",
@@ -254,7 +277,14 @@ function (_BaseController) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dict:remove"]
+              }));
+
+            case 2:
+              _context4.prev = 2;
               ids = this.ctx.params.ids;
               arrId = ids.split(",").filter(function (item) {
                 return item;
@@ -262,22 +292,22 @@ function (_BaseController) {
                 return parseInt(item);
               }); // 
 
-              _context4.next = 5;
+              _context4.next = 7;
               return regeneratorRuntime.awrap(Schema.dictTypeSchema.find({
                 dictId: {
                   $in: arrId
                 }
               }));
 
-            case 5:
+            case 7:
               dictTypes = _context4.sent;
 
               if (dictTypes[0]) {
-                _context4.next = 13;
+                _context4.next = 15;
                 break;
               }
 
-              _context4.next = 9;
+              _context4.next = 11;
               return regeneratorRuntime.awrap(Schema.dictSchema.updateMany({
                 id: {
                   $in: arrId
@@ -286,38 +316,38 @@ function (_BaseController) {
                 state: 2
               }));
 
-            case 9:
+            case 11:
               res = _context4.sent;
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: "\u5220\u9664\u6210\u529F"
               });
-              _context4.next = 14;
+              _context4.next = 16;
               break;
 
-            case 13:
+            case 15:
               // logger.info(`3dictTypes=>:${dictTypes}`)
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: "请先删除字典类型"
               });
 
-            case 14:
-              _context4.next = 19;
+            case 16:
+              _context4.next = 21;
               break;
 
-            case 16:
-              _context4.prev = 16;
-              _context4.t0 = _context4["catch"](0);
+            case 18:
+              _context4.prev = 18;
+              _context4.t0 = _context4["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context4.t0.stack
               });
 
-            case 19:
+            case 21:
             case "end":
               return _context4.stop();
           }
         }
-      }, null, this, [[0, 16]]);
+      }, null, this, [[2, 18]]);
     }
   }, {
     key: "get",
@@ -327,35 +357,42 @@ function (_BaseController) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.prev = 0;
+              _context5.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dict:get"]
+              }));
+
+            case 2:
+              _context5.prev = 2;
               id = this.ctx.params.id;
               params = {};
               if (id) params.id = parseInt(id);
-              _context5.next = 6;
+              _context5.next = 8;
               return regeneratorRuntime.awrap(Schema.dictSchema.findOne(params));
 
-            case 6:
+            case 8:
               query = _context5.sent;
               // 查询所有数据
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "success", this).call(this, {
                 data: _objectSpread({}, query._doc)
               });
-              _context5.next = 13;
+              _context5.next = 15;
               break;
 
-            case 10:
-              _context5.prev = 10;
-              _context5.t0 = _context5["catch"](0);
+            case 12:
+              _context5.prev = 12;
+              _context5.t0 = _context5["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(DictAdminController.prototype), "fail", this).call(this, {
                 msg: _context5.t0.stack
               });
 
-            case 13:
+            case 15:
             case "end":
               return _context5.stop();
           }
         }
-      }, null, this, [[0, 10]]);
+      }, null, this, [[2, 12]]);
     }
   }]);
 

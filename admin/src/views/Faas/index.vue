@@ -24,13 +24,13 @@
     <!-- 表格区域 -->
     <div class="bottom">
       <div class="bottom-top">
-        <el-button type="primary" @click="addHandler" v-permisson="'faas-create'"
+        <el-button type="primary" @click="addHandler" v-permisson="'faas:func:post'"
           >新增</el-button
         >
         <el-button
           type="danger"
           @click="handleDelete(null, 'dels')"
-          v-permisson="'faas-deletes'"
+          v-permisson="'faas:func:remove'"
           >批量删除</el-button
         >
       </div>
@@ -53,14 +53,14 @@
               <el-button
                 size="small"
                 @click="handleEdit(scope.row)"
-                v-permisson="'faas-edit'"
+                v-permisson="'faas:func:put'"
                 >编辑</el-button
               >
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.row, 'del')"
-                v-permisson="'faas-delete'"
+                v-permisson="'faas:func:remove'"
                 >删除</el-button
               >
             </template>
@@ -261,7 +261,7 @@ const getListRequest = async () => {
     Data.value = res.list;
     pageData.total = res.page.total;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 //查询事件

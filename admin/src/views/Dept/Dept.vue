@@ -18,7 +18,7 @@
     <!-- 表格区域 -->
     <div class="dept-bottom">
       <div class="dept-bottom-top">
-        <el-button type="primary" @click="addHandler(1)" v-permisson="'dept-create'"
+        <el-button type="primary" @click="addHandler(1)" v-permisson="'system:dept:post'"
           >新增部门</el-button
         >
       </div>
@@ -42,20 +42,20 @@
               size="small"
               @click="addHandler(2, scope.row)"
               type="primary"
-              v-permisson="'dept-create'"
+              v-permisson="'system:dept:post'"
               >添加</el-button
             >
             <el-button
               size="small"
               @click="handleEdit(scope.row)"
-              v-permisson="'dept-edit'"
+              v-permisson="'system:dept:put'"
               >编辑</el-button
             >
             <el-button
               size="small"
               type="danger"
               @click="handleDelete(scope.row)"
-              v-permisson="'dept-delete'"
+              v-permisson="'system:dept:remove'"
               >删除</el-button
             >
           </template>
@@ -200,7 +200,7 @@ async function getDeptListRequest() {
     });
     Data.deptListData = res;
   } catch (error) {
-    ElMessage.error(error.stack);
+    console.error(error);
   }
 }
 // 获取所有用户列表
@@ -209,7 +209,7 @@ async function getAllUserListRequest() {
     const res = await getAllUserList();
     Data.userList = res;
   } catch (error) {
-    ElMessage.error(error.stack);
+    console.error(error);
   }
 }
 //添加-修改-删除请求
@@ -231,12 +231,12 @@ async function postDeptC_U_DRequest() {
     } else if (Data.action === "edit") {
       ElMessage.success("编辑部门成功！");
     }
+  } catch (error) {
+    console.error(error)
+  } finally {
     addRuleFormRef._value.resetFields();
     getDeptListRequest();
     Data.addShow = false;
-  } catch (error) {
-    ElMessage.error(error.stack);
-    return Promise.reject(error.stack);
   }
 }
 //查询按钮事件
@@ -247,13 +247,11 @@ function onQueryHandler() {
 function addHandler(type, row) {
   Data.addShow = true;
   Data.action = "create";
+  Data.addRuleForm = {};
   //每行的添加按钮
   nextTick(() => {
     addRuleFormRef._value.resetFields();
     addRuleFormRef._value.clearValidate();
-    Data.addRuleForm = {
-      parentId: [null],
-    };
     if (row) {
       Data.addRuleForm.parentId = [...row.parentId, row.id].filter((item) => item);
     }

@@ -36,6 +36,8 @@ var Schema = require('./../../model/Model.js');
 
 var AutoID = require('./../../utils/AutoID');
 
+var ApiAuth = require('../../utils/ApiAuth.js');
+
 var FaasAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -71,7 +73,14 @@ function (_BaseController) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
+              _context.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["faas:func:list"]
+              }));
+
+            case 2:
+              _context.prev = 2;
               _this$ctx$request$que = this.ctx.request.query, method = _this$ctx$request$que.method, code = _this$ctx$request$que.code, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(FaasAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
@@ -81,17 +90,17 @@ function (_BaseController) {
               query = Schema.faasSchema.find(params); // 查询所有数据
               // sort({ id: -1 }) //倒叙 1正序
 
-              _context.next = 10;
+              _context.next = 12;
               return regeneratorRuntime.awrap(query.sort({
                 id: -1
               }).skip(skipIndex).limit(page.pageSize).exec());
 
-            case 10:
+            case 12:
               list = _context.sent;
-              _context.next = 13;
+              _context.next = 15;
               return regeneratorRuntime.awrap(Schema.faasSchema.countDocuments(params));
 
-            case 13:
+            case 15:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -101,22 +110,22 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 20;
+              _context.next = 22;
               break;
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](0);
+            case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: _context.t0.stack
               });
 
-            case 20:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[0, 17]]);
+      }, null, this, [[2, 19]]);
     }
   }, {
     key: "create",
@@ -127,11 +136,18 @@ function (_BaseController) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.prev = 0;
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["faas:func:post"]
+              }));
+
+            case 2:
+              _context2.prev = 2;
               _this$ctx$request$bod = this.ctx.request.body, method = _this$ctx$request$bod.method, fn = _this$ctx$request$bod.fn, code = _this$ctx$request$bod.code, schemaCode = _this$ctx$request$bod.schemaCode, state = _this$ctx$request$bod.state, path = _this$ctx$request$bod.path, isAuth = _this$ctx$request$bod.isAuth, remark = _this$ctx$request$bod.remark;
 
               if (!(!method || !fn || !code)) {
-                _context2.next = 7;
+                _context2.next = 9;
                 break;
               }
 
@@ -140,13 +156,13 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 7:
-              _context2.next = 9;
+            case 9:
+              _context2.next = 11;
               return regeneratorRuntime.awrap(AutoID({
                 code: "faasFuncId"
               }));
 
-            case 9:
+            case 11:
               currentIndex = _context2.sent;
               add = new Schema.faasSchema({
                 id: currentIndex,
@@ -160,31 +176,31 @@ function (_BaseController) {
                 state: state ? state : undefined,
                 remark: remark ? remark : ''
               });
-              _context2.next = 13;
+              _context2.next = 15;
               return regeneratorRuntime.awrap(add.save());
 
-            case 13:
+            case 15:
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 msg: '添加成功'
               });
 
-            case 14:
-              _context2.next = 19;
+            case 16:
+              _context2.next = 21;
               break;
 
-            case 16:
-              _context2.prev = 16;
-              _context2.t0 = _context2["catch"](0);
+            case 18:
+              _context2.prev = 18;
+              _context2.t0 = _context2["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: '添加失败，请联系管理员' + _context2.t0.stack
               });
 
-            case 19:
+            case 21:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[0, 16]]);
+      }, null, this, [[2, 18]]);
     }
   }, {
     key: "update",
@@ -194,40 +210,47 @@ function (_BaseController) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["faas:func:put"]
+              }));
+
+            case 2:
+              _context3.prev = 2;
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id;
-              _context3.next = 7;
+              _context3.next = 9;
               return regeneratorRuntime.awrap(Schema.faasSchema.findOneAndUpdate({
                 id: id
               }, params, {
                 "new": true
               }));
 
-            case 7:
+            case 9:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 14;
+              _context3.next = 16;
               break;
 
-            case 11:
-              _context3.prev = 11;
-              _context3.t0 = _context3["catch"](0);
+            case 13:
+              _context3.prev = 13;
+              _context3.t0 = _context3["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 14:
+            case 16:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[0, 11]]);
+      }, null, this, [[2, 13]]);
     }
   }, {
     key: "remove",
@@ -237,7 +260,14 @@ function (_BaseController) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["faas:func:remove"]
+              }));
+
+            case 2:
+              _context4.prev = 2;
               ids = this.ctx.params.ids;
               arrId = ids.split(",").filter(function (item) {
                 return item;
@@ -247,7 +277,7 @@ function (_BaseController) {
               //     }
               // })
 
-              _context4.next = 5;
+              _context4.next = 7;
               return regeneratorRuntime.awrap(Schema.dictTypeSchema.updateMany({
                 id: {
                   $in: arrId
@@ -256,28 +286,28 @@ function (_BaseController) {
                 state: 2
               }));
 
-            case 5:
+            case 7:
               res = _context4.sent;
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: "\u5220\u9664\u6210\u529F"
               });
-              _context4.next = 12;
+              _context4.next = 14;
               break;
 
-            case 9:
-              _context4.prev = 9;
-              _context4.t0 = _context4["catch"](0);
+            case 11:
+              _context4.prev = 11;
+              _context4.t0 = _context4["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: _context4.t0.stack
               });
 
-            case 12:
+            case 14:
             case "end":
               return _context4.stop();
           }
         }
-      }, null, this, [[0, 9]]);
+      }, null, this, [[2, 11]]);
     }
   }, {
     key: "get",
@@ -287,35 +317,42 @@ function (_BaseController) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.prev = 0;
+              _context5.next = 2;
+              return regeneratorRuntime.awrap(ApiAuth({
+                userInfo: this.userInfo,
+                code: ["faas:func:get"]
+              }));
+
+            case 2:
+              _context5.prev = 2;
               id = this.ctx.params.id;
               params = {};
               if (id) params.id = id;
-              _context5.next = 6;
+              _context5.next = 8;
               return regeneratorRuntime.awrap(Schema.faasSchema.findOne(params));
 
-            case 6:
+            case 8:
               query = _context5.sent;
               // 查询所有数据
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "success", this).call(this, {
                 data: _objectSpread({}, query._doc)
               });
-              _context5.next = 13;
+              _context5.next = 15;
               break;
 
-            case 10:
-              _context5.prev = 10;
-              _context5.t0 = _context5["catch"](0);
+            case 12:
+              _context5.prev = 12;
+              _context5.t0 = _context5["catch"](2);
               this.ctx.body = _get(_getPrototypeOf(FaasAdminController.prototype), "fail", this).call(this, {
                 msg: _context5.t0.stack
               });
 
-            case 13:
+            case 15:
             case "end":
               return _context5.stop();
           }
         }
-      }, null, this, [[0, 10]]);
+      }, null, this, [[2, 12]]);
     }
   }]);
 

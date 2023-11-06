@@ -14,6 +14,7 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('./../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class DictTypeAdminController extends BaseController {
     constructor({
@@ -32,6 +33,10 @@ class DictTypeAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dictType:list"]
+        })
         try {
             const {
                 state = 1,
@@ -70,6 +75,10 @@ class DictTypeAdminController extends BaseController {
     }
 
     async create() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dictType:post"]
+        })
         try {
             const {
                 dictId,
@@ -111,6 +120,10 @@ class DictTypeAdminController extends BaseController {
     }
 
     async update() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dictType:put"]
+        })
         try {
             const {
                 id
@@ -136,16 +149,15 @@ class DictTypeAdminController extends BaseController {
         }
     }
     async remove() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dictType:remove"]
+        })
         try {
             const {
                 ids
             } = this.ctx.params
             let arrId = ids.split(",").filter((item) => item).map((item) => parseInt(item))
-            // let res = await Schema.dictTypeSchema.deleteMany({
-            //     id: {
-            //         $in: arrId
-            //     }
-            // })
             let res = await Schema.dictTypeSchema.updateMany({
                 id: {
                     $in: arrId
@@ -184,6 +196,10 @@ class DictTypeAdminController extends BaseController {
         }
     }
     async get() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dictType:get"]
+        })
         try {
             const {
                 id

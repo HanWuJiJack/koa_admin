@@ -3,6 +3,7 @@
 const BaseController = require('../BaseController.js');
 const Schema = require('./../../model/Model.js')
 const AutoID = require('./../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class DeptAdminController extends BaseController {
     constructor({
@@ -20,6 +21,10 @@ class DeptAdminController extends BaseController {
         this.url = "/admin/dept"
     }
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:dept:list"]
+        })
         const {
             deptName,
             state = 1
@@ -41,6 +46,22 @@ class DeptAdminController extends BaseController {
             action,
             ...params
         } = this.ctx.request.body;
+        if (action == 'create') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:post"]
+            })
+        } else if (action == 'edit') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:put"]
+            })
+        } else {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:dept:remove"]
+            })
+        }
         let res, info;
         try {
             if (action == 'create') {
@@ -59,13 +80,11 @@ class DeptAdminController extends BaseController {
                 }, params);
                 info = '编辑成功'
             } else {
-
                 const deptInfo = await Schema.deptSchema.findOne({
                     parentId: {
                         $all: [id]
                     }
                 })
-                // console.log("deptInfo", deptInfo)
                 if (deptInfo) {
                     this.ctx.body = super.fail({
                         msg: "请先将子集删除！"

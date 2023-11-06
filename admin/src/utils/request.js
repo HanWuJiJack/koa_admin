@@ -91,7 +91,7 @@ service.interceptors.response.use(res => {
       ElNotification.error({
         title: msg
       })
-      return Promise.reject('error')
+      return Promise.reject(msg)
     } else {
       return res.data
     }

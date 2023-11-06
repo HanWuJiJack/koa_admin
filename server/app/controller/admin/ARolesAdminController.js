@@ -3,6 +3,7 @@
 const BaseController = require('../BaseController');
 const Schema = require('./../../model/Model.js')
 const AutoID = require('../../utils/AutoID')
+const ApiAuth = require('../../utils/ApiAuth.js')
 
 class RolesAdminController extends BaseController {
     constructor({
@@ -21,6 +22,10 @@ class RolesAdminController extends BaseController {
     }
 
     async list() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:role:list"]
+        })
         try {
             const {
                 roleName
@@ -56,13 +61,29 @@ class RolesAdminController extends BaseController {
     }
 
     async create() {
+        const {
+            id,
+            roleName,
+            remark,
+            action
+        } = this.ctx.request.body;
+        if (action === 'create') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:post"]
+            })
+        } else if (action === 'edit') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:put"]
+            })
+        } else if (action === 'delete') {
+            await ApiAuth({
+                userInfo: this.userInfo,
+                code: ["system:role:remove"]
+            })
+        }
         try {
-            const {
-                id,
-                roleName,
-                remark,
-                action
-            } = this.ctx.request.body;
             if (action === 'create') {
                 if (!roleName) {
                     this.ctx.body = super.fail({
@@ -144,6 +165,10 @@ class RolesAdminController extends BaseController {
     }
 
     async create_permission() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:role:put"]
+        })
         try {
             const {
                 id,
@@ -167,6 +192,10 @@ class RolesAdminController extends BaseController {
 
 
     async list_all() {
+        await ApiAuth({
+            userInfo: this.userInfo,
+            code: ["system:role:list"]
+        })
         try {
             const res = await Schema.rolesSchema.find({}, 'id roleName')
             this.ctx.body = super.success({

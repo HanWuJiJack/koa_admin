@@ -61,6 +61,7 @@ var Exception = function Exception(ctx, next) {
           _context.t0 = _context["catch"](0);
 
           if (_context.t0 && _context.t0.code) {
+            // console.log("22222")
             // 错误类code :1000 - 2000
             if (_context.t0.code >= 1000 && _context.t0.code < 2000) {
               status = _context.t0.code === 1003 ? 401 : 403;
@@ -75,31 +76,38 @@ var Exception = function Exception(ctx, next) {
               ctx.body = _context.t0;
             }
           } else if (ctx.response.status && ctx.response.status >= 500) {
+            // console.log("33333333")
             ctx.body = {
               code: 999999,
               message: "请将接口保存并联系后端！"
             };
           } else if (_context.t0 || ctx.response.status) {
+            // console.log("4444444444")
             // ctx.body = ExceptionCode.UNDEFINED
             if (_context.t0.message === 'Validation Failed') {
               ctx.body = _objectSpread({}, ExceptionCode.INVALID_PARAMS);
-            }
-
-            if (_context.t0.message === 'Validation error') {
+            } else if (_context.t0.message === 'Validation error') {
               ctx.body = _objectSpread({}, ExceptionCode.INVALID_PARAMS);
-            }
-
-            if (_context.t0.message.indexOf("文件大于") > -1) {
+            } else if (_context.t0.message.indexOf("文件大于") > -1) {
               ctx.body = _objectSpread({}, ExceptionCode.FILE_SIZE_ERR, {
                 title: _context.t0.message
               });
-            }
-
-            if (_context.t0.message.indexOf("文件格式只支持") > -1) {
+            } else if (_context.t0.message.indexOf("文件格式只支持") > -1) {
               ctx.body = _objectSpread({}, ExceptionCode.FILE_TYPE_ERR, {
                 title: _context.t0.message
               });
+            } else {
+              // console.log("55555555")
+              ctx.body = {
+                code: 999999,
+                message: _context.t0.message
+              };
             }
+          } else {
+            ctx.body = {
+              code: 999999,
+              message: _context.t0.message
+            };
           }
 
           logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
