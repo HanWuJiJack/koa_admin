@@ -1,7 +1,8 @@
 const BaseController = require('../BaseController');
 const Schema = require('./../../model/Model.js')
 const AutoID = require('./../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
 
 class FaasAdminController extends BaseController {
     constructor({
@@ -17,13 +18,21 @@ class FaasAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/faas"
+        this.middleLists = {
+             "Get|list": [ApiAuth(["faas:func:list"])],
+            Create: [ApiAuth(["faas:func:post"]), ApiRatelimit],
+            "Update:id": [ApiAuth(["faas:func:put"]), ApiRatelimit],
+            "Remove:ids": [ApiAuth(["faas:func:remove"]), ApiRatelimit],
+            "Get:id": [ApiAuth(["faas:func:get"])],
+        }
     }
-
-    async list() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:func:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async  "Get|list"() {
         try {
             const {
                 method,
@@ -61,11 +70,7 @@ class FaasAdminController extends BaseController {
         }
     }
 
-    async create() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:func:post"]
-        })
+    async Create() {
         try {
             const {
                 method,
@@ -110,11 +115,7 @@ class FaasAdminController extends BaseController {
         }
     }
 
-    async update() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:func:put"]
-        })
+    async "Update:id"() {
         try {
             const {
                 id
@@ -140,11 +141,7 @@ class FaasAdminController extends BaseController {
         }
     }
 
-    async remove() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:func:remove"]
-        })
+    async "Remove:ids"() {
         try {
             const {
                 ids
@@ -172,11 +169,7 @@ class FaasAdminController extends BaseController {
             })
         }
     }
-    async get() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:func:get"]
-        })
+    async "Get:id"() {
         try {
             const {
                 id

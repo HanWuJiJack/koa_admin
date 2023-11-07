@@ -5,7 +5,9 @@ const path = require("path")
 const {
     logger,
 } = require(path.join(process.cwd(), "./config/logger"))
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
+
 
 class DictAdminController extends BaseController {
     constructor({
@@ -21,13 +23,21 @@ class DictAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/dict"
+        this.middleLists = {
+            "Get|list": [ApiAuth(["system:dict:list"])],
+            Create: [ApiAuth(["system:dict:post"]), ApiRatelimit],
+            "Update:id": [ApiAuth(["system:dict:put"]), ApiRatelimit],
+            "Remove:ids": [ApiAuth(["system:dict:remove"]), ApiRatelimit],
+            "Get:id": [ApiAuth(["system:dict:get"])],
+        }
     }
-
-    async list() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dict:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async "Get|list"() {
         try {
             const {
                 name,
@@ -64,11 +74,7 @@ class DictAdminController extends BaseController {
         }
     }
 
-    async create() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dict:post"]
-        })
+    async Create() {
         try {
             const {
                 name,
@@ -115,11 +121,7 @@ class DictAdminController extends BaseController {
         }
     }
 
-    async update() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dict:put"]
-        })
+    async "Update:id"() {
         try {
             const {
                 id
@@ -143,11 +145,7 @@ class DictAdminController extends BaseController {
         }
     }
 
-    async remove() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dict:remove"]
-        })
+    async "Remove:ids"() {
         try {
             const {
                 ids
@@ -159,13 +157,7 @@ class DictAdminController extends BaseController {
                     $in: arrId
                 }
             })
-
             if (!dictTypes[0]) {
-                // let res = await Schema.dictSchema.deleteMany({
-                //     id: {
-                //         $in: arrId
-                //     }
-                // })
                 let res = await Schema.dictSchema.updateMany({
                     id: {
                         $in: arrId
@@ -190,11 +182,7 @@ class DictAdminController extends BaseController {
             })
         }
     }
-    async get() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dict:get"]
-        })
+    async "Get:id"() {
         try {
             const {
                 id

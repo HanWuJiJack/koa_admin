@@ -37,8 +37,6 @@ var _require2 = require(path.join(process.cwd(), "./config/logger")),
 
 var AutoID = require('../../utils/AutoID');
 
-var ApiAuth = require('../../utils/ApiAuth.js');
-
 var TokenAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -63,13 +61,19 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/token";
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(TokenAdminController, [{
-    key: "list",
-    value: function list() {
+    key: "Update",
+    value: function Update() {
       var token;
-      return regeneratorRuntime.async(function list$(_context) {
+      return regeneratorRuntime.async(function Update$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:

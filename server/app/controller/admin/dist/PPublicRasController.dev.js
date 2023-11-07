@@ -52,13 +52,19 @@ function (_BaseController) {
     _this.next = next;
     _this.url = "/admin/p/ras";
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(PublicRasController, [{
-    key: "list_one",
-    value: function list_one() {
+    key: "Get",
+    value: function Get() {
       var publicKey;
-      return regeneratorRuntime.async(function list_one$(_context) {
+      return regeneratorRuntime.async(function Get$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:

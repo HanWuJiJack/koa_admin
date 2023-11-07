@@ -8,7 +8,9 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('./../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
+
 class UserAdminController extends BaseController {
     constructor({
         ctx = {
@@ -23,13 +25,24 @@ class UserAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/user"
+        this.middleLists = {
+            "Get|list": [ApiAuth(["system:user:list"])],
+            Create: [ApiAuth(["system:user:post"]), ApiRatelimit],
+            "Update:id": [ApiAuth(["system:user:put"]), ApiRatelimit],
+            "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit],
+            Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit],
+            "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit],
+            "Get|list_all": [ApiAuth(["system:user:list"])],
+            "Get|info": [ApiAuth(["system:user:mySelf"])],
+        }
     }
-    async list() {
-        // 接口级别权限判断
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async "Get|list"() {
         try {
             const {
                 userId,
@@ -67,11 +80,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async create() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:post"]
-        })
+    async Create() {
         const {
             id,
             userName,
@@ -143,11 +152,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async update() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:put"]
-        })
+    async "Update:id"() {
         try {
             const {
                 id
@@ -174,11 +179,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async update_pwd() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:put"]
-        })
+    async "Update|pwd:code|888:ids|999:id"() {
         const {
             userPwd,
             id
@@ -205,11 +206,7 @@ class UserAdminController extends BaseController {
     }
 
     // 支持单个删除
-    async del() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:remove"]
-        })
+    async Remove() {
         const {
             userIds,
         } = this.ctx.request.body;
@@ -233,11 +230,7 @@ class UserAdminController extends BaseController {
     }
 
     // 永久删除
-    async del_force() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:remove"]
-        })
+    async "Remove|force"() {
         try {
             const {
                 userIds
@@ -257,11 +250,7 @@ class UserAdminController extends BaseController {
             })
         }
     }
-    async list_all() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:list"]
-        })
+    async "Get|list_all"() {
         try {
             const list = await Schema.usersSchema.find({}) //查询所有数据
             this.ctx.body = super.success({
@@ -274,11 +263,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async list_one() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:user:mySelf"]
-        })
+    async "Get|info"() {
         this.ctx.body = super.success({
             data: this.userInfo
         })

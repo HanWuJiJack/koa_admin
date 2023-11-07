@@ -6,7 +6,8 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('./../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
 
 class MenuAdminController extends BaseController {
     constructor({
@@ -22,13 +23,21 @@ class MenuAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/menu"
+        this.middleLists = {
+            "Get|list": [ApiAuth(["system:menu:list"])],
+            Get: [ApiAuth(["system:menu:post"]), ApiRatelimit],
+            Update: [ApiAuth(["system:menu:put"]), ApiRatelimit],
+            Remove: [ApiAuth(["system:menu:remove"]), ApiRatelimit],
+            "Get:id": [ApiAuth(["system:menu:get"])],
+        }
     }
-
-    async list() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:menu:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async "Get|list"() {
         const userInfo = this.userInfo
         try {
             const {
@@ -71,87 +80,21 @@ class MenuAdminController extends BaseController {
         }
     }
 
-    async create() {
+    async Get() {
         const {
             id,
             action,
             ...params
         } = this.ctx.request.body;
-        if (action == 'create') {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:post"]
-            })
-        } else if (action == 'edit') {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:put"]
-            })
-        } else {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:remove"]
-            })
-        }
         let res, info;
         try {
-            if (action == 'create') {
-                const currentIndex = await AutoID({
-                    code: "menuId"
-                })
-                params.id = currentIndex
-                params.createByUser = this.ctx.state.userId.id
-                res = await Schema.menusSchema.create(params)
-                info = '创建成功'
-            } else if (action == 'edit') {
-                params.updateTime = new Date();
-                params.updateByUser = this.ctx.state.userId.id
-                // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
-                res = await Schema.menusSchema.findOneAndUpdate({
-                    id
-                }, params);
-                info = '编辑成功'
-            } else {
-                const menusInfo = await Schema.menusSchema.findOne({
-                    parentId: {
-                        $all: [id]
-                    },
-                    state: 1
-                })
-                if (menusInfo) {
-                    this.ctx.body = super.fail({
-                        msg: "请先将子集删除！"
-                    });
-                    return
-                }
-
-                const rolesInfo = await Schema.rolesSchema.findOne({
-                    $or: [{
-                            "permissionList.checkedKeys": {
-                                $all: [id]
-                            }
-                        },
-                        {
-                            "permissionList.permissionList": {
-                                $all: [id]
-                            }
-                        }
-                    ]
-                })
-                // console.log("rolesInfo", rolesInfo)
-                if (rolesInfo) {
-                    this.ctx.body = super.fail({
-                        msg: "请先将绑定的角色删除！"
-                    });
-                    return
-                }
-                res = await Schema.menusSchema.findOneAndUpdate({
-                    id
-                }, {
-                    state: 2
-                });
-                info = '删除成功'
-            }
+            const currentIndex = await AutoID({
+                code: "menuId"
+            })
+            params.id = currentIndex
+            params.createByUser = this.ctx.state.userId.id
+            res = await Schema.menusSchema.create(params)
+            info = '创建成功'
             this.ctx.body = super.success({
                 msg: info
             });
@@ -161,7 +104,109 @@ class MenuAdminController extends BaseController {
             });
         }
     }
-    async list_permisson_menu() {
+    async Update() {
+        const {
+            id,
+            action,
+            ...params
+        } = this.ctx.request.body;
+
+        let res, info;
+        try {
+            params.updateTime = new Date();
+            params.updateByUser = this.ctx.state.userId.id
+            // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
+            res = await Schema.menusSchema.findOneAndUpdate({
+                id
+            }, params);
+            info = '编辑成功'
+            this.ctx.body = super.success({
+                msg: info
+            });
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            });
+        }
+    }
+    async Remove() {
+        const {
+            id,
+            action,
+            ...params
+        } = this.ctx.request.body;
+
+        let res, info;
+        try {
+            const menusInfo = await Schema.menusSchema.findOne({
+                parentId: {
+                    $all: [id]
+                },
+                state: 1
+            })
+            if (menusInfo) {
+                this.ctx.body = super.fail({
+                    msg: "请先将子集删除！"
+                });
+                return
+            }
+
+            const rolesInfo = await Schema.rolesSchema.findOne({
+                $or: [{
+                        "permissionList.checkedKeys": {
+                            $all: [id]
+                        }
+                    },
+                    {
+                        "permissionList.permissionList": {
+                            $all: [id]
+                        }
+                    }
+                ]
+            })
+            // console.log("rolesInfo", rolesInfo)
+            if (rolesInfo) {
+                this.ctx.body = super.fail({
+                    msg: "请先将绑定的角色删除！"
+                });
+                return
+            }
+            res = await Schema.menusSchema.findOneAndUpdate({
+                id
+            }, {
+                state: 2
+            });
+            info = '删除成功'
+            this.ctx.body = super.success({
+                msg: info
+            });
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            });
+        }
+    }
+    async "Get:id"() {
+        try {
+            const {
+                id
+            } = this.ctx.params
+            const params = {}
+            if (id) params.id = id
+            const query = await Schema.menusSchema.findOne(params) // 查询所有数据
+            this.ctx.body = super.success({
+                data: {
+                    ...query._doc
+                }
+            })
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            })
+        }
+    }
+    
+    async "Get|list_permisson_menu"() {
         const userInfo = this.userInfo
         const {
             btnList,

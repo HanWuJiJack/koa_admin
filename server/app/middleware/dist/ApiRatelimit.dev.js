@@ -17,7 +17,7 @@ RateLimit.defaultOptions({
 });
 module.exports = RateLimit.middleware({
   interval: 1 * 1000,
-  // 3s内
+  // 1s内
   max: 1,
   keyGenerator: function keyGenerator(ctx) {
     return regeneratorRuntime.async(function keyGenerator$(_context) {

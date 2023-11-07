@@ -9,7 +9,6 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
 class TokenAdminController extends BaseController {
     constructor({
         ctx = {
@@ -25,7 +24,13 @@ class TokenAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/token"
     }
-    async list() {
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async Update() {
         try {
             var token = encode(this.userInfo.id)
             this.ctx.body = super.success({

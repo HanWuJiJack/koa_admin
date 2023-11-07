@@ -18,7 +18,14 @@ class LoginAdminController extends BaseController {
         this.next = next
         this.url = "/admin/p/login"
     }
-    async create() {
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+
+    async "Create"() {
         this.ctx.verifyParams({
             userEmail: 'string',
             userPwd: 'string',

@@ -53,7 +53,9 @@ var _require = require(path.join(process.cwd(), "./config/logger")),
 
 var AutoID = require('./../../utils/AutoID');
 
-var ApiAuth = require('../../utils/ApiAuth.js');
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
+
+var ApiAuth = require("./../../middleware/ApiAuth");
 
 var MenuAdminController =
 /*#__PURE__*/
@@ -78,64 +80,70 @@ function (_BaseController) {
     _this.next = next;
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/menu";
+    _this.middleLists = {
+      "Get|list": [ApiAuth(["system:menu:list"])],
+      Get: [ApiAuth(["system:menu:post"]), ApiRatelimit],
+      Update: [ApiAuth(["system:menu:put"]), ApiRatelimit],
+      Remove: [ApiAuth(["system:menu:remove"]), ApiRatelimit],
+      "Get:id": [ApiAuth(["system:menu:get"])]
+    };
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(MenuAdminController, [{
-    key: "list",
-    value: function list() {
+    key: "Get|list",
+    value: function GetList() {
       var userInfo, _this$ctx$request$que, menuName, _this$ctx$request$que2, state, params, rootList, roleData, resultPermissonList, permissionList;
 
-      return regeneratorRuntime.async(function list$(_context) {
+      return regeneratorRuntime.async(function GetList$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:list"]
-              }));
-
-            case 2:
               userInfo = this.userInfo;
-              _context.prev = 3;
+              _context.prev = 1;
               _this$ctx$request$que = this.ctx.request.query, menuName = _this$ctx$request$que.menuName, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               params = {};
               if (menuName) params.menuName = new RegExp("^".concat(menuName), 'ig');
               params.state = parseInt(state);
 
               if (!(userInfo.role === 0)) {
-                _context.next = 17;
+                _context.next = 15;
                 break;
               }
 
-              _context.next = 11;
+              _context.next = 9;
               return regeneratorRuntime.awrap(Schema.menusSchema.find(params));
 
-            case 11:
+            case 9:
               _context.t0 = _context.sent;
 
               if (_context.t0) {
-                _context.next = 14;
+                _context.next = 12;
                 break;
               }
 
               _context.t0 = [];
 
-            case 14:
+            case 12:
               rootList = _context.t0;
-              _context.next = 29;
+              _context.next = 27;
               break;
 
-            case 17:
-              _context.next = 19;
+            case 15:
+              _context.next = 17;
               return regeneratorRuntime.awrap(Schema.rolesSchema.find({
                 id: {
                   $in: userInfo.roleList
                 }
               }));
 
-            case 19:
+            case 17:
               roleData = _context.sent;
               // 然后根据取出来的角色，取出角色拥有的菜单数据，多角色出现相同的对他进行合并，也就是并集了【去重处理】~
               resultPermissonList = [];
@@ -144,143 +152,146 @@ function (_BaseController) {
               });
               resultPermissonList = _toConsumableArray(new Set(resultPermissonList)); // 去重相同的菜单id
 
-              _context.next = 25;
+              _context.next = 23;
               return regeneratorRuntime.awrap(Schema.menusSchema.find(_objectSpread({}, params, {
                 id: {
                   $in: resultPermissonList
                 }
               })));
 
-            case 25:
+            case 23:
               _context.t1 = _context.sent;
 
               if (_context.t1) {
-                _context.next = 28;
+                _context.next = 26;
                 break;
               }
 
               _context.t1 = [];
 
-            case 28:
+            case 26:
               rootList = _context.t1;
 
-            case 29:
+            case 27:
               permissionList = _get(_getPrototypeOf(MenuAdminController.prototype), "TreeMenu", this).call(this, rootList, null);
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 data: permissionList
               });
-              _context.next = 36;
+              _context.next = 34;
               break;
 
-            case 33:
-              _context.prev = 33;
-              _context.t2 = _context["catch"](3);
+            case 31:
+              _context.prev = 31;
+              _context.t2 = _context["catch"](1);
               logger.error(_context.t2);
 
-            case 36:
+            case 34:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[3, 33]]);
+      }, null, this, [[1, 31]]);
     }
   }, {
-    key: "create",
-    value: function create() {
-      var _this$ctx$request$bod, id, action, params, res, info, currentIndex, menusInfo, rolesInfo;
+    key: "Get",
+    value: function Get() {
+      var _this$ctx$request$bod, id, action, params, res, info, currentIndex;
 
-      return regeneratorRuntime.async(function create$(_context2) {
+      return regeneratorRuntime.async(function Get$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["id", "action"]);
-
-              if (!(action == 'create')) {
-                _context2.next = 6;
-                break;
-              }
-
+              _context2.prev = 1;
               _context2.next = 4;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:post"]
-              }));
-
-            case 4:
-              _context2.next = 13;
-              break;
-
-            case 6:
-              if (!(action == 'edit')) {
-                _context2.next = 11;
-                break;
-              }
-
-              _context2.next = 9;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:put"]
-              }));
-
-            case 9:
-              _context2.next = 13;
-              break;
-
-            case 11:
-              _context2.next = 13;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:menu:remove"]
-              }));
-
-            case 13:
-              _context2.prev = 13;
-
-              if (!(action == 'create')) {
-                _context2.next = 26;
-                break;
-              }
-
-              _context2.next = 17;
               return regeneratorRuntime.awrap(AutoID({
                 code: "menuId"
               }));
 
-            case 17:
+            case 4:
               currentIndex = _context2.sent;
               params.id = currentIndex;
               params.createByUser = this.ctx.state.userId.id;
-              _context2.next = 22;
+              _context2.next = 9;
               return regeneratorRuntime.awrap(Schema.menusSchema.create(params));
 
-            case 22:
+            case 9:
               res = _context2.sent;
               info = '创建成功';
-              _context2.next = 51;
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
+                msg: info
+              });
+              _context2.next = 17;
               break;
 
-            case 26:
-              if (!(action == 'edit')) {
-                _context2.next = 35;
-                break;
-              }
+            case 14:
+              _context2.prev = 14;
+              _context2.t0 = _context2["catch"](1);
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
+                msg: _context2.t0.stack
+              });
 
+            case 17:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, null, this, [[1, 14]]);
+    }
+  }, {
+    key: "Update",
+    value: function Update() {
+      var _this$ctx$request$bod2, id, action, params, res, info;
+
+      return regeneratorRuntime.async(function Update$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _this$ctx$request$bod2 = this.ctx.request.body, id = _this$ctx$request$bod2.id, action = _this$ctx$request$bod2.action, params = _objectWithoutProperties(_this$ctx$request$bod2, ["id", "action"]);
+              _context3.prev = 1;
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id; // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
 
-              _context2.next = 31;
+              _context3.next = 6;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOneAndUpdate({
                 id: id
               }, params));
 
-            case 31:
-              res = _context2.sent;
+            case 6:
+              res = _context3.sent;
               info = '编辑成功';
-              _context2.next = 51;
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
+                msg: info
+              });
+              _context3.next = 14;
               break;
 
-            case 35:
-              _context2.next = 37;
+            case 11:
+              _context3.prev = 11;
+              _context3.t0 = _context3["catch"](1);
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
+                msg: _context3.t0.stack
+              });
+
+            case 14:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, null, this, [[1, 11]]);
+    }
+  }, {
+    key: "Remove",
+    value: function Remove() {
+      var _this$ctx$request$bod3, id, action, params, res, info, menusInfo, rolesInfo;
+
+      return regeneratorRuntime.async(function Remove$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _this$ctx$request$bod3 = this.ctx.request.body, id = _this$ctx$request$bod3.id, action = _this$ctx$request$bod3.action, params = _objectWithoutProperties(_this$ctx$request$bod3, ["id", "action"]);
+              _context4.prev = 1;
+              _context4.next = 4;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOne({
                 parentId: {
                   $all: [id]
@@ -288,21 +299,21 @@ function (_BaseController) {
                 state: 1
               }));
 
-            case 37:
-              menusInfo = _context2.sent;
+            case 4:
+              menusInfo = _context4.sent;
 
               if (!menusInfo) {
-                _context2.next = 41;
+                _context4.next = 8;
                 break;
               }
 
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
                 msg: "请先将子集删除！"
               });
-              return _context2.abrupt("return");
+              return _context4.abrupt("return");
 
-            case 41:
-              _context2.next = 43;
+            case 8:
+              _context4.next = 10;
               return regeneratorRuntime.awrap(Schema.rolesSchema.findOne({
                 $or: [{
                   "permissionList.checkedKeys": {
@@ -315,71 +326,107 @@ function (_BaseController) {
                 }]
               }));
 
-            case 43:
-              rolesInfo = _context2.sent;
+            case 10:
+              rolesInfo = _context4.sent;
 
               if (!rolesInfo) {
-                _context2.next = 47;
+                _context4.next = 14;
                 break;
               }
 
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
                 msg: "请先将绑定的角色删除！"
               });
-              return _context2.abrupt("return");
+              return _context4.abrupt("return");
 
-            case 47:
-              _context2.next = 49;
+            case 14:
+              _context4.next = 16;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOneAndUpdate({
                 id: id
               }, {
                 state: 2
               }));
 
-            case 49:
-              res = _context2.sent;
+            case 16:
+              res = _context4.sent;
               info = '删除成功';
-
-            case 51:
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
                 msg: info
               });
-              _context2.next = 57;
+              _context4.next = 24;
               break;
 
-            case 54:
-              _context2.prev = 54;
-              _context2.t0 = _context2["catch"](13);
+            case 21:
+              _context4.prev = 21;
+              _context4.t0 = _context4["catch"](1);
               this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
-                msg: _context2.t0.stack
+                msg: _context4.t0.stack
               });
 
-            case 57:
+            case 24:
             case "end":
-              return _context2.stop();
+              return _context4.stop();
           }
         }
-      }, null, this, [[13, 54]]);
+      }, null, this, [[1, 21]]);
     }
   }, {
-    key: "list_permisson_menu",
-    value: function list_permisson_menu() {
+    key: "Get:id",
+    value: function GetId() {
+      var id, params, query;
+      return regeneratorRuntime.async(function GetId$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.prev = 0;
+              id = this.ctx.params.id;
+              params = {};
+              if (id) params.id = id;
+              _context5.next = 6;
+              return regeneratorRuntime.awrap(Schema.menusSchema.findOne(params));
+
+            case 6:
+              query = _context5.sent;
+              // 查询所有数据
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "success", this).call(this, {
+                data: _objectSpread({}, query._doc)
+              });
+              _context5.next = 13;
+              break;
+
+            case 10:
+              _context5.prev = 10;
+              _context5.t0 = _context5["catch"](0);
+              this.ctx.body = _get(_getPrototypeOf(MenuAdminController.prototype), "fail", this).call(this, {
+                msg: _context5.t0.stack
+              });
+
+            case 13:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, null, this, [[0, 10]]);
+    }
+  }, {
+    key: "Get|list_permisson_menu",
+    value: function GetList_permisson_menu() {
       var userInfo, _ref2, btnList, menuList, routeList;
 
-      return regeneratorRuntime.async(function list_permisson_menu$(_context3) {
+      return regeneratorRuntime.async(function GetList_permisson_menu$(_context6) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
               userInfo = this.userInfo;
-              _context3.next = 3;
+              _context6.next = 3;
               return regeneratorRuntime.awrap(_get(_getPrototypeOf(MenuAdminController.prototype), "list_menu", this).call(this, userInfo.role, userInfo.roleList));
 
             case 3:
-              _ref2 = _context3.sent;
+              _ref2 = _context6.sent;
               btnList = _ref2.btnList;
               menuList = _ref2.menuList;
               routeList = _ref2.routeList;
-              _context3.next = 9;
+              _context6.next = 9;
               return regeneratorRuntime.awrap(redis.setHashMap(String(userInfo.id), {
                 btnList: btnList
               }));
@@ -395,7 +442,7 @@ function (_BaseController) {
 
             case 10:
             case "end":
-              return _context3.stop();
+              return _context6.stop();
           }
         }
       }, null, this);

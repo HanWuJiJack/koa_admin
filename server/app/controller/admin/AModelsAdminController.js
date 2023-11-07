@@ -8,7 +8,8 @@ const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const AutoID = require('../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
 
 class DictTypeAdminController extends BaseController {
     constructor({
@@ -24,13 +25,21 @@ class DictTypeAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/model"
+        this.middleLists = {
+            "Get|list": [ApiAuth(["faas:model:list"])],
+            Create: [ApiAuth(["faas:model:post"]), ApiRatelimit],
+            "Update:id": [ApiAuth(["faas:model:put"]), ApiRatelimit],
+            "Remove:ids": [ApiAuth(["faas:model:remove"]), ApiRatelimit],
+            "Get:id": [ApiAuth(["faas:model:get"])],
+        }
     }
-
-    async list() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:model:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+    async "Get|list"() {
         try {
             const {
                 state = 1,
@@ -64,11 +73,7 @@ class DictTypeAdminController extends BaseController {
         }
     }
 
-    async create() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:model:post"]
-        })
+    async Create() {
         try {
             const {
                 name,
@@ -102,11 +107,7 @@ class DictTypeAdminController extends BaseController {
         }
     }
 
-    async update() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:model:put"]
-        })
+    async "Update:id"() {
         try {
             const {
                 id
@@ -132,11 +133,7 @@ class DictTypeAdminController extends BaseController {
             })
         }
     }
-    async remove() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:model:remove"]
-        })
+    async "Remove:ids"() {
         try {
             const {
                 ids
@@ -160,11 +157,7 @@ class DictTypeAdminController extends BaseController {
             })
         }
     }
-    async get() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["faas:model:get"]
-        })
+    async "Get:id"() {
         try {
             const {
                 id

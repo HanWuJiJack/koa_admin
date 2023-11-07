@@ -14,7 +14,7 @@ RateLimit.defaultOptions({
 });
 
 module.exports = RateLimit.middleware({
-    interval: 1 * 1000, // 3s内
+    interval: 1 * 1000, // 1s内
     max: 1,
     keyGenerator: async function (ctx) {
         return `${ctx.url}|${ctx.request.ip}`;

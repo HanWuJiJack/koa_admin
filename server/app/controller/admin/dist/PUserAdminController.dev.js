@@ -54,13 +54,19 @@ function (_BaseController) {
     _this.next = next;
     _this.url = "/admin/p/user";
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(UserAdminController, [{
-    key: "list",
-    value: function list() {
+    key: "Get|list",
+    value: function GetList() {
       var list;
-      return regeneratorRuntime.async(function list$(_context) {
+      return regeneratorRuntime.async(function GetList$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -90,84 +96,52 @@ function (_BaseController) {
           }
         }
       }, null, this, [[0, 7]]);
-    }
-  }, {
-    key: "create",
-    value: function create() {
-      var _this$ctx$request$bod, userName, userEmail, repeat, currentIndex, addUser;
+    } // async Create() {
+    //     const {
+    //         userName,
+    //         userEmail,
+    //     } = this.ctx.request.body;
+    //     this.ctx.verifyParams({
+    //         userName: 'string',
+    //         userEmail: 'string',
+    //     })
+    //     //先查一下是否数据库里已经存在
+    //     const repeat = await Schema.usersSchema.findOne({
+    //         $or: [{
+    //             userEmail
+    //         }]
+    //     }, 'id userName userEmail');
+    //     // console.log(repeat)
+    //     if (repeat) {
+    //         this.ctx.body = super.fail({
+    //             msg: `您新增的用户:邮箱:${repeat.userEmail}已经存在~`
+    //         })
+    //         return;
+    //     } else {
+    //         try {
+    //             const currentIndex = await AutoID({
+    //                 code: "userId"
+    //             })
+    //             // console.log(currentIndex)
+    //             const addUser = new Schema.usersSchema({
+    //                 id: currentIndex,
+    //                 // createByUser: this.ctx.state.userId.id,
+    //                 userName,
+    //                 userPwd: hash('123456'),
+    //                 userEmail,
+    //                 role: 0, //1:默认普通用户 0是超级管理员
+    //             });
+    //             await addUser.save();
+    //             this.ctx.body = super.success({}, '添加用户成功')
+    //         } catch (error) {
+    //             // console.log(error)
+    //             this.ctx.body = super.fail({
+    //                 msg: error.stack
+    //             })
+    //         }
+    //     }
+    // }
 
-      return regeneratorRuntime.async(function create$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _this$ctx$request$bod = this.ctx.request.body, userName = _this$ctx$request$bod.userName, userEmail = _this$ctx$request$bod.userEmail;
-              this.ctx.verifyParams({
-                userName: 'string',
-                userEmail: 'string'
-              }); //先查一下是否数据库里已经存在
-
-              _context2.next = 4;
-              return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
-                $or: [{
-                  userEmail: userEmail
-                }]
-              }, 'id userName userEmail'));
-
-            case 4:
-              repeat = _context2.sent;
-
-              if (!repeat) {
-                _context2.next = 10;
-                break;
-              }
-
-              this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
-                msg: "\u60A8\u65B0\u589E\u7684\u7528\u6237:\u90AE\u7BB1:".concat(repeat.userEmail, "\u5DF2\u7ECF\u5B58\u5728~")
-              });
-              return _context2.abrupt("return");
-
-            case 10:
-              _context2.prev = 10;
-              _context2.next = 13;
-              return regeneratorRuntime.awrap(AutoID({
-                code: "userId"
-              }));
-
-            case 13:
-              currentIndex = _context2.sent;
-              // console.log(currentIndex)
-              addUser = new Schema.usersSchema({
-                id: currentIndex,
-                // createByUser: this.ctx.state.userId.id,
-                userName: userName,
-                userPwd: hash('123456'),
-                userEmail: userEmail,
-                role: 0 //1:默认普通用户 0是超级管理员
-
-              });
-              _context2.next = 17;
-              return regeneratorRuntime.awrap(addUser.save());
-
-            case 17:
-              this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {}, '添加用户成功');
-              _context2.next = 23;
-              break;
-
-            case 20:
-              _context2.prev = 20;
-              _context2.t0 = _context2["catch"](10);
-              // console.log(error)
-              this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
-                msg: _context2.t0.stack
-              });
-
-            case 23:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, null, this, [[10, 20]]);
-    }
   }]);
 
   return UserAdminController;

@@ -44,7 +44,9 @@ var _require2 = require(path.join(process.cwd(), "./config/logger")),
 
 var AutoID = require('./../../utils/AutoID');
 
-var ApiAuth = require('../../utils/ApiAuth.js');
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
+
+var ApiAuth = require("./../../middleware/ApiAuth");
 
 var UserAdminController =
 /*#__PURE__*/
@@ -69,26 +71,35 @@ function (_BaseController) {
     _this.next = next;
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/user";
+    _this.middleLists = {
+      "Get|list": [ApiAuth(["system:user:list"])],
+      Create: [ApiAuth(["system:user:post"]), ApiRatelimit],
+      "Update:id": [ApiAuth(["system:user:put"]), ApiRatelimit],
+      "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit],
+      Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit],
+      "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit],
+      "Get|list_all": [ApiAuth(["system:user:list"])],
+      "Get|info": [ApiAuth(["system:user:mySelf"])]
+    };
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(UserAdminController, [{
-    key: "list",
-    value: function list() {
+    key: "Get|list",
+    value: function GetList() {
       var _this$ctx$request$que, userId, userName, _this$ctx$request$que2, state, _get$call, page, skipIndex, params, query, list, total;
 
-      return regeneratorRuntime.async(function list$(_context) {
+      return regeneratorRuntime.async(function GetList$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:list"]
-              }));
-
-            case 2:
-              _context.prev = 2;
+              _context.prev = 0;
               _this$ctx$request$que = this.ctx.request.query, userId = _this$ctx$request$que.userId, userName = _this$ctx$request$que.userName, _this$ctx$request$que2 = _this$ctx$request$que.state, state = _this$ctx$request$que2 === void 0 ? 1 : _this$ctx$request$que2;
               _get$call = _get(_getPrototypeOf(UserAdminController.prototype), "pager", this).call(this, this.ctx.request.query), page = _get$call.page, skipIndex = _get$call.skipIndex;
               params = {};
@@ -98,17 +109,17 @@ function (_BaseController) {
 
               query = Schema.usersSchema.find(params); //查询所有数据
 
-              _context.next = 12;
+              _context.next = 10;
               return regeneratorRuntime.awrap(query.sort({
                 id: -1
               }).skip(skipIndex).limit(page.pageSize));
 
-            case 12:
+            case 10:
               list = _context.sent;
-              _context.next = 15;
+              _context.next = 13;
               return regeneratorRuntime.awrap(Schema.usersSchema.countDocuments(params));
 
-            case 15:
+            case 13:
               total = _context.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: {
@@ -118,40 +129,33 @@ function (_BaseController) {
                   list: list
                 }
               });
-              _context.next = 22;
+              _context.next = 20;
               break;
 
-            case 19:
-              _context.prev = 19;
-              _context.t0 = _context["catch"](2);
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 data: {},
                 msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context.t0.stack)
               });
 
-            case 22:
+            case 20:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[2, 19]]);
+      }, null, this, [[0, 17]]);
     }
   }, {
-    key: "create",
-    value: function create() {
+    key: "Create",
+    value: function Create() {
       var _this$ctx$request$bod, id, userName, userEmail, mobile, job, state, roleList, deptId, action, brand, company, companyAddress, InvoiceTitle, dutyParagraph, expressAddress, expressName, expressPhone, repeat, currentIndex, addUser;
 
-      return regeneratorRuntime.async(function create$(_context2) {
+      return regeneratorRuntime.async(function Create$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:post"]
-              }));
-
-            case 2:
               _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, userName = _this$ctx$request$bod.userName, userEmail = _this$ctx$request$bod.userEmail, mobile = _this$ctx$request$bod.mobile, job = _this$ctx$request$bod.job, state = _this$ctx$request$bod.state, roleList = _this$ctx$request$bod.roleList, deptId = _this$ctx$request$bod.deptId, action = _this$ctx$request$bod.action, brand = _this$ctx$request$bod.brand, company = _this$ctx$request$bod.company, companyAddress = _this$ctx$request$bod.companyAddress, InvoiceTitle = _this$ctx$request$bod.InvoiceTitle, dutyParagraph = _this$ctx$request$bod.dutyParagraph, expressAddress = _this$ctx$request$bod.expressAddress, expressName = _this$ctx$request$bod.expressName, expressPhone = _this$ctx$request$bod.expressPhone;
               this.ctx.verifyParams({
                 userName: 'string',
@@ -159,18 +163,18 @@ function (_BaseController) {
                 deptId: "array"
               }); //先查一下是否数据库里已经存在
 
-              _context2.next = 6;
+              _context2.next = 4;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOne({
                 $or: [{
                   userEmail: userEmail
                 }]
               }, 'id userName userEmail'));
 
-            case 6:
+            case 4:
               repeat = _context2.sent;
 
               if (!repeat) {
-                _context2.next = 12;
+                _context2.next = 10;
                 break;
               }
 
@@ -179,14 +183,14 @@ function (_BaseController) {
               });
               return _context2.abrupt("return");
 
-            case 12:
-              _context2.prev = 12;
-              _context2.next = 15;
+            case 10:
+              _context2.prev = 10;
+              _context2.next = 13;
               return regeneratorRuntime.awrap(AutoID({
                 code: "userId"
               }));
 
-            case 15:
+            case 13:
               currentIndex = _context2.sent;
               addUser = new Schema.usersSchema({
                 id: currentIndex,
@@ -210,44 +214,37 @@ function (_BaseController) {
                 expressName: expressName,
                 expressPhone: expressPhone
               });
-              _context2.next = 19;
+              _context2.next = 17;
               return regeneratorRuntime.awrap(addUser.save());
 
-            case 19:
+            case 17:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {}, '添加用户成功');
-              _context2.next = 25;
+              _context2.next = 23;
               break;
 
-            case 22:
-              _context2.prev = 22;
-              _context2.t0 = _context2["catch"](12);
+            case 20:
+              _context2.prev = 20;
+              _context2.t0 = _context2["catch"](10);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context2.t0.stack
               });
 
-            case 25:
+            case 23:
             case "end":
               return _context2.stop();
           }
         }
-      }, null, this, [[12, 22]]);
+      }, null, this, [[10, 20]]);
     }
   }, {
-    key: "update",
-    value: function update() {
+    key: "Update:id",
+    value: function UpdateId() {
       var id, params, res;
-      return regeneratorRuntime.async(function update$(_context3) {
+      return regeneratorRuntime.async(function UpdateId$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:put"]
-              }));
-
-            case 2:
-              _context3.prev = 2;
+              _context3.prev = 0;
               id = this.ctx.params.id;
               params = _extends({}, this.ctx.request.body);
 
@@ -257,53 +254,46 @@ function (_BaseController) {
 
               params.updateTime = new Date();
               params.updateByUser = this.ctx.state.userId.id;
-              _context3.next = 10;
+              _context3.next = 8;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOneAndUpdate({
                 id: parseInt(id)
               }, params));
 
-            case 10:
+            case 8:
               res = _context3.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: '修改成功！'
               });
-              _context3.next = 17;
+              _context3.next = 15;
               break;
 
-            case 14:
-              _context3.prev = 14;
-              _context3.t0 = _context3["catch"](2);
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context3.t0.stack
               });
 
-            case 17:
+            case 15:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, this, [[2, 14]]);
+      }, null, this, [[0, 12]]);
     }
   }, {
-    key: "update_pwd",
-    value: function update_pwd() {
+    key: "Update|pwd:code|888:ids|999:id",
+    value: function UpdatePwdCode888Ids999Id() {
       var _this$ctx$request$bod2, userPwd, id;
 
-      return regeneratorRuntime.async(function update_pwd$(_context4) {
+      return regeneratorRuntime.async(function UpdatePwdCode888Ids999Id$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:put"]
-              }));
-
-            case 2:
               _this$ctx$request$bod2 = this.ctx.request.body, userPwd = _this$ctx$request$bod2.userPwd, id = _this$ctx$request$bod2.id;
-              _context4.prev = 3;
-              _context4.next = 6;
+              _context4.prev = 1;
+              _context4.next = 4;
               return regeneratorRuntime.awrap(Schema.usersSchema.findOneAndUpdate({
                 id: id
               }, {
@@ -314,46 +304,39 @@ function (_BaseController) {
                 "new": true
               }));
 
-            case 6:
+            case 4:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 msg: '更新用户数据成功'
               });
-              _context4.next = 13;
+              _context4.next = 11;
               break;
 
-            case 9:
-              _context4.prev = 9;
-              _context4.t0 = _context4["catch"](3);
+            case 7:
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](1);
               logger.error(_context4.t0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: '更新用户数据失败'
               });
 
-            case 13:
+            case 11:
             case "end":
               return _context4.stop();
           }
         }
-      }, null, this, [[3, 9]]);
+      }, null, this, [[1, 7]]);
     } // 支持单个删除
 
   }, {
-    key: "del",
-    value: function del() {
+    key: "Remove",
+    value: function Remove() {
       var userIds, res;
-      return regeneratorRuntime.async(function del$(_context5) {
+      return regeneratorRuntime.async(function Remove$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:remove"]
-              }));
-
-            case 2:
               userIds = this.ctx.request.body.userIds;
-              _context5.next = 5;
+              _context5.next = 3;
               return regeneratorRuntime.awrap(Schema.usersSchema.updateMany({
                 id: {
                   $in: userIds
@@ -362,11 +345,11 @@ function (_BaseController) {
                 state: 2
               }));
 
-            case 5:
+            case 3:
               res = _context5.sent;
 
               if (!res.nModified) {
-                _context5.next = 9;
+                _context5.next = 7;
                 break;
               }
 
@@ -376,12 +359,12 @@ function (_BaseController) {
               });
               return _context5.abrupt("return");
 
-            case 9:
+            case 7:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: '删除失败'
               });
 
-            case 10:
+            case 8:
             case "end":
               return _context5.stop();
           }
@@ -390,113 +373,92 @@ function (_BaseController) {
     } // 永久删除
 
   }, {
-    key: "del_force",
-    value: function del_force() {
+    key: "Remove|force",
+    value: function RemoveForce() {
       var userIds, res;
-      return regeneratorRuntime.async(function del_force$(_context6) {
+      return regeneratorRuntime.async(function RemoveForce$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              _context6.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:remove"]
-              }));
-
-            case 2:
-              _context6.prev = 2;
+              _context6.prev = 0;
               userIds = this.ctx.request.body.userIds;
-              _context6.next = 6;
+              _context6.next = 4;
               return regeneratorRuntime.awrap(Schema.usersSchema.deleteMany({
                 userId: {
                   $in: userIds
                 }
               }));
 
-            case 6:
+            case 4:
               res = _context6.sent;
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: res,
                 msg: "\u5220\u9664\u6210\u529F"
               });
-              _context6.next = 13;
+              _context6.next = 11;
               break;
 
-            case 10:
-              _context6.prev = 10;
-              _context6.t0 = _context6["catch"](2);
+            case 8:
+              _context6.prev = 8;
+              _context6.t0 = _context6["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: _context6.t0.stack
               });
 
-            case 13:
+            case 11:
             case "end":
               return _context6.stop();
           }
         }
-      }, null, this, [[2, 10]]);
+      }, null, this, [[0, 8]]);
     }
   }, {
-    key: "list_all",
-    value: function list_all() {
+    key: "Get|list_all",
+    value: function GetList_all() {
       var list;
-      return regeneratorRuntime.async(function list_all$(_context7) {
+      return regeneratorRuntime.async(function GetList_all$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
-              _context7.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:list"]
-              }));
-
-            case 2:
-              _context7.prev = 2;
-              _context7.next = 5;
+              _context7.prev = 0;
+              _context7.next = 3;
               return regeneratorRuntime.awrap(Schema.usersSchema.find({}));
 
-            case 5:
+            case 3:
               list = _context7.sent;
               //查询所有数据
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: list
               });
-              _context7.next = 12;
+              _context7.next = 10;
               break;
 
-            case 9:
-              _context7.prev = 9;
-              _context7.t0 = _context7["catch"](2);
+            case 7:
+              _context7.prev = 7;
+              _context7.t0 = _context7["catch"](0);
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "fail", this).call(this, {
                 msg: "\u67E5\u8BE2\u5F02\u5E38:".concat(_context7.t0.stack)
               });
 
-            case 12:
+            case 10:
             case "end":
               return _context7.stop();
           }
         }
-      }, null, this, [[2, 9]]);
+      }, null, this, [[0, 7]]);
     }
   }, {
-    key: "list_one",
-    value: function list_one() {
-      return regeneratorRuntime.async(function list_one$(_context8) {
+    key: "Get|info",
+    value: function GetInfo() {
+      return regeneratorRuntime.async(function GetInfo$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
-              _context8.next = 2;
-              return regeneratorRuntime.awrap(ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:user:mySelf"]
-              }));
-
-            case 2:
               this.ctx.body = _get(_getPrototypeOf(UserAdminController.prototype), "success", this).call(this, {
                 data: this.userInfo
               });
 
-            case 3:
+            case 1:
             case "end":
               return _context8.stop();
           }

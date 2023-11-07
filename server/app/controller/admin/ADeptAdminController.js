@@ -3,7 +3,8 @@
 const BaseController = require('../BaseController.js');
 const Schema = require('./../../model/Model.js')
 const AutoID = require('./../../utils/AutoID')
-const ApiAuth = require('../../utils/ApiAuth.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+const ApiAuth = require("./../../middleware/ApiAuth")
 
 class DeptAdminController extends BaseController {
     constructor({
@@ -20,12 +21,22 @@ class DeptAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/dept"
         this.limit = ["list"]
+        this.middleLists = {
+            "Get|list": [ApiAuth(["system:dept:list"])],
+            Create: [ApiAuth(["system:dept:post"]), ApiRatelimit],
+            Update: [ApiAuth(["system:dept:put"]), ApiRatelimit],
+            Remove: [ApiAuth(["system:dept:remove"]), ApiRatelimit],
+            "Get:id": [ApiAuth(["system:dept:get"])],
+        }
     }
-    async list() {
-        await ApiAuth({
-            userInfo: this.userInfo,
-            code: ["system:dept:list"]
-        })
+    // "Get|list" Get "Get:id"
+    // Update "Update:id"
+    // Create
+    // Remove "Remove:ids"
+    // | 代表拼接后端字符串
+    // : 代表拼接后端动态路由
+
+    async "Get|list"() {
         const {
             deptName,
             state = 1
@@ -34,72 +45,102 @@ class DeptAdminController extends BaseController {
         params.state = parseInt(state);
         if (deptName) params.deptName = deptName;
         let rootList = await Schema.deptSchema.find(params) || []
-        // console.log(rootList)
         const deptList = super.TreeDept(rootList, null)
         this.ctx.body = super.success({
             data: deptList
         });
     }
-
-    async create() {
+    async Update() {
         const {
             id,
             action,
             ...params
         } = this.ctx.request.body;
-        if (action == 'create') {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:dept:post"]
-            })
-        } else if (action == 'edit') {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:dept:put"]
-            })
-        } else {
-            await ApiAuth({
-                userInfo: this.userInfo,
-                code: ["system:dept:remove"]
-            })
-        }
         let res, info;
         try {
-            if (action == 'create') {
-                const currentIndex = await AutoID({
-                    code: "deptId"
-                })
-                params.id = currentIndex
-                params.createByUser = this.ctx.state.userId.id
-                res = await Schema.deptSchema.create(params)
-                info = '创建成功'
-            } else if (action == 'edit') {
-                params.updateTime = new Date();
-                params.updateByUser = this.ctx.state.userId.id
-                res = await Schema.deptSchema.findOneAndUpdate({
-                    id
-                }, params);
-                info = '编辑成功'
-            } else {
-                const deptInfo = await Schema.deptSchema.findOne({
-                    parentId: {
-                        $all: [id]
-                    }
-                })
-                if (deptInfo) {
-                    this.ctx.body = super.fail({
-                        msg: "请先将子集删除！"
-                    });
-                    return
+            params.updateTime = new Date();
+            params.updateByUser = this.ctx.state.userId.id
+            res = await Schema.deptSchema.findOneAndUpdate({
+                id
+            }, params);
+            info = '编辑成功'
+            this.ctx.body = super.success({
+                msg: info
+            });
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            });
+        }
+    }
+    async Remove() {
+        const {
+            id,
+            action,
+        } = this.ctx.request.body;
+        let res, info;
+        try {
+            const deptInfo = await Schema.deptSchema.findOne({
+                parentId: {
+                    $all: [id]
                 }
-                // res = await Schema.deptSchema.findByIdAndRemove(id)
-                res = await Schema.deptSchema.findOneAndUpdate({
-                    id
-                }, {
-                    state: 2
+            })
+            if (deptInfo) {
+                this.ctx.body = super.fail({
+                    msg: "请先将子集删除！"
                 });
-                info = '删除成功'
+                return
             }
+            // res = await Schema.deptSchema.findByIdAndRemove(id)
+            res = await Schema.deptSchema.findOneAndUpdate({
+                id
+            }, {
+                state: 2
+            });
+            info = '删除成功'
+            this.ctx.body = super.success({
+                msg: info
+            });
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            });
+        }
+    }
+    async "Get:id"() {
+        try {
+            const {
+                id
+            } = this.ctx.params
+            const params = {}
+            if (id) params.id = parseInt(id)
+            const query = await Schema.deptSchema.findOne(params) // 查询所有数据
+            this.ctx.body = super.success({
+                data: {
+                    ...query._doc
+                }
+            })
+        } catch (error) {
+            this.ctx.body = super.fail({
+                msg: error.stack
+            })
+        }
+    }
+    async Create() {
+        const {
+            id,
+            action,
+            ...params
+        } = this.ctx.request.body;
+        let res, info;
+        try {
+            const currentIndex = await AutoID({
+                code: "deptId"
+            })
+            params.id = currentIndex
+            params.createByUser = this.ctx.state.userId.id
+            res = await Schema.deptSchema.create(params)
+            info = '创建成功'
             this.ctx.body = super.success({
                 msg: info
             });

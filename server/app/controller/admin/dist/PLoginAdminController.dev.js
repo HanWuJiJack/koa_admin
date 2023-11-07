@@ -60,14 +60,20 @@ function (_BaseController) {
     _this.next = next;
     _this.url = "/admin/p/login";
     return _this;
-  }
+  } // "Get|list" Get "Get:id"
+  // Update "Update:id"
+  // Create
+  // Remove "Remove:ids"
+  // | 代表拼接后端字符串
+  // : 代表拼接后端动态路由
+
 
   _createClass(LoginAdminController, [{
-    key: "create",
-    value: function create() {
+    key: "Create",
+    value: function Create() {
       var _this$ctx$request$bod, userEmail, userPwd, res, token, data;
 
-      return regeneratorRuntime.async(function create$(_context) {
+      return regeneratorRuntime.async(function Create$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:

@@ -34,11 +34,17 @@ module.exports = {
             fn = _routers$key.fn,
             _routers$key$name = _routers$key.name,
             name = _routers$key$name === void 0 ? undefined : _routers$key$name,
-            method = _routers$key.method; // 路径前缀
+            method = _routers$key.method,
+            _routers$key$middlewa = _routers$key.middlewareList,
+            middlewareList = _routers$key$middlewa === void 0 ? [] : _routers$key$middlewa; // 路径前缀
 
-        if (routers[key].api.indexOf("list_all") > -1) {
-          logger.info("接口列表:", routers[key]);
-        } // 路由是否需要name
+        middleware = middleware.concat(middlewareList);
+
+        if (routers[key].api.indexOf("user") > -1) {
+          logger.info("接口列表:", routers[key]); // console.log(middlewareList)
+          // console.log(middleware)
+        } // logger.info("接口列表:", routers[key])
+        // 路由是否需要name
 
 
         if (name) {
