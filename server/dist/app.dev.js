@@ -46,7 +46,7 @@ app.use(cors({
   // 每隔5秒发送预检请求，也就是发送两次请求
   credentials: true,
   // 允许请求携带cookie
-  allowMethods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
+  allowMethods: ['GET', 'PUT', 'POST', 'DELETE'],
   // 请求方式
   allowHeaders: ['Accept', 'Origin', 'Content-type', 'Authorization']
 }));

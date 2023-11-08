@@ -59,9 +59,10 @@ var Exception = function Exception(ctx, next) {
         case 10:
           _context.prev = 10;
           _context.t0 = _context["catch"](0);
+          console.log("error", _context.t0);
 
           if (_context.t0 && _context.t0.code) {
-            // console.log("22222")
+            // console.log("error",error)
             // 错误类code :1000 - 2000
             if (_context.t0.code >= 1000 && _context.t0.code < 2000) {
               status = _context.t0.code === 1003 ? 401 : 403;
@@ -106,11 +107,11 @@ var Exception = function Exception(ctx, next) {
             };
           }
 
-          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--\n        [\u65B9\u6CD5: ").concat(ctx.method, "]--\n        [query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
+          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.id, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--\n        [\u65B9\u6CD5: ").concat(ctx.method, "]--\n        [query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]--\n        [stack:").concat(_context.t0.stack, "]\n        "));
 
           return _context.abrupt("return", ctx.body);
 
-        case 15:
+        case 16:
         case "end":
           return _context.stop();
       }

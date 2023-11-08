@@ -24,88 +24,43 @@
     <!-- 表格区域 -->
     <div class="bottom">
       <div class="bottom-top">
-        <el-button type="primary" @click="addHandler" v-permisson="'faas:func:post'"
-          >新增</el-button
-        >
-        <el-button
-          type="danger"
-          @click="handleDelete(null, 'dels')"
-          v-permisson="'faas:func:remove'"
-          >批量删除</el-button
-        >
+        <el-button type="primary" @click="addHandler" v-permisson="'faas:func:post'">新增</el-button>
+        <el-button type="danger" @click="handleDelete(null, 'dels')" v-permisson="'faas:func:remove'">批量删除</el-button>
       </div>
       <div class="bottom-table">
         <el-table ref="Table" :data="Data" @selection-change="selectHandler">
           <el-table-column type="selection" width="55"> </el-table-column>
           <!-- 表字段遍历 -->
-          <el-table-column
-            v-for="item in columList"
-            :key="item.id"
-            :prop="item.prop"
-            :label="item.label"
-            show-overflow-tooltip
-            :formatter="item.formatter"
-          >
+          <el-table-column v-for="item in columList" :key="item.id" :prop="item.prop" :label="item.label"
+            show-overflow-tooltip :formatter="item.formatter">
           </el-table-column>
           <!-- 操作 -->
           <el-table-column label="操作" width="240" align="left">
             <template #default="scope">
-              <el-button
-                size="small"
-                @click="handleEdit(scope.row)"
-                v-permisson="'faas:func:put'"
-                >编辑</el-button
-              >
-              <el-button
-                size="small"
-                type="danger"
-                @click="handleDelete(scope.row, 'del')"
-                v-permisson="'faas:func:remove'"
-                >删除</el-button
-              >
+              <el-button size="small" @click="handleEdit(scope.row)" v-permisson="'faas:func:put'">编辑</el-button>
+              <el-button size="small" type="danger" @click="handleDelete(scope.row, 'del')"
+                v-permisson="'faas:func:remove'">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :page-size="pageData.pageSize"
-          :total="pageData.total"
-          class="pagination"
-          @current-change="handleCurrentChange"
-        >
+        <el-pagination background layout="prev, pager, next" :page-size="pageData.pageSize" :total="pageData.total"
+          class="pagination" @current-change="handleCurrentChange">
         </el-pagination>
       </div>
       <!-- 新增用户弹窗 -->
       <el-dialog title="新增" v-model="dialogVisible" fullscreen>
         <el-form :model="form.data" :rules="rules" ref="ruleForm" label-width="200px">
           <el-form-item label="接口类型" prop="method">
-            <el-select
-              v-model="form.data.method"
-              @change="onChangeFaasMethod"
-              placeholder="请选择接口类型"
-            >
-              <el-option
-                v-for="item in local.FAAS_Method_type"
-                :label="item.dictLabel"
-                :value="item.dictValue"
-                :key="item.id"
-              />
+            <el-select v-model="form.data.method" @change="onChangeFaasMethod" placeholder="请选择接口类型">
+              <el-option v-for="item in local.FAAS_Method_type" :label="item.dictLabel" :value="item.dictValue"
+                :key="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="接口类型" prop="method">
-            <el-input
-              v-model="form.data.method"
-              placeholder="请输入接口类型"
-              :disabled="true"
-            ></el-input>
+            <el-input v-model="form.data.method" placeholder="请输入接口类型" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="接口code(要求不重复)" prop="code">
-            <el-input
-              v-model="form.data.code"
-              placeholder="请输入接口code"
-              @change="onChangeFaasCode"
-            ></el-input>
+            <el-input v-model="form.data.code" placeholder="请输入接口code" @change="onChangeFaasCode"></el-input>
           </el-form-item>
           <el-form-item label="请求路径" prop="path">
             <el-input v-model="form.data.path" :disabled="true"></el-input>
@@ -117,42 +72,22 @@
             </el-select>
           </el-form-item>
           <el-form-item label="是否需要登录" prop="isAuth">
-            <el-switch
-              v-model="form.data.isAuth"
-              style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66"
-              active-value="2"
-              inactive-value="1"
-            />
+            <el-switch v-model="form.data.isAuth" style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66"
+              active-value="2" inactive-value="1" />
           </el-form-item>
           <el-form-item label="是否需要限流" prop="isRatelimit">
-            <el-switch
-              v-model="form.data.isRatelimit"
-              style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66"
-              active-value="2"
-              inactive-value="1"
-            />
+            <el-switch v-model="form.data.isRatelimit"
+              style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66" active-value="2" inactive-value="1" />
           </el-form-item>
 
           <el-form-item label="限流时间(s)" prop="time" v-if="form.data.isRatelimit == 1">
             <el-input v-model="form.data.time" placeholder="请输入限流时间"></el-input>
           </el-form-item>
-          <el-form-item
-            label="限流时间内最大请求次数"
-            prop="max"
-            v-if="form.data.isRatelimit == 1"
-          >
+          <el-form-item label="限流时间内最大请求次数" prop="max" v-if="form.data.isRatelimit == 1">
             <el-input v-model="form.data.max" placeholder="请输入次数"></el-input>
           </el-form-item>
-          <Codemirror
-            style="font-size: 16px"
-            v-model:value="form.data.fn"
-            :options="cmOptions"
-            border
-            placeholder="测试 placeholder"
-            :height="500"
-            @change="onChange"
-            ref="CodemirrorRef"
-          />
+          <Codemirror style="font-size: 16px" v-model:value="form.data.fn" :options="cmOptions" border
+            placeholder="测试 placeholder" :height="500" @change="onChange" ref="CodemirrorRef" />
         </el-form>
         <template #footer>
           <span class="dialog-footer">
@@ -258,6 +193,20 @@ const rules = reactive({
     {
       required: true,
       message: "请选择字典类型",
+      trigger: "blur",
+    },
+  ],
+  time: [
+    {
+      required: true,
+      message: "请输入时间",
+      trigger: "blur",
+    },
+  ],
+  max: [
+    {
+      required: true,
+      message: "请输入最大请求次数",
       trigger: "blur",
     },
   ],
@@ -413,28 +362,35 @@ const onChangeFaasMethod = (val, e) => {
 .main {
   // background-color: #fff;
   height: 100%;
+
   .top {
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
+
     :deep(.el-form-item) {
       margin-bottom: 0;
     }
   }
+
   .bottom {
     background-color: #fff;
     border-radius: 5px 5px 0 0;
     margin-top: 10px;
+
     .el-select {
       width: 100%;
     }
+
     :deep(.el-cascader) {
       width: 100%;
     }
+
     .bottom-top {
       padding: 20px;
       border-bottom: 1px solid #ececec;
     }
+
     .bottom-table {
       .pagination {
         padding: 10px;
