@@ -32,11 +32,11 @@ class DictTypeAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/dict-type"
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:dictType:list"])],
-            Create: [ApiAuth(["system:dictType:post"]), ApiRatelimit],
-            "Update:id": [ApiAuth(["system:dictType:put"]), ApiRatelimit],
-            "Remove:ids": [ApiAuth(["system:dictType:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["system:dictType:get"])],
+            "Get|list": [ApiAuth(["system:dictType:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:dictType:post"]), ApiRatelimit(1, 1)],
+            "Update:id": [ApiAuth(["system:dictType:put"]), ApiRatelimit(1, 1)],
+            "Remove:ids": [ApiAuth(["system:dictType:remove"]), ApiRatelimit(1, 1)],
+            "Get|info:id": [ApiAuth(["system:dictType:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -172,13 +172,13 @@ class DictTypeAdminController extends BaseController {
             })
         }
     }
-    async "Get|type"() {
+    async "Get|type:code"() {
         try {
             const {
-                id
+                code
             } = this.ctx.params
             let dictInfo = await Schema.dictSchema.findOne({
-                nameCode: id
+                nameCode: code
             })
             const query = await Schema.dictTypeSchema.find({
                 dictId: dictInfo.id
@@ -192,7 +192,7 @@ class DictTypeAdminController extends BaseController {
             })
         }
     }
-    async "Get:id"() {
+    async "Get|info:id"() {
         try {
             const {
                 id

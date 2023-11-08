@@ -19,11 +19,11 @@ class FaasAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/faas"
         this.middleLists = {
-             "Get|list": [ApiAuth(["faas:func:list"])],
-            Create: [ApiAuth(["faas:func:post"]), ApiRatelimit],
-            "Update:id": [ApiAuth(["faas:func:put"]), ApiRatelimit],
-            "Remove:ids": [ApiAuth(["faas:func:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["faas:func:get"])],
+            "Get|list": [ApiAuth(["faas:func:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["faas:func:post"]), ApiRatelimit(1, 1)],
+            "Update:id": [ApiAuth(["faas:func:put"]), ApiRatelimit(1, 1)],
+            "Remove:ids": [ApiAuth(["faas:func:remove"]), ApiRatelimit(1, 1)],
+            "Get:id": [ApiAuth(["faas:func:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -32,7 +32,7 @@ class FaasAdminController extends BaseController {
     // Remove "Remove:ids"
     // | 代表拼接后端字符串
     // : 代表拼接后端动态路由
-    async  "Get|list"() {
+    async "Get|list"() {
         try {
             const {
                 method,
@@ -147,12 +147,7 @@ class FaasAdminController extends BaseController {
                 ids
             } = this.ctx.params
             let arrId = ids.split(",").filter((item) => item)
-            // let res = await Schema.faasSchema.deleteMany({
-            //     id: {
-            //         $in: arrId
-            //     }
-            // })
-            let res = await Schema.dictTypeSchema.updateMany({
+            let res = await Schema.faasSchema.updateMany({
                 id: {
                     $in: arrId
                 }

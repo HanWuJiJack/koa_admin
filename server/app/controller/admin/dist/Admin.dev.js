@@ -10,9 +10,8 @@ var AFaasAdminController = require('./AFaasAdminController');
 
 var AFileController = require('./AFileController');
 
-var AFileExcelController = require('./AFileExcelController');
+var AFileExcelController = require('./AFileExcelController'); // const ALeavesAdminController = require('./ALeavesAdminController');
 
-var ALeavesAdminController = require('./ALeavesAdminController');
 
 var AMenuAdminController = require('./AMenuAdminController');
 
@@ -31,7 +30,8 @@ var AModelsAdminController = require('./AModelsAdminController');
 var ATokenAdminController = require('./ATokenAdminController');
 
 module.exports = {
-  auth: [ADeptAdminController, ADictAdminController, ADictTypeAdminController, AFaasAdminController, AFileController, AFileExcelController, ALeavesAdminController, AMenuAdminController, ARolesAdminController, AUserAdminController, AModelsAdminController, ATokenAdminController],
+  auth: [ADeptAdminController, ADictAdminController, ADictTypeAdminController, AFaasAdminController, AFileController, AFileExcelController, // ALeavesAdminController,
+  AMenuAdminController, ARolesAdminController, AUserAdminController, AModelsAdminController, ATokenAdminController],
   "public": [// PUserAdminController,
   PLoginAdminController, PPublicRasController]
 };

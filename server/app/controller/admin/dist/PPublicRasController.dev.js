@@ -29,6 +29,8 @@ var Schema = require('./../../model/Model.js');
 var _require = require("../../utils/Tools_rsa.js"),
     getPublicKey = _require.getPublicKey;
 
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
+
 var PublicRasController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -51,6 +53,9 @@ function (_BaseController) {
     _this.ctx = ctx;
     _this.next = next;
     _this.url = "/admin/p/ras";
+    _this.middleLists = {
+      Get: [ApiRatelimit(2, 1)]
+    };
     return _this;
   } // "Get|list" Get "Get:id"
   // Update "Update:id"

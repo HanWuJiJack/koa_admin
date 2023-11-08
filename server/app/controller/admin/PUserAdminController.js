@@ -4,6 +4,7 @@ const AutoID = require('./../../utils/AutoID')
 const {
     hash
 } = require('../../utils/Tools.js')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
 class UserAdminController extends BaseController {
     constructor({
         ctx = {
@@ -17,6 +18,9 @@ class UserAdminController extends BaseController {
         this.ctx = ctx;
         this.next = next
         this.url = "/admin/p/user"
+        this.middleLists = {
+            "Get|list": [ApiRatelimit(60 * 10, 1)],
+        }
     }
     // "Get|list" Get "Get:id"
     // Update "Update:id"

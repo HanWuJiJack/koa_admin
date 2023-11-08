@@ -243,7 +243,7 @@ const handleDelete = async (row, action) => {
       return;
     }
   }
-  if (res.deletedCount >= 1) {
+  if (res.nModified >= 1) {
     proxy.$message.success("删除成功");
     getListRequest();
   } else {

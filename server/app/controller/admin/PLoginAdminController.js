@@ -1,22 +1,31 @@
 const BaseController = require('../BaseController');
 const Schema = require('./../../model/Model.js')
-const { encode, hash } = require('../../utils/Tools.js')
+const {
+    encode,
+    hash
+} = require('../../utils/Tools.js')
 const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
 const ApiAuth = require('../../utils/ApiAuth.js')
-
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
 class LoginAdminController extends BaseController {
-    constructor({ ctx = {
-        state: {
-            userInfo: {}
-        }
-    }, next }) {
+    constructor({
+        ctx = {
+            state: {
+                userInfo: {}
+            }
+        },
+        next
+    }) {
         super();
         this.ctx = ctx;
         this.next = next
         this.url = "/admin/p/login"
+        this.middleLists = {
+            Create: [ApiRatelimit(1, 1)],
+        }
     }
     // "Get|list" Get "Get:id"
     // Update "Update:id"
@@ -44,9 +53,15 @@ class LoginAdminController extends BaseController {
                 var token = encode(res._doc.id)
                 var data = res._doc;
                 data.token = token;
-                this.ctx.body = super.success({ data: data, msg: '登陆成功！' });
+                this.ctx.body = super.success({
+                    data: data,
+                    msg: '登陆成功！'
+                });
             } else {
-                this.ctx.body = super.fail({ data: {}, msg: '账号被禁用、账号或密码错误！' });
+                this.ctx.body = super.fail({
+                    data: {},
+                    msg: '账号被禁用、账号或密码错误！'
+                });
             }
         } catch (error) {
             logger.error(error)

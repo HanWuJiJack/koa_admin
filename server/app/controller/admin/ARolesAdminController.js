@@ -21,12 +21,12 @@ class RolesAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/roles"
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:role:list"])],
-            Create: [ApiAuth(["system:role:post"]), ApiRatelimit],
-            Update: [ApiAuth(["system:role:put"]), ApiRatelimit],
-            Remove: [ApiAuth(["system:role:remove"]), ApiRatelimit],
-            "Update|permission": [ApiAuth(["system:role:put"])],
-            "Get|list_all": [ApiAuth(["system:role:list"])],
+            "Get|list": [ApiAuth(["system:role:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:role:post"]), ApiRatelimit(1, 1)],
+            Update: [ApiAuth(["system:role:put"]), ApiRatelimit(1, 1)],
+            Remove: [ApiAuth(["system:role:remove"]), ApiRatelimit(1, 1)],
+            "Update|permission": [ApiAuth(["system:role:put"]), ApiRatelimit(1, 1)],
+            "Get|list_all": [ApiAuth(["system:role:list"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"

@@ -72,7 +72,6 @@ import MenuTree from "./components/MenuTree.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 import publicFn from "../utils/publicFn";
 import _ from "lodash";
-import { getApproveCount } from "@/api/system/approve";
 import { getDictTypes } from "@/api/system/dictType";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -88,9 +87,6 @@ const data = reactive({
   userInfo: store.state.userInfo, // 用户信息
 });
 onMounted(() => {
-  // menuRef._value.handleResize()
-  // console.log("menuRef",menuRef._)
-  getApproveCountRequest();
   getDictTypes("environment_form").then((res) => {
     store.commit("SET_ENVIRONMENT_FORM", res);
   });
@@ -150,8 +146,8 @@ const dropMenuHandler = (command) => {
 };
 //获取待处理审批数量
 const getApproveCountRequest = async () => {
-  const count = await getApproveCount();
-  store.commit("SET_NOTICE_COUNT", count);
+  // const count = await getApproveCount();
+  store.commit("SET_NOTICE_COUNT", 0);
 };
 </script>
 

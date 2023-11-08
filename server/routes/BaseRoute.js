@@ -1,4 +1,5 @@
 const path = require("path")
+const _ = require("lodash")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
@@ -10,6 +11,7 @@ module.exports = {
         prefix = undefined
     }) {
         for (const key in routers) {
+            let newMiddleware = _.cloneDeep(middleware)
             if (Object.hasOwnProperty.call(routers, key)) {
                 if (prefix) {
                     routers[key].api = prefix + routers[key].api
@@ -22,18 +24,16 @@ module.exports = {
                     middlewareList = [],
                 } = routers[key];
                 // 路径前缀
-                middleware = middleware.concat(middlewareList)
-                if (routers[key].api.indexOf("user") > -1) {
-                    logger.info("接口列表:", routers[key])
-                    // console.log(middlewareList)
-                    // console.log(middleware)
+                newMiddleware = newMiddleware.concat(middlewareList)
+                if (routers[key].api.indexOf("token") > -1) {
+                    // logger.info("接口列表:", routers[key], newMiddleware)
                 }
                 // logger.info("接口列表:", routers[key])
                 // 路由是否需要name
                 if (name) {
-                    app[method](name, api, ...middleware, fn);
+                    app[method](name, api, ...newMiddleware, fn);
                 } else {
-                    app[method](api, ...middleware, fn);
+                    app[method](api, ...newMiddleware, fn);
                 }
             }
         }

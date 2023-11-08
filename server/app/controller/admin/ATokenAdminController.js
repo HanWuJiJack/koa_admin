@@ -8,7 +8,9 @@ const path = require("path")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
-const AutoID = require('../../utils/AutoID')
+const ApiRatelimit = require("./../../middleware/ApiRatelimit")
+
+
 class TokenAdminController extends BaseController {
     constructor({
         ctx = {
@@ -23,6 +25,9 @@ class TokenAdminController extends BaseController {
         this.next = next
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/token"
+        this.middleLists = {
+            "Get": [ApiRatelimit(60 * 5, 1)],
+        }
     }
     // "Get|list" Get "Get:id"
     // Update "Update:id"
@@ -30,7 +35,7 @@ class TokenAdminController extends BaseController {
     // Remove "Remove:ids"
     // | 代表拼接后端字符串
     // : 代表拼接后端动态路由
-    async Update() {
+    async Get() {
         try {
             var token = encode(this.userInfo.id)
             this.ctx.body = super.success({

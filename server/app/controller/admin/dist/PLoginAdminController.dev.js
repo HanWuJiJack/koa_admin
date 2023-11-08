@@ -37,6 +37,8 @@ var _require2 = require(path.join(process.cwd(), "./config/logger")),
 
 var ApiAuth = require('../../utils/ApiAuth.js');
 
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
+
 var LoginAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -59,6 +61,9 @@ function (_BaseController) {
     _this.ctx = ctx;
     _this.next = next;
     _this.url = "/admin/p/login";
+    _this.middleLists = {
+      Create: [ApiRatelimit(1, 1)]
+    };
     return _this;
   } // "Get|list" Get "Get:id"
   // Update "Update:id"

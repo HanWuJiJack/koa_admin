@@ -24,11 +24,11 @@ class MenuAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/menu"
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:menu:list"])],
-            Get: [ApiAuth(["system:menu:post"]), ApiRatelimit],
-            Update: [ApiAuth(["system:menu:put"]), ApiRatelimit],
-            Remove: [ApiAuth(["system:menu:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["system:menu:get"])],
+            "Get|list": [ApiAuth(["system:menu:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:menu:post"]), ApiRatelimit(1, 1)],
+            "Update:id": [ApiAuth(["system:menu:put"]), ApiRatelimit(1, 1)],
+            "Remove:id": [ApiAuth(["system:menu:remove"]), ApiRatelimit(1, 1)],
+            "Get|info:id": [ApiAuth(["system:menu:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -80,9 +80,8 @@ class MenuAdminController extends BaseController {
         }
     }
 
-    async Get() {
+    async Create() {
         const {
-            id,
             action,
             ...params
         } = this.ctx.request.body;
@@ -104,7 +103,7 @@ class MenuAdminController extends BaseController {
             });
         }
     }
-    async Update() {
+    async "Update:id"() {
         const {
             id,
             action,
@@ -115,7 +114,6 @@ class MenuAdminController extends BaseController {
         try {
             params.updateTime = new Date();
             params.updateByUser = this.ctx.state.userId.id
-            // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
             res = await Schema.menusSchema.findOneAndUpdate({
                 id
             }, params);
@@ -129,13 +127,10 @@ class MenuAdminController extends BaseController {
             });
         }
     }
-    async Remove() {
+    async "Remove:id"() {
         const {
             id,
-            action,
-            ...params
         } = this.ctx.request.body;
-
         let res, info;
         try {
             const menusInfo = await Schema.menusSchema.findOne({
@@ -186,7 +181,7 @@ class MenuAdminController extends BaseController {
             });
         }
     }
-    async "Get:id"() {
+    async "Get|info:id"() {
         try {
             const {
                 id
@@ -205,7 +200,7 @@ class MenuAdminController extends BaseController {
             })
         }
     }
-    
+
     async "Get|list_permisson_menu"() {
         const userInfo = this.userInfo
         const {

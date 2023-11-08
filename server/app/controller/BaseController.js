@@ -9,9 +9,7 @@ class BaseController {
         msg
     }) {
         return {
-            'status': 'ok',
             'code': 200,
-            'data': null,
             'message': msg || 'success',
             data
         }
@@ -22,9 +20,7 @@ class BaseController {
         msg
     }) {
         return {
-            'status': 'error',
             'code': 403,
-            'data': null,
             'message': msg || 'fail',
             data
         }
@@ -192,15 +188,6 @@ class BaseController {
         })
         return result
     }
-    // async list(){}
-    // async list_all(){}
-
-    // async get(){}
-
-    // async create(){}
-    // async update(){}
-    // async remove(){}
-
 }
 
 module.exports = BaseController;

@@ -24,11 +24,11 @@ class DictAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/dict"
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:dict:list"])],
-            Create: [ApiAuth(["system:dict:post"]), ApiRatelimit],
-            "Update:id": [ApiAuth(["system:dict:put"]), ApiRatelimit],
-            "Remove:ids": [ApiAuth(["system:dict:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["system:dict:get"])],
+            "Get|list": [ApiAuth(["system:dict:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:dict:post"]), ApiRatelimit(1, 1)],
+            "Update:id": [ApiAuth(["system:dict:put"]), ApiRatelimit(1, 1)],
+            "Remove:ids": [ApiAuth(["system:dict:remove"]), ApiRatelimit(1, 1)],
+            "Get|info:id": [ApiAuth(["system:dict:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -155,7 +155,8 @@ class DictAdminController extends BaseController {
             let dictTypes = await Schema.dictTypeSchema.find({
                 dictId: {
                     $in: arrId
-                }
+                },
+                state: 1
             })
             if (!dictTypes[0]) {
                 let res = await Schema.dictSchema.updateMany({
@@ -182,7 +183,7 @@ class DictAdminController extends BaseController {
             })
         }
     }
-    async "Get:id"() {
+    async "Get|info:id"() {
         try {
             const {
                 id

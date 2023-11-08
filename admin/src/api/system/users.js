@@ -12,7 +12,7 @@ export function getUserList(query) {
 
 export function postDelUser(data) {
     return request({
-        url: 'auth/admin/user/create',
+        url: 'auth/admin/user',
         method: 'post',
         data: data
     })
@@ -20,7 +20,7 @@ export function postDelUser(data) {
 //删除用户
 export function removeUser(data) {
     return request({
-        url: 'auth/admin/user/del',
+        url: '/auth/admin/user',
         method: 'delete',
         data: data
     })
@@ -36,7 +36,7 @@ export function getAllUserList(query) {
 //新建/修改用户
 export function postUserC_U(data) {
     return request({
-        url: `auth/admin/user/create`,
+        url: `auth/admin/user`,
         method: 'post',
         data: data
     })
@@ -46,14 +46,14 @@ export function postUserC_U(data) {
 //获取用户
 export function getUserInfo() {
     return request({
-        url: '/auth/admin/user/list_one',
+        url: 'auth/admin/user/info',
         method: 'get',
     })
 }
 
 export function changePWS(data) {
     return request({
-        url: '/auth/admin/user/update_pwd/'+ data.id,
+        url: '/auth/admin/user/pwd',
         method: 'put',
         data: data
     })
@@ -61,7 +61,7 @@ export function changePWS(data) {
 
 export function putUserInfo(data) {
     return request({
-        url: '/auth/admin/user/update/' + data.id,
+        url: '/auth/admin/user/info/' + data.id,
         method: 'put',
         data: data
     })
@@ -69,7 +69,7 @@ export function putUserInfo(data) {
 
 export function refreshToken() {
     return request({
-        url: '/auth/admin/token/list',
+        url: '/auth/admin/token',
         method: 'get',
     })
 }

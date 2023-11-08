@@ -4,7 +4,7 @@ const ADictTypeAdminController = require('./ADictTypeAdminController');
 const AFaasAdminController = require('./AFaasAdminController');
 const AFileController = require('./AFileController');
 const AFileExcelController = require('./AFileExcelController');
-const ALeavesAdminController = require('./ALeavesAdminController');
+// const ALeavesAdminController = require('./ALeavesAdminController');
 const AMenuAdminController = require('./AMenuAdminController');
 const ARolesAdminController = require('./ARolesAdminController');
 const AUserAdminController = require('./AUserAdminController');
@@ -26,7 +26,7 @@ module.exports = {
         AFaasAdminController,
         AFileController,
         AFileExcelController,
-        ALeavesAdminController,
+        // ALeavesAdminController,
         AMenuAdminController,
         ARolesAdminController,
         AUserAdminController,

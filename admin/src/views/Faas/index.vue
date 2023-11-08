@@ -124,6 +124,25 @@
               inactive-value="1"
             />
           </el-form-item>
+          <el-form-item label="是否需要限流" prop="isRatelimit">
+            <el-switch
+              v-model="form.data.isRatelimit"
+              style="--el-switch-on-color: #ff4949; --el-switch-off-color: #13ce66"
+              active-value="2"
+              inactive-value="1"
+            />
+          </el-form-item>
+
+          <el-form-item label="限流时间(s)" prop="time" v-if="form.data.isRatelimit == 1">
+            <el-input v-model="form.data.time" placeholder="请输入限流时间"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="限流时间内最大请求次数"
+            prop="max"
+            v-if="form.data.isRatelimit == 1"
+          >
+            <el-input v-model="form.data.max" placeholder="请输入次数"></el-input>
+          </el-form-item>
           <Codemirror
             style="font-size: 16px"
             v-model:value="form.data.fn"
@@ -292,7 +311,7 @@ const handleDelete = async (row, action) => {
       return;
     }
   }
-  if (res.deletedCount >= 1) {
+  if (res.nModified >= 1) {
     proxy.$message.success("删除成功");
     getListRequest();
   } else {

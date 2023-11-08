@@ -22,11 +22,11 @@ class DeptAdminController extends BaseController {
         this.url = "/admin/dept"
         this.limit = ["list"]
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:dept:list"])],
-            Create: [ApiAuth(["system:dept:post"]), ApiRatelimit],
-            Update: [ApiAuth(["system:dept:put"]), ApiRatelimit],
-            Remove: [ApiAuth(["system:dept:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["system:dept:get"])],
+            "Get|list": [ApiAuth(["system:dept:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:dept:post"]), ApiRatelimit(1, 1)],
+            Update: [ApiAuth(["system:dept:put"]), ApiRatelimit(1, 1)],
+            Remove: [ApiAuth(["system:dept:remove"]), ApiRatelimit(1, 1)],
+            "Get|info:id": [ApiAuth(["system:dept:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -107,7 +107,7 @@ class DeptAdminController extends BaseController {
             });
         }
     }
-    async "Get:id"() {
+    async "Get|info:id"() {
         try {
             const {
                 id

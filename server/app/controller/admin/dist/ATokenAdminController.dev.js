@@ -35,7 +35,7 @@ var path = require("path");
 var _require2 = require(path.join(process.cwd(), "./config/logger")),
     logger = _require2.logger;
 
-var AutoID = require('../../utils/AutoID');
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
 
 var TokenAdminController =
 /*#__PURE__*/
@@ -60,6 +60,9 @@ function (_BaseController) {
     _this.next = next;
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/token";
+    _this.middleLists = {
+      "Get": [ApiRatelimit(60 * 5, 1)]
+    };
     return _this;
   } // "Get|list" Get "Get:id"
   // Update "Update:id"
@@ -70,10 +73,10 @@ function (_BaseController) {
 
 
   _createClass(TokenAdminController, [{
-    key: "Update",
-    value: function Update() {
+    key: "Get",
+    value: function Get() {
       var token;
-      return regeneratorRuntime.async(function Update$(_context) {
+      return regeneratorRuntime.async(function Get$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:

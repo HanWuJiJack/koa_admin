@@ -10,6 +10,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var path = require("path");
 
+var _ = require("lodash");
+
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger;
 
@@ -24,6 +26,8 @@ module.exports = {
         prefix = _ref$prefix === void 0 ? undefined : _ref$prefix;
 
     for (var key in routers) {
+      var newMiddleware = _.cloneDeep(middleware);
+
       if (Object.hasOwnProperty.call(routers, key)) {
         if (prefix) {
           routers[key].api = prefix + routers[key].api;
@@ -38,19 +42,17 @@ module.exports = {
             _routers$key$middlewa = _routers$key.middlewareList,
             middlewareList = _routers$key$middlewa === void 0 ? [] : _routers$key$middlewa; // 路径前缀
 
-        middleware = middleware.concat(middlewareList);
+        newMiddleware = newMiddleware.concat(middlewareList);
 
-        if (routers[key].api.indexOf("user") > -1) {
-          logger.info("接口列表:", routers[key]); // console.log(middlewareList)
-          // console.log(middleware)
-        } // logger.info("接口列表:", routers[key])
+        if (routers[key].api.indexOf("token") > -1) {} // logger.info("接口列表:", routers[key], newMiddleware)
+        // logger.info("接口列表:", routers[key])
         // 路由是否需要name
 
 
         if (name) {
-          app[method].apply(app, [name, api].concat(_toConsumableArray(middleware), [fn]));
+          app[method].apply(app, [name, api].concat(_toConsumableArray(newMiddleware), [fn]));
         } else {
-          app[method].apply(app, [api].concat(_toConsumableArray(middleware), [fn]));
+          app[method].apply(app, [api].concat(_toConsumableArray(newMiddleware), [fn]));
         }
       }
     }

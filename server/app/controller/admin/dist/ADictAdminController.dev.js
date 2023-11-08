@@ -69,11 +69,11 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/dict";
     _this.middleLists = {
-      "Get|list": [ApiAuth(["system:dict:list"])],
-      Create: [ApiAuth(["system:dict:post"]), ApiRatelimit],
-      "Update:id": [ApiAuth(["system:dict:put"]), ApiRatelimit],
-      "Remove:ids": [ApiAuth(["system:dict:remove"]), ApiRatelimit],
-      "Get:id": [ApiAuth(["system:dict:get"])]
+      "Get|list": [ApiAuth(["system:dict:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["system:dict:post"]), ApiRatelimit(1, 1)],
+      "Update:id": [ApiAuth(["system:dict:put"]), ApiRatelimit(1, 1)],
+      "Remove:ids": [ApiAuth(["system:dict:remove"]), ApiRatelimit(1, 1)],
+      "Get|info:id": [ApiAuth(["system:dict:get"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -283,7 +283,8 @@ function (_BaseController) {
               return regeneratorRuntime.awrap(Schema.dictTypeSchema.find({
                 dictId: {
                   $in: arrId
-                }
+                },
+                state: 1
               }));
 
             case 5:
@@ -337,10 +338,10 @@ function (_BaseController) {
       }, null, this, [[0, 16]]);
     }
   }, {
-    key: "Get:id",
-    value: function GetId() {
+    key: "Get|info:id",
+    value: function GetInfoId() {
       var id, params, query;
-      return regeneratorRuntime.async(function GetId$(_context5) {
+      return regeneratorRuntime.async(function GetInfoId$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:

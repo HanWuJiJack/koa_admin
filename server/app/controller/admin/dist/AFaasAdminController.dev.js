@@ -64,11 +64,11 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/faas";
     _this.middleLists = {
-      "Get|list": [ApiAuth(["faas:func:list"])],
-      Create: [ApiAuth(["faas:func:post"]), ApiRatelimit],
-      "Update:id": [ApiAuth(["faas:func:put"]), ApiRatelimit],
-      "Remove:ids": [ApiAuth(["faas:func:remove"]), ApiRatelimit],
-      "Get:id": [ApiAuth(["faas:func:get"])]
+      "Get|list": [ApiAuth(["faas:func:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["faas:func:post"]), ApiRatelimit(1, 1)],
+      "Update:id": [ApiAuth(["faas:func:put"]), ApiRatelimit(1, 1)],
+      "Remove:ids": [ApiAuth(["faas:func:remove"]), ApiRatelimit(1, 1)],
+      "Get:id": [ApiAuth(["faas:func:get"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -258,14 +258,9 @@ function (_BaseController) {
               ids = this.ctx.params.ids;
               arrId = ids.split(",").filter(function (item) {
                 return item;
-              }); // let res = await Schema.faasSchema.deleteMany({
-              //     id: {
-              //         $in: arrId
-              //     }
-              // })
-
+              });
               _context4.next = 5;
-              return regeneratorRuntime.awrap(Schema.dictTypeSchema.updateMany({
+              return regeneratorRuntime.awrap(Schema.faasSchema.updateMany({
                 id: {
                   $in: arrId
                 }

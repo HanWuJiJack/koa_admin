@@ -18,7 +18,8 @@ import {
   refreshToken
 } from "@/api/system/users";
 
-// 十分钟刷新一次token
+// token有效期30分钟
+// 当前时间加十分钟超过过期时间刷新一次token
 const exp = 10 * 60 * 1000
 // const exp = 10 * 1000
 let isRefresh = true

@@ -133,7 +133,13 @@
 <script setup>
 import publicFn from "../../utils/publicFn";
 import { postMenuList } from "@/api/system/menu";
-import { getRolesList, postRolesC_U_D, postUpdatePermission } from "@/api/system/roles";
+import {
+  getRolesList,
+  postRoles,
+  putRoles,
+  deleteRoles,
+  postUpdatePermission,
+} from "@/api/system/roles";
 import { onMounted, reactive, ref, getCurrentInstance, toRefs, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 const formDataRef = ref(null);
@@ -266,7 +272,12 @@ const dialogSubmitHandler = () => {
         ...Data.addForm,
         action: Data.action,
       };
-      const res = await postRolesC_U_D(params);
+      let res
+      if (Data.action === "create") {
+        res = await postRoles(params);
+      } else if (Data.action === "edit") {
+        res = await putRoles(params);
+      }
       if (Data.action === "create") {
         ElMessage.success("新增角色成功");
       } else if (Data.action === "edit") {
@@ -290,7 +301,7 @@ const handleEdit = (row) => {
 };
 // 表格每行删除按钮事件
 const handleDelete = async (row, action) => {
-  const res = await postRolesC_U_D({ id: row.id, action });
+  const res = await deleteRoles({ id: row.id, action });
   if (res.nModified > 0) {
     ElMessage.success("删除角色成功");
   }

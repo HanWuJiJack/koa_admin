@@ -97,7 +97,7 @@
             @change="selectHandler"
           >
             <el-option
-              v-for="item in Data.userList"
+              v-for="item in Data.userList.filter((item) => item.state == 1)"
               :key="item.id"
               :label="item.userName"
               :value="`${item.id}/${item.userName}/${item.userEmail}`"
@@ -122,7 +122,7 @@
 <script setup>
 import publicFn from "../../utils/publicFn";
 import { getAllUserList } from "@/api/system/users";
-import { getDeptList, postDeptC_U_D } from "@/api/system/dept";
+import { getDeptList, postDept, putDept, deleteDept } from "@/api/system/dept";
 import { onMounted, reactive, ref, getCurrentInstance, toRefs, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 
@@ -222,17 +222,20 @@ async function postDeptC_U_DRequest() {
       ElMessage.error("不能选本节点为父级！");
       return;
     }
-    await postDeptC_U_D({
-      ...Data.addRuleForm,
-      action: Data.action,
-    });
+
     if (Data.action === "create") {
+      await postDept({
+        ...Data.addRuleForm,
+      });
       ElMessage.success("创建部门成功！");
     } else if (Data.action === "edit") {
+      await putDept({
+        ...Data.addRuleForm,
+      });
       ElMessage.success("编辑部门成功！");
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   } finally {
     addRuleFormRef._value.resetFields();
     getDeptListRequest();
@@ -291,7 +294,7 @@ function handleEdit(row) {
 //删除菜单按钮事件
 async function handleDelete(row) {
   Data.action = "delete";
-  await postDeptC_U_D({ id: row.id, action: Data.action });
+  await deleteDept({ id: row.id, action: Data.action });
   ElMessage.success("删除成功");
   getDeptListRequest();
 }

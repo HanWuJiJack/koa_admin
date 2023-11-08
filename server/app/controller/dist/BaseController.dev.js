@@ -36,24 +36,22 @@ function () {
     value: function success(_ref) {
       var data = _ref.data,
           msg = _ref.msg;
-      return _defineProperty({
-        'status': 'ok',
+      return {
         'code': 200,
-        'data': null,
-        'message': msg || 'success'
-      }, "data", data);
+        'message': msg || 'success',
+        data: data
+      };
     }
   }, {
     key: "fail",
-    value: function fail(_ref3) {
-      var data = _ref3.data,
-          msg = _ref3.msg;
-      return _defineProperty({
-        'status': 'error',
+    value: function fail(_ref2) {
+      var data = _ref2.data,
+          msg = _ref2.msg;
+      return {
         'code': 403,
-        'data': null,
-        'message': msg || 'fail'
-      }, "data", data);
+        'message': msg || 'fail',
+        data: data
+      };
     }
     /**
      * 分页结构封装
@@ -63,11 +61,11 @@ function () {
 
   }, {
     key: "pager",
-    value: function pager(_ref5) {
-      var _ref5$pageNum = _ref5.pageNum,
-          pageNum = _ref5$pageNum === void 0 ? 1 : _ref5$pageNum,
-          _ref5$pageSize = _ref5.pageSize,
-          pageSize = _ref5$pageSize === void 0 ? 10 : _ref5$pageSize;
+    value: function pager(_ref3) {
+      var _ref3$pageNum = _ref3.pageNum,
+          pageNum = _ref3$pageNum === void 0 ? 1 : _ref3$pageNum,
+          _ref3$pageSize = _ref3.pageSize,
+          pageSize = _ref3$pageSize === void 0 ? 10 : _ref3$pageSize;
       pageNum *= 1;
       pageSize *= 1;
       var skipIndex = (pageNum - 1) * pageSize;
@@ -315,13 +313,7 @@ function () {
         }
       });
       return result;
-    } // async list(){}
-    // async list_all(){}
-    // async get(){}
-    // async create(){}
-    // async update(){}
-    // async remove(){}
-
+    }
   }]);
 
   return BaseController;

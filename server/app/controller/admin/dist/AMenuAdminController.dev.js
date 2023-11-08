@@ -81,11 +81,11 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/menu";
     _this.middleLists = {
-      "Get|list": [ApiAuth(["system:menu:list"])],
-      Get: [ApiAuth(["system:menu:post"]), ApiRatelimit],
-      Update: [ApiAuth(["system:menu:put"]), ApiRatelimit],
-      Remove: [ApiAuth(["system:menu:remove"]), ApiRatelimit],
-      "Get:id": [ApiAuth(["system:menu:get"])]
+      "Get|list": [ApiAuth(["system:menu:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["system:menu:post"]), ApiRatelimit(1, 1)],
+      "Update:id": [ApiAuth(["system:menu:put"]), ApiRatelimit(1, 1)],
+      "Remove:id": [ApiAuth(["system:menu:remove"]), ApiRatelimit(1, 1)],
+      "Get|info:id": [ApiAuth(["system:menu:get"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -193,15 +193,15 @@ function (_BaseController) {
       }, null, this, [[1, 31]]);
     }
   }, {
-    key: "Get",
-    value: function Get() {
-      var _this$ctx$request$bod, id, action, params, res, info, currentIndex;
+    key: "Create",
+    value: function Create() {
+      var _this$ctx$request$bod, action, params, res, info, currentIndex;
 
-      return regeneratorRuntime.async(function Get$(_context2) {
+      return regeneratorRuntime.async(function Create$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this$ctx$request$bod = this.ctx.request.body, id = _this$ctx$request$bod.id, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["id", "action"]);
+              _this$ctx$request$bod = this.ctx.request.body, action = _this$ctx$request$bod.action, params = _objectWithoutProperties(_this$ctx$request$bod, ["action"]);
               _context2.prev = 1;
               _context2.next = 4;
               return regeneratorRuntime.awrap(AutoID({
@@ -239,19 +239,18 @@ function (_BaseController) {
       }, null, this, [[1, 14]]);
     }
   }, {
-    key: "Update",
-    value: function Update() {
+    key: "Update:id",
+    value: function UpdateId() {
       var _this$ctx$request$bod2, id, action, params, res, info;
 
-      return regeneratorRuntime.async(function Update$(_context3) {
+      return regeneratorRuntime.async(function UpdateId$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _this$ctx$request$bod2 = this.ctx.request.body, id = _this$ctx$request$bod2.id, action = _this$ctx$request$bod2.action, params = _objectWithoutProperties(_this$ctx$request$bod2, ["id", "action"]);
               _context3.prev = 1;
               params.updateTime = new Date();
-              params.updateByUser = this.ctx.state.userId.id; // res = await Schema.menusSchema.findByIdAndUpdate(id, params);
-
+              params.updateByUser = this.ctx.state.userId.id;
               _context3.next = 6;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOneAndUpdate({
                 id: id
@@ -281,15 +280,14 @@ function (_BaseController) {
       }, null, this, [[1, 11]]);
     }
   }, {
-    key: "Remove",
-    value: function Remove() {
-      var _this$ctx$request$bod3, id, action, params, res, info, menusInfo, rolesInfo;
-
-      return regeneratorRuntime.async(function Remove$(_context4) {
+    key: "Remove:id",
+    value: function RemoveId() {
+      var id, res, info, menusInfo, rolesInfo;
+      return regeneratorRuntime.async(function RemoveId$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _this$ctx$request$bod3 = this.ctx.request.body, id = _this$ctx$request$bod3.id, action = _this$ctx$request$bod3.action, params = _objectWithoutProperties(_this$ctx$request$bod3, ["id", "action"]);
+              id = this.ctx.request.body.id;
               _context4.prev = 1;
               _context4.next = 4;
               return regeneratorRuntime.awrap(Schema.menusSchema.findOne({
@@ -371,10 +369,10 @@ function (_BaseController) {
       }, null, this, [[1, 21]]);
     }
   }, {
-    key: "Get:id",
-    value: function GetId() {
+    key: "Get|info:id",
+    value: function GetInfoId() {
       var id, params, query;
-      return regeneratorRuntime.async(function GetId$(_context5) {
+      return regeneratorRuntime.async(function GetInfoId$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:

@@ -151,7 +151,7 @@
 </template>
 <script setup>
 import publicFn from "../../utils/publicFn";
-import { postMenuList, postMenuC_U_D } from "@/api/system/menu";
+import { postMenuList, postMenu, putMenu, deleteMenu } from "@/api/system/menu";
 import { getPermissonMenuList } from "@/api/system/menu";
 import { getPermissonMenuList_ } from "@/router/index";
 import { ElMessage } from "element-plus";
@@ -289,17 +289,25 @@ async function postMenuC_U_DRequest() {
       ElMessage.error("不能选本节点为父级！");
       return;
     }
-    await postMenuC_U_D({
-      ...Data.menuForm,
-      action: Data.action,
-    });
     if (Data.action === "create") {
+      await postMenu({
+        ...Data.menuForm,
+        action: Data.action,
+      });
       ElMessage.success("创建菜单成功！");
       menuRuleFormRef._value.resetFields();
     } else if (Data.action === "edit") {
+      await putMenu({
+        ...Data.menuForm,
+        action: Data.action,
+      });
       ElMessage.success("编辑菜单成功！");
       menuRuleFormRef._value.resetFields();
     } else if (Data.action === "delete") {
+      await deleteMenu({
+        ...Data.menuForm,
+        action: Data.action,
+      });
       ElMessage.success("删除菜单成功！");
     }
     getMenuListRequest();
@@ -361,7 +369,7 @@ function handleEdit(row) {
 //删除菜单按钮事件
 async function handleDelete(row) {
   Data.action = "delete";
-  await postMenuC_U_D({ id: row.id, action: Data.action });
+  await deleteMenu({ id: row.id, action: Data.action });
   ElMessage.success("删除成功");
   getMenuListRequest();
 }

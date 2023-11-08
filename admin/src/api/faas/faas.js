@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //获取详情
 export function getFaas(id) {
     return request({
-        url: `auth/admin/faas/get/${id}`,
+        url: `auth/admin/faas/${id}`,
         method: 'get',
         params: query
     })
@@ -21,7 +21,7 @@ export function getFaasList(query) {
 //新建
 export function addFaas(data) {
     return request({
-        url: 'auth/admin/faas/create',
+        url: 'auth/admin/faas',
         method: 'post',
         data: data
     })
@@ -30,7 +30,7 @@ export function addFaas(data) {
 //编辑
 export function updataFaas(data) {
     return request({
-        url: `auth/admin/faas/update/${data.id}`,
+        url: `auth/admin/faas/${data.id}`,
         method: 'put',
         data: data
     })
@@ -39,7 +39,7 @@ export function updataFaas(data) {
 //删除
 export function removeFaas(ids) {
     return request({
-        url: `auth/admin/faas/remove/${ids}`,
+        url: `auth/admin/faas/${ids}`,
         method: 'delete',
     })
 }

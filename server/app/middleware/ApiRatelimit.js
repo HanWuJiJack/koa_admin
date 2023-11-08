@@ -1,22 +1,14 @@
-const RateLimit = require('koa2-ratelimit').RateLimit;
-const Stores = require('koa2-ratelimit').Stores;
+const RateLimit = require("./../../config/RateLimit");
 
-RateLimit.defaultOptions({
-    message: '操作过快，请稍后再试！',
-    store: new Stores.Redis({
-        socket: {
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT
+
+module.exports = (time, max) => {
+    return RateLimit.middleware({
+        interval: time * 1000, // 1s内
+        max: max,
+        keyGenerator: async function (ctx) {
+            // console.log(`${ctx.url}|${ctx.method}|${ctx.request.ip}-API`)
+            return `${ctx.url}|${ctx.method}|${ctx.request.ip}-API`;
         },
-        // password: 'redis_password',
-        database: 1
-    })
-});
-
-module.exports = RateLimit.middleware({
-    interval: 1 * 1000, // 1s内
-    max: 1,
-    keyGenerator: async function (ctx) {
-        return `${ctx.url}|${ctx.request.ip}`;
-    }
-});
+        message: "操作过快，请稍后再试！"
+    });
+}

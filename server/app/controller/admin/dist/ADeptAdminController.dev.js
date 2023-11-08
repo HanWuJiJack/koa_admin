@@ -68,11 +68,11 @@ function (_BaseController) {
     _this.url = "/admin/dept";
     _this.limit = ["list"];
     _this.middleLists = {
-      "Get|list": [ApiAuth(["system:dept:list"])],
-      Create: [ApiAuth(["system:dept:post"]), ApiRatelimit],
-      Update: [ApiAuth(["system:dept:put"]), ApiRatelimit],
-      Remove: [ApiAuth(["system:dept:remove"]), ApiRatelimit],
-      "Get:id": [ApiAuth(["system:dept:get"])]
+      "Get|list": [ApiAuth(["system:dept:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["system:dept:post"]), ApiRatelimit(1, 1)],
+      Update: [ApiAuth(["system:dept:put"]), ApiRatelimit(1, 1)],
+      Remove: [ApiAuth(["system:dept:remove"]), ApiRatelimit(1, 1)],
+      "Get|info:id": [ApiAuth(["system:dept:get"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -227,10 +227,10 @@ function (_BaseController) {
       }, null, this, [[1, 15]]);
     }
   }, {
-    key: "Get:id",
-    value: function GetId() {
+    key: "Get|info:id",
+    value: function GetInfoId() {
       var id, params, query;
-      return regeneratorRuntime.async(function GetId$(_context4) {
+      return regeneratorRuntime.async(function GetInfoId$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:

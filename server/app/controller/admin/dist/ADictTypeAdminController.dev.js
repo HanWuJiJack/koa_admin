@@ -78,11 +78,11 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/dict-type";
     _this.middleLists = {
-      "Get|list": [ApiAuth(["system:dictType:list"])],
-      Create: [ApiAuth(["system:dictType:post"]), ApiRatelimit],
-      "Update:id": [ApiAuth(["system:dictType:put"]), ApiRatelimit],
-      "Remove:ids": [ApiAuth(["system:dictType:remove"]), ApiRatelimit],
-      "Get:id": [ApiAuth(["system:dictType:get"])]
+      "Get|list": [ApiAuth(["system:dictType:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["system:dictType:post"]), ApiRatelimit(1, 1)],
+      "Update:id": [ApiAuth(["system:dictType:put"]), ApiRatelimit(1, 1)],
+      "Remove:ids": [ApiAuth(["system:dictType:remove"]), ApiRatelimit(1, 1)],
+      "Get|info:id": [ApiAuth(["system:dictType:get"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -306,18 +306,18 @@ function (_BaseController) {
       }, null, this, [[0, 9]]);
     }
   }, {
-    key: "Get|type",
-    value: function GetType() {
-      var id, dictInfo, query;
-      return regeneratorRuntime.async(function GetType$(_context5) {
+    key: "Get|type:code",
+    value: function GetTypeCode() {
+      var code, dictInfo, query;
+      return regeneratorRuntime.async(function GetTypeCode$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               _context5.prev = 0;
-              id = this.ctx.params.id;
+              code = this.ctx.params.code;
               _context5.next = 4;
               return regeneratorRuntime.awrap(Schema.dictSchema.findOne({
-                nameCode: id
+                nameCode: code
               }));
 
             case 4:
@@ -351,10 +351,10 @@ function (_BaseController) {
       }, null, this, [[0, 11]]);
     }
   }, {
-    key: "Get:id",
-    value: function GetId() {
+    key: "Get|info:id",
+    value: function GetInfoId() {
       var id, params, query;
-      return regeneratorRuntime.async(function GetId$(_context6) {
+      return regeneratorRuntime.async(function GetInfoId$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:

@@ -26,14 +26,14 @@ class UserAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/user"
         this.middleLists = {
-            "Get|list": [ApiAuth(["system:user:list"])],
-            Create: [ApiAuth(["system:user:post"]), ApiRatelimit],
-            "Update:id": [ApiAuth(["system:user:put"]), ApiRatelimit],
-            "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit],
-            Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit],
-            "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit],
-            "Get|list_all": [ApiAuth(["system:user:list"])],
-            "Get|info": [ApiAuth(["system:user:mySelf"])],
+            "Get|list": [ApiAuth(["system:user:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["system:user:post"]), ApiRatelimit(1, 1)],
+            "Update|info:id": [ApiAuth(["system:user:put"]), ApiRatelimit(1, 1)],
+            "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit(1, 1)],
+            Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit(1, 1)],
+            "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit(1, 1)],
+            "Get|list_all": [ApiAuth(["system:user:list"]), ApiRatelimit(1, 3)],
+            "Get|info": [ApiAuth(["system:user:mySelf"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -56,7 +56,7 @@ class UserAdminController extends BaseController {
             let params = {}
             if (userId) params.userId = userId;
             if (userName) params.userName = userName;
-            params.state = parseInt(state);
+            if (state != 0) params.state = parseInt(state);
             // 根据条件查询所有用户列表
             const query = Schema.usersSchema.find(params) //查询所有数据
             const list = await query.sort({
@@ -152,7 +152,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async "Update:id"() {
+    async "Update|info:id"() {
         try {
             const {
                 id
@@ -179,7 +179,7 @@ class UserAdminController extends BaseController {
         }
     }
 
-    async "Update|pwd:code|888:ids|999:id"() {
+    async "Update|pwd"() {
         const {
             userPwd,
             id

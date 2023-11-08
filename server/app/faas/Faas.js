@@ -3,7 +3,8 @@ const Auth = require('./../middleware/Auth');
 const Schema = require('../model/Model');
 const vm2 = require("../utils/VM");
 const ExceptionCode = require('../utils/ExceptionCode');
-
+const ApiRatelimit = require("../middleware/ApiRatelimit")
+const Tools = require("../utils/Tools")
 const {
     logger
 } = require(path.join(process.cwd(), "./config/logger"))
@@ -19,7 +20,22 @@ exports.faas = async (ctx, next, method) => {
     }) // 查询所有数据
     if (faasInfo) {
         if (faasInfo._doc.isAuth === "1") {
-            await Auth(ctx, next)
+            await Auth(ctx, () => {})
+        }
+        if (faasInfo._doc.isRatelimit === "1") {
+            const time = parseInt(faasInfo._doc.time)
+            const max = parseInt(faasInfo._doc.max)
+            // const time = 1
+            // const max = 3
+            // console.log(time, max)
+            const ApiRatelimit_ = ApiRatelimit(time, max)
+            await ApiRatelimit_(ctx, () => {})
+            if (ctx.status === 429) {
+                ctx.body = Tools.fail({
+                    msg: "操作过快，请稍后再试！"
+                })
+                return;
+            }
         }
         try {
             ctx.body = await vm2(ctx, faasInfo._doc.fn)()

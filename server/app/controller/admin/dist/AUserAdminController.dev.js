@@ -72,14 +72,14 @@ function (_BaseController) {
     _this.userInfo = _this.ctx.state.userInfo;
     _this.url = "/admin/user";
     _this.middleLists = {
-      "Get|list": [ApiAuth(["system:user:list"])],
-      Create: [ApiAuth(["system:user:post"]), ApiRatelimit],
-      "Update:id": [ApiAuth(["system:user:put"]), ApiRatelimit],
-      "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit],
-      Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit],
-      "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit],
-      "Get|list_all": [ApiAuth(["system:user:list"])],
-      "Get|info": [ApiAuth(["system:user:mySelf"])]
+      "Get|list": [ApiAuth(["system:user:list"]), ApiRatelimit(1, 3)],
+      Create: [ApiAuth(["system:user:post"]), ApiRatelimit(1, 1)],
+      "Update|info:id": [ApiAuth(["system:user:put"]), ApiRatelimit(1, 1)],
+      "Update|pwd": [ApiAuth(["system:user:put"]), ApiRatelimit(1, 1)],
+      Remove: [ApiAuth(["system:user:remove"]), ApiRatelimit(1, 1)],
+      "Remove|force": [ApiAuth(["system:user:remove"]), ApiRatelimit(1, 1)],
+      "Get|list_all": [ApiAuth(["system:user:list"]), ApiRatelimit(1, 3)],
+      "Get|info": [ApiAuth(["system:user:mySelf"]), ApiRatelimit(1, 3)]
     };
     return _this;
   } // "Get|list" Get "Get:id"
@@ -105,7 +105,7 @@ function (_BaseController) {
               params = {};
               if (userId) params.userId = userId;
               if (userName) params.userName = userName;
-              params.state = parseInt(state); // 根据条件查询所有用户列表
+              if (state != 0) params.state = parseInt(state); // 根据条件查询所有用户列表
 
               query = Schema.usersSchema.find(params); //查询所有数据
 
@@ -237,10 +237,10 @@ function (_BaseController) {
       }, null, this, [[10, 20]]);
     }
   }, {
-    key: "Update:id",
-    value: function UpdateId() {
+    key: "Update|info:id",
+    value: function UpdateInfoId() {
       var id, params, res;
-      return regeneratorRuntime.async(function UpdateId$(_context3) {
+      return regeneratorRuntime.async(function UpdateInfoId$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
@@ -283,11 +283,11 @@ function (_BaseController) {
       }, null, this, [[0, 12]]);
     }
   }, {
-    key: "Update|pwd:code|888:ids|999:id",
-    value: function UpdatePwdCode888Ids999Id() {
+    key: "Update|pwd",
+    value: function UpdatePwd() {
       var _this$ctx$request$bod2, userPwd, id;
 
-      return regeneratorRuntime.async(function UpdatePwdCode888Ids999Id$(_context4) {
+      return regeneratorRuntime.async(function UpdatePwd$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:

@@ -182,9 +182,7 @@ const success = ({
     msg
 }) => {
     return {
-        'status': 'ok',
         'code': 200,
-        'data': null,
         'message': msg || 'success',
         data
     }
@@ -195,9 +193,7 @@ const fail = ({
     msg
 }) => {
     return {
-        'status': 'error',
         'code': 403,
-        'data': null,
         'message': msg || 'fail',
         data
     }

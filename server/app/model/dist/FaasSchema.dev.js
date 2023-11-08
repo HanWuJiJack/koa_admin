@@ -15,6 +15,15 @@ var faasSchema = mongoose.Schema({
     "default": "1"
   },
   // 1:正常  2：停用 , //
+  "isRatelimit": {
+    type: String,
+    "default": "1"
+  },
+  // 1:正常  2：停用
+  "time": Number,
+  //接口限流 时间
+  "max": Number,
+  //接口限流 次数
   "code": {
     type: String,
     unique: false

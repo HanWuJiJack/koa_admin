@@ -2,8 +2,6 @@
 
 var _this = void 0;
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var _require = require('lodash'),
     filter = _require.filter;
 
@@ -210,23 +208,21 @@ var decryptWXData = function decryptWXData(_ref) {
 var success = function success(_ref2) {
   var data = _ref2.data,
       msg = _ref2.msg;
-  return _defineProperty({
-    'status': 'ok',
+  return {
     'code': 200,
-    'data': null,
-    'message': msg || 'success'
-  }, "data", data);
+    'message': msg || 'success',
+    data: data
+  };
 };
 
-var fail = function fail(_ref4) {
-  var data = _ref4.data,
-      msg = _ref4.msg;
-  return _defineProperty({
-    'status': 'error',
+var fail = function fail(_ref3) {
+  var data = _ref3.data,
+      msg = _ref3.msg;
+  return {
     'code': 403,
-    'data': null,
-    'message': msg || 'fail'
-  }, "data", data);
+    'message': msg || 'fail',
+    data: data
+  };
 };
 /**
  * 分页结构封装
@@ -235,11 +231,11 @@ var fail = function fail(_ref4) {
  */
 
 
-var pager = function pager(_ref6) {
-  var _ref6$pageNum = _ref6.pageNum,
-      pageNum = _ref6$pageNum === void 0 ? 1 : _ref6$pageNum,
-      _ref6$pageSize = _ref6.pageSize,
-      pageSize = _ref6$pageSize === void 0 ? 10 : _ref6$pageSize;
+var pager = function pager(_ref4) {
+  var _ref4$pageNum = _ref4.pageNum,
+      pageNum = _ref4$pageNum === void 0 ? 1 : _ref4$pageNum,
+      _ref4$pageSize = _ref4.pageSize,
+      pageSize = _ref4$pageSize === void 0 ? 10 : _ref4$pageSize;
   pageNum *= 1;
   pageSize *= 1;
   var skipIndex = (pageNum - 1) * pageSize;

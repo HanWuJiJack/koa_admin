@@ -31,6 +31,8 @@ var AutoID = require('./../../utils/AutoID');
 var _require = require('../../utils/Tools.js'),
     hash = _require.hash;
 
+var ApiRatelimit = require("./../../middleware/ApiRatelimit");
+
 var UserAdminController =
 /*#__PURE__*/
 function (_BaseController) {
@@ -53,6 +55,9 @@ function (_BaseController) {
     _this.ctx = ctx;
     _this.next = next;
     _this.url = "/admin/p/user";
+    _this.middleLists = {
+      "Get|list": [ApiRatelimit(60 * 10, 1)]
+    };
     return _this;
   } // "Get|list" Get "Get:id"
   // Update "Update:id"

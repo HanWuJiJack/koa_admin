@@ -26,11 +26,11 @@ class DictTypeAdminController extends BaseController {
         this.userInfo = this.ctx.state.userInfo;
         this.url = "/admin/model"
         this.middleLists = {
-            "Get|list": [ApiAuth(["faas:model:list"])],
-            Create: [ApiAuth(["faas:model:post"]), ApiRatelimit],
-            "Update:id": [ApiAuth(["faas:model:put"]), ApiRatelimit],
-            "Remove:ids": [ApiAuth(["faas:model:remove"]), ApiRatelimit],
-            "Get:id": [ApiAuth(["faas:model:get"])],
+            "Get|list": [ApiAuth(["faas:model:list"]), ApiRatelimit(1, 3)],
+            Create: [ApiAuth(["faas:model:post"]), ApiRatelimit(1, 1)],
+            "Update:id": [ApiAuth(["faas:model:put"]), ApiRatelimit(1, 1)],
+            "Remove:ids": [ApiAuth(["faas:model:remove"]), ApiRatelimit(1, 1)],
+            "Get|info:id": [ApiAuth(["faas:model:get"]), ApiRatelimit(1, 3)],
         }
     }
     // "Get|list" Get "Get:id"
@@ -157,7 +157,7 @@ class DictTypeAdminController extends BaseController {
             })
         }
     }
-    async "Get:id"() {
+    async "Get|info:id"() {
         try {
             const {
                 id
