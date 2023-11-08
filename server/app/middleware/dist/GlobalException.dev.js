@@ -76,14 +76,11 @@ var Exception = function Exception(ctx, next) {
               ctx.body = _context.t0;
             }
           } else if (ctx.response.status && ctx.response.status >= 500) {
-            // console.log("33333333")
             ctx.body = {
               code: 999999,
               message: "请将接口保存并联系后端！"
             };
           } else if (_context.t0 || ctx.response.status) {
-            // console.log("4444444444")
-            // ctx.body = ExceptionCode.UNDEFINED
             if (_context.t0.message === 'Validation Failed') {
               ctx.body = _objectSpread({}, ExceptionCode.INVALID_PARAMS);
             } else if (_context.t0.message === 'Validation error') {
@@ -97,7 +94,6 @@ var Exception = function Exception(ctx, next) {
                 title: _context.t0.message
               });
             } else {
-              // console.log("55555555")
               ctx.body = {
                 code: 999999,
                 message: _context.t0.message
@@ -110,7 +106,7 @@ var Exception = function Exception(ctx, next) {
             };
           }
 
-          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--[query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
+          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--\n        [\u65B9\u6CD5: ").concat(ctx.method, "]--\n        [query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
 
           return _context.abrupt("return", ctx.body);
 

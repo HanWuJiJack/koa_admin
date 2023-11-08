@@ -48,14 +48,11 @@ const Exception = async (ctx, next) => {
                 ctx.body = error
             }
         } else if (ctx.response.status && ctx.response.status >= 500) {
-            // console.log("33333333")
             ctx.body = {
                 code: 999999,
                 message: "请将接口保存并联系后端！"
             }
         } else if (error || ctx.response.status) {
-            // console.log("4444444444")
-            // ctx.body = ExceptionCode.UNDEFINED
             if (error.message === 'Validation Failed') {
                 ctx.body = {
                     ...ExceptionCode.INVALID_PARAMS
@@ -75,7 +72,6 @@ const Exception = async (ctx, next) => {
                     title: error.message
                 };
             } else {
-                // console.log("55555555")
                 ctx.body = {
                     code: 999999,
                     message: error.message
@@ -90,7 +86,9 @@ const Exception = async (ctx, next) => {
         logger._globalErr.error(`
         [用户:${ctx.state.userInfo.userName}]--
         [id:${ctx.state.userInfo.userId}]--
-        [访问 ${ctx.url}]--[query:${JSON.stringify(ctx.query)}]--
+        [访问 ${ctx.url}]--
+        [方法: ${ctx.method}]--
+        [query:${JSON.stringify(ctx.query)}]--
         [body:${JSON.stringify(ctx.request.body)}]--
         [返回值:${JSON.stringify(ctx.body)}]--
         [原始错误信息:${error.message}]
