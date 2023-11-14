@@ -33,8 +33,9 @@ const Exception = async (ctx, next) => {
         }
         return ctx.body
     } catch (error) {
+        console.log("error",error)
         if (error && error.code) {
-            // console.log("22222")
+            // console.log("error",error)
             // 错误类code :1000 - 2000
             if (error.code >= 1000 && error.code < 2000) {
                 const status = error.code === 1003 ? 401 : 403
@@ -91,7 +92,8 @@ const Exception = async (ctx, next) => {
         [query:${JSON.stringify(ctx.query)}]--
         [body:${JSON.stringify(ctx.request.body)}]--
         [返回值:${JSON.stringify(ctx.body)}]--
-        [原始错误信息:${error.message}]
+        [原始错误信息:${error.message}]--
+        [stack:${error.stack}]
         `);
         return ctx.body
     }

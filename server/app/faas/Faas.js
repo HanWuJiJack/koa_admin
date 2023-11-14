@@ -23,8 +23,8 @@ exports.faas = async (ctx, next, method) => {
             await Auth(ctx, () => {})
         }
         if (faasInfo._doc.isRatelimit === "1") {
-            const time = parseInt(faasInfo._doc.time)
-            const max = parseInt(faasInfo._doc.max)
+            const time = faasInfo._doc.time ? parseInt(faasInfo._doc.time) : 1
+            const max = faasInfo._doc.max ? parseInt(faasInfo._doc.max) : 10
             // const time = 1
             // const max = 3
             // console.log(time, max)

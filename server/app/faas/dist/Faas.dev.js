@@ -53,8 +53,8 @@ exports.faas = function _callee(ctx, next, method) {
             break;
           }
 
-          time = parseInt(faasInfo._doc.time);
-          max = parseInt(faasInfo._doc.max); // const time = 1
+          time = faasInfo._doc.time ? parseInt(faasInfo._doc.time) : 1;
+          max = faasInfo._doc.max ? parseInt(faasInfo._doc.max) : 10; // const time = 1
           // const max = 3
           // console.log(time, max)
 
