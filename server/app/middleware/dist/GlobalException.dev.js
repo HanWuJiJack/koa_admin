@@ -106,7 +106,7 @@ var Exception = function Exception(ctx, next) {
             };
           }
 
-          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.userId, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--\n        [\u65B9\u6CD5: ").concat(ctx.method, "]--\n        [query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
+          logger._globalErr.error("\n        [\u7528\u6237:".concat(ctx.state.userInfo.userName, "]--\n        [id:").concat(ctx.state.userInfo.id, "]--\n        [\u8BBF\u95EE ").concat(ctx.url, "]--\n        [\u65B9\u6CD5: ").concat(ctx.method, "]--\n        [query:").concat(JSON.stringify(ctx.query), "]--\n        [body:").concat(JSON.stringify(ctx.request.body), "]--\n        [\u8FD4\u56DE\u503C:").concat(JSON.stringify(ctx.body), "]--\n        [\u539F\u59CB\u9519\u8BEF\u4FE1\u606F:").concat(_context.t0.message, "]\n        "));
 
           return _context.abrupt("return", ctx.body);
 

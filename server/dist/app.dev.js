@@ -10,7 +10,10 @@ var views = require('koa-views');
 
 var onerror = require('koa-onerror');
 
-var path = require("path");
+var path = require("path"); // 在 Nginx 反向代理配置 proxy_pass 的部分添加这样一行。 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+// 如果 Koa 中没有配置 app.proxy = true，Koa 会忽略 Nginx 在 HTTP 请求头部添加的 X-Forwarded-For 字段，所以要设置app.proxy 为 true。
+// app.proxy = true
+
 
 var _require = require(path.join(process.cwd(), "./config/logger")),
     logger = _require.logger,

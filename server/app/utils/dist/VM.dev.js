@@ -23,6 +23,8 @@ var defaultSchemas = require('../model/Model');
 var _require2 = require('./ModelSchemas'),
     modelSchemas = _require2.modelSchemas;
 
+var fse = require('fs-extra');
+
 function VM2(ctx, text) {
   var vm = new NodeVM({
     console: 'inherit',
@@ -30,6 +32,7 @@ function VM2(ctx, text) {
     wrapper: "commonjs",
     strict: true,
     sandbox: {
+      fs: fse,
       ctx: ctx,
       _: lodash,
       moment: moment,
@@ -44,16 +47,14 @@ function VM2(ctx, text) {
       defaultSchemas: defaultSchemas
     },
     require: {
-      external: true,
-      builtin: ['fs', 'path'],
-      root: "./",
-      mock: {
-        fs: {
-          readFileSync: function readFileSync() {
-            return 'Nice try!';
-          }
-        }
-      }
+      external: true // builtin: ['fs', 'path'],
+      // root: "./",
+      // mock: {
+      //     fs: {
+      //         readFileSync() { return 'Nice try!'; }
+      //     }
+      // }
+
     }
   });
   return vm.run(text);

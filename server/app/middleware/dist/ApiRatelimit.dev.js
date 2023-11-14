@@ -12,7 +12,7 @@ module.exports = function (time, max) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              return _context.abrupt("return", "".concat(ctx.url, "|").concat(ctx.method, "|").concat(ctx.request.ip, "-API"));
+              return _context.abrupt("return", "".concat(ctx.url, "|").concat(ctx.method, "|").concat(ctx.ip, "-API"));
 
             case 1:
             case "end":

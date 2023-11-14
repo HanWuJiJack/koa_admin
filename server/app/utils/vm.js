@@ -8,6 +8,7 @@ const AutoID = require("./AutoID")
 const ExceptionCode = require("./ExceptionCode")
 const defaultSchemas = require('../model/Model')
 const { modelSchemas } = require('./ModelSchemas')
+const fse = require('fs-extra')
 
 function VM2(ctx,text) {
     const vm = new NodeVM({
@@ -16,6 +17,7 @@ function VM2(ctx,text) {
         wrapper: "commonjs",
         strict: true,
         sandbox: {
+            fs:fse,
             ctx: ctx,
             _: lodash,
             moment: moment,
@@ -31,13 +33,13 @@ function VM2(ctx,text) {
         },
         require: {
             external: true,
-            builtin: ['fs', 'path'],
-            root: "./",
-            mock: {
-                fs: {
-                    readFileSync() { return 'Nice try!'; }
-                }
-            }
+            // builtin: ['fs', 'path'],
+            // root: "./",
+            // mock: {
+            //     fs: {
+            //         readFileSync() { return 'Nice try!'; }
+            //     }
+            // }
         }
     });
     return vm.run(text)

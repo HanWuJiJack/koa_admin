@@ -12,7 +12,7 @@ module.exports = RateLimit.middleware({
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            return _context.abrupt("return", "".concat(ctx.request.ip, "-global"));
+            return _context.abrupt("return", "".concat(ctx.ip, "-global"));
 
           case 1:
           case "end":

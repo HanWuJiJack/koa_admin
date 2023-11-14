@@ -85,7 +85,7 @@ const Exception = async (ctx, next) => {
         }
         logger._globalErr.error(`
         [用户:${ctx.state.userInfo.userName}]--
-        [id:${ctx.state.userInfo.userId}]--
+        [id:${ctx.state.userInfo.id}]--
         [访问 ${ctx.url}]--
         [方法: ${ctx.method}]--
         [query:${JSON.stringify(ctx.query)}]--

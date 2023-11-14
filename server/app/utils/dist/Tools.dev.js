@@ -19,10 +19,10 @@ var WXBizDataCrypt = require('./WXBizDataCrypt');
 
 var ExceptionCode = require('./ExceptionCode');
 
-var path = require("path");
+var path = require("path"); // const {
+//     logger
+// } = require(path.join(process.cwd(), "./config/logger"))
 
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
-    logger = _require2.logger;
 
 function getRandom(min, max) {
   if (arguments.length === 2) {
@@ -170,7 +170,7 @@ var code2Session = function code2Session(code) {
     axios.get("https://api.weixin.qq.com/sns/jscode2session?appid=".concat(process.env.WX_APPID, "&secret=").concat(process.env.WX_SECRET, "&js_code=").concat(code, "&grant_type=authorization_code")).then(function (res) {
       resolve(res.data);
     }, function (err) {
-      logger.error("code2Session", err);
+      // logger.error("code2Session", err)
       reject(err);
     });
   });

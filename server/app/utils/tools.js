@@ -10,9 +10,9 @@ const axios = require("axios")
 var WXBizDataCrypt = require('./WXBizDataCrypt')
 const ExceptionCode = require('./ExceptionCode');
 const path = require("path")
-const {
-    logger
-} = require(path.join(process.cwd(), "./config/logger"))
+// const {
+//     logger
+// } = require(path.join(process.cwd(), "./config/logger"))
 
 function getRandom(min, max) {
     if (arguments.length === 2) {
@@ -143,7 +143,7 @@ const code2Session = (code) => {
             .then((res) => {
                 resolve(res.data)
             }, (err) => {
-                logger.error("code2Session", err)
+                // logger.error("code2Session", err)
                 reject(err)
             })
     })
