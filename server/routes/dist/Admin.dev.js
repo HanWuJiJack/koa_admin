@@ -12,6 +12,8 @@ var Auth = require("./../app/middleware/Auth");
 
 var Admin = require("./../app/controller/admin/Admin");
 
+var Blog = require("./../app/controller/blog/Blog");
+
 var WX = require("./../app/controller/wx/WX");
 
 var Route = require('./BaseRoute'); // "Get|list" Get "Get:id"
@@ -139,9 +141,9 @@ var getRoutes = function getRoutes(arr) {
 }; // 权限列表
 
 
-var AuthList = getRoutes([].concat(_toConsumableArray(Admin.auth), _toConsumableArray(WX.auth))); // 开放列表
+var AuthList = getRoutes([].concat(_toConsumableArray(Admin.auth), _toConsumableArray(WX.auth), _toConsumableArray(Blog.auth))); // 开放列表
 
-var openList = getRoutes([].concat(_toConsumableArray(Admin["public"]), _toConsumableArray(WX["public"])));
+var openList = getRoutes([].concat(_toConsumableArray(Admin["public"]), _toConsumableArray(WX["public"]), _toConsumableArray(Blog["public"])));
 /**
  * 后端api接口组
  */

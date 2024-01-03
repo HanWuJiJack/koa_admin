@@ -1,6 +1,10 @@
 const Auth = require("./../app/middleware/Auth");
+
 const Admin = require("./../app/controller/admin/Admin")
+const Blog = require("./../app/controller/blog/Blog")
 const WX = require("./../app/controller/wx/WX")
+
+
 const Route = require('./BaseRoute')
 // "Get|list" Get "Get:id"
 // Update "Update:id"
@@ -83,9 +87,9 @@ const getRoutes = (arr) => {
 }
 
 // 权限列表
-const AuthList = getRoutes([...Admin.auth, ...WX.auth])
+const AuthList = getRoutes([...Admin.auth, ...WX.auth, ...Blog.auth])
 // 开放列表
-const openList = getRoutes([...Admin.public, ...WX.public]);
+const openList = getRoutes([...Admin.public, ...WX.public, ...Blog.public]);
 
 /**
  * 后端api接口组

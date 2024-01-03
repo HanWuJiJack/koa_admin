@@ -40,15 +40,16 @@ var Exception = function Exception(ctx, next) {
 
         case 4:
           if (!(ctx.body && ctx.body.message === 'Validation Failed')) {
-            _context.next = 6;
+            _context.next = 7;
             break;
           }
 
+          console.log("ctx.body.errors", ctx.body.errors);
           throw _objectSpread({}, ExceptionCode.INVALID_PARAMS, {
-            message: ctx.body.errors
+            message: "\u8BF7\u68C0\u6D4B".concat(ctx.body.errors[0].field, "\uFF01")
           });
 
-        case 6:
+        case 7:
           // 处理404
           if (ctx.response.status === 404) {
             ctx.body = ExceptionCode.FILE_ROUTER_ERR;
@@ -56,8 +57,8 @@ var Exception = function Exception(ctx, next) {
 
           return _context.abrupt("return", ctx.body);
 
-        case 10:
-          _context.prev = 10;
+        case 11:
+          _context.prev = 11;
           _context.t0 = _context["catch"](0);
           console.log("error", _context.t0);
 
@@ -111,12 +112,12 @@ var Exception = function Exception(ctx, next) {
 
           return _context.abrupt("return", ctx.body);
 
-        case 16:
+        case 17:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 10]]);
+  }, null, null, [[0, 11]]);
 };
 
 module.exports = Exception;

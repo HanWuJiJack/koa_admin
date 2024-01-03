@@ -1,7 +1,7 @@
 const RateLimit = require("./../../config/RateLimit");
 
 
-module.exports = (time, max) => {
+module.exports = (time, max, msg) => {
     return RateLimit.middleware({
         interval: time * 1000, // 1s内
         max: max,
@@ -9,6 +9,6 @@ module.exports = (time, max) => {
             // console.log(`${ctx.url}|${ctx.method}|${ctx.request.ip}-API`)
             return `${ctx.url}|${ctx.method}|${ctx.ip}-API`;
         },
-        message: "操作过快，请稍后再试！"
+        message: msg || "操作过快，请稍后再试！"
     });
 }

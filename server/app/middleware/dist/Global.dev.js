@@ -18,7 +18,9 @@ module.exports = function _callee(ctx, next) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          ctx.state.userInfo = {};
+          //初始化 userInfo
+          ctx.state.userInfo = {}; // 获取真实ip
+
           ctx.request.ip = requestIp.getClientIp(ctx.request);
           ctx.ip = ctx.request.ip; // console.log("ctx.realIp", ctx.headers["x-forwarded-for"])
 

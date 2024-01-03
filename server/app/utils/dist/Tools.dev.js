@@ -140,7 +140,7 @@ var aesDecrypt = function aesDecrypt(crypted) {
 }; // token过期时间(30分钟)
 
 
-var ttl = 1000 * 60 * 30; // const ttl = 1000 * 20
+var ttl = 1000 * 60 * 30; // const ttl = 1000 * 10
 
 function encode(key) {
   var payload = {

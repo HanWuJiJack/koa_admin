@@ -9,6 +9,8 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",
     "@vueuse/core": "^8.7.4",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.26.1",
     "codemirror-editor-vue3": "^2.1.7",
     "docxtemplater": "^3.31.3",

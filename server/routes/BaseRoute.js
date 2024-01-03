@@ -25,8 +25,8 @@ module.exports = {
                 } = routers[key];
                 // 路径前缀
                 newMiddleware = newMiddleware.concat(middlewareList)
-                if (routers[key].api.indexOf("token") > -1) {
-                    // logger.info("接口列表:", routers[key], newMiddleware)
+                if (routers[key].api.indexOf("blog") > -1) {
+                    logger.info("接口列表:", routers[key], newMiddleware)
                 }
                 // logger.info("接口列表:", routers[key])
                 // 路由是否需要name

@@ -57,7 +57,10 @@ if (cluster.isMaster) {
   };
 
   // CPU 核数的一半为子进程总数
-  for (var i = 0; i < numCPUs / 2; i++) {
+  // for (let i = 0; i < numCPUs / 2; i++) {
+  //   createWorker();
+  // }
+  for (var i = 0; i < 2; i++) {
     createWorker();
   } // 如果有子进程退出，5s之后重新创建一个子进程
 

@@ -37,7 +37,7 @@
         <!-- 用户信息 -->
         <div class="top-userinfo">
           <el-dropdown @command="dropMenuHandler">
-            <span class="userinfo-name">{{ data.userInfo.userName }}</span>
+            <span class="userinfo-name">{{ data.userInfo.userName || data.userInfo.userEmail }}</span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="emain"

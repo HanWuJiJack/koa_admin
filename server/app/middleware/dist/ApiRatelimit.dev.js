@@ -2,7 +2,7 @@
 
 var RateLimit = require("./../../config/RateLimit");
 
-module.exports = function (time, max) {
+module.exports = function (time, max, msg) {
   return RateLimit.middleware({
     interval: time * 1000,
     // 1s内
@@ -21,6 +21,6 @@ module.exports = function (time, max) {
         }
       });
     },
-    message: "操作过快，请稍后再试！"
+    message: msg || "操作过快，请稍后再试！"
   });
 };

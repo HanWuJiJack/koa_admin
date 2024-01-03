@@ -112,7 +112,7 @@ const aesDecrypt = (crypted, secret = process.env.APP_KEY) => {
 
 // token过期时间(30分钟)
 const ttl = 1000 * 60 * 30
-// const ttl = 1000 * 20
+// const ttl = 1000 * 10
 
 function encode(key) {
     let payload = {

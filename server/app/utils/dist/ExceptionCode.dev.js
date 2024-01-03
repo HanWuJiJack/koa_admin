@@ -77,7 +77,7 @@ module.exports = {
   },
   FILE_EMAIL_CODE_ERR: {
     code: 1017,
-    message: '邮箱验证码过期'
+    message: '邮箱验证码错误'
   },
   FILE_GET_EMAIL_ERR: {
     code: 1017,

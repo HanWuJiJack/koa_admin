@@ -9,12 +9,12 @@
         <el-form-item label="接口code" prop="code">
           <el-input v-model="selectData.code" placeholder="请输入接口code"></el-input>
         </el-form-item>
-        <el-form-item label="接口状态" prop="state">
+        <!-- <el-form-item label="接口状态" prop="state">
           <el-select v-model="selectData.state" placeholder="请选择接口状态">
             <el-option label="正常" :value="1"></el-option>
             <el-option label="停用" :value="2"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="onSearchHandler">查询</el-button>
           <el-button @click="onResetHandler('selectForm')">重置</el-button>

@@ -22,9 +22,10 @@ const Exception = async (ctx, next) => {
         await next();
         // 处理字段验证报错
         if (ctx.body && ctx.body.message === 'Validation Failed') {
+            console.log("ctx.body.errors", ctx.body.errors)
             throw {
                 ...ExceptionCode.INVALID_PARAMS,
-                message: ctx.body.errors
+                message: `请检测${ctx.body.errors[0].field}！`
             };
         }
         // 处理404
@@ -33,7 +34,7 @@ const Exception = async (ctx, next) => {
         }
         return ctx.body
     } catch (error) {
-        console.log("error",error)
+        console.log("error", error)
         if (error && error.code) {
             // console.log("error",error)
             // 错误类code :1000 - 2000
