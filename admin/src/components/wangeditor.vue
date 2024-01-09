@@ -49,7 +49,7 @@ const toolbarConfig = {
         // 'insertVideo',
         // 'uploadVideo',
         'group-video',//视频上传按钮
-        'insertImage'
+        // 'insertImage'
         // 'group-image',//图片上传接口
     ]
 }
