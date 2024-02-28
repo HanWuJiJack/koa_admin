@@ -4,7 +4,7 @@ const vm2 = require("../utils/VM");
 const ExceptionCode = require('../utils/ExceptionCode');
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 exports.FaasSchedule = async (code, method) => {
     const faasInfo = await Schema.faasSchema.findOne({

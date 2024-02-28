@@ -45,7 +45,7 @@ var _require2 = require("./../../faas/FaasInit"),
 
 var path = require("path");
 
-var _require3 = require(path.join(process.cwd(), "./config/logger")),
+var _require3 = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require3.logger;
 
 var AutoID = require('./../../utils/AutoID');

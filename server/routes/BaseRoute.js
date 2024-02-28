@@ -2,7 +2,7 @@ const path = require("path")
 const _ = require("lodash")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 module.exports = {
     group({
         routers = [],

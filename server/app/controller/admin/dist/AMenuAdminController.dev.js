@@ -48,7 +48,7 @@ var path = require("path");
 
 var redis = require(path.join(process.cwd(), "./config/Redis"));
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 var AutoID = require('./../../utils/AutoID');

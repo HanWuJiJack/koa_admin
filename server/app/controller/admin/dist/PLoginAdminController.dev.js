@@ -32,7 +32,7 @@ var _require = require('../../utils/Tools.js'),
 
 var path = require("path");
 
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
+var _require2 = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require2.logger;
 
 var ApiAuth = require('../../utils/ApiAuth.js');

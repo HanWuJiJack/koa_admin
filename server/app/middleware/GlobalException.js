@@ -5,7 +5,7 @@ const {
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 const Exception = async (ctx, next) => {
     // let start = new Date();

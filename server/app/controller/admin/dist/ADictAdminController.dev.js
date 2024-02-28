@@ -38,7 +38,7 @@ var AutoID = require('./../../utils/AutoID');
 
 var path = require("path");
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 var ApiRatelimit = require("./../../middleware/ApiRatelimit");

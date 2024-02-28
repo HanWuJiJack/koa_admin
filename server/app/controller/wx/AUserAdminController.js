@@ -4,7 +4,7 @@ const { encode, code2Session, hash } = require('../../utils/Tools.js')
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 class UserAdminController extends BaseController {
     constructor({ ctx = {

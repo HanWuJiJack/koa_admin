@@ -3,7 +3,7 @@ const InitFaas = require("../app/faas/FaasInit")
 
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 const mongoose = require('mongoose');
 let url = `${process.env.DB_CONNECTION}://${process.env.DB_HOST}:${process.env.DB_PORT}`;

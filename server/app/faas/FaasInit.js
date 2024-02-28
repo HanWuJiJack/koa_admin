@@ -6,7 +6,7 @@ const Schema = require('../model/Model')
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 const mongoose = require('mongoose');
 const _ = require("lodash")
 

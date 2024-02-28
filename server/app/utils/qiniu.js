@@ -2,7 +2,7 @@ const qiniu = require("qiniu");
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 let mac = new qiniu.auth.digest.Mac(process.env.QINIU_CONFIG_ACCESS_KEY, process.env.QINIU_CONFIG_SECRET_KEY);
 

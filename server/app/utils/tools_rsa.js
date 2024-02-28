@@ -3,7 +3,7 @@ const path = require("path")
 const fs = require('fs-extra')
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 
 //512bit支持的最长明文长度是：512/8 - 11 = 53

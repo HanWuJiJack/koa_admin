@@ -4,7 +4,7 @@ var qiniu = require("qiniu");
 
 var path = require("path");
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 var mac = new qiniu.auth.digest.Mac(process.env.QINIU_CONFIG_ACCESS_KEY, process.env.QINIU_CONFIG_SECRET_KEY); //构造上传函数

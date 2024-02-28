@@ -7,7 +7,7 @@ const ApiRatelimit = require("../middleware/ApiRatelimit")
 const Tools = require("../utils/Tools")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 exports.faas = async (ctx, next, method) => {
     const {

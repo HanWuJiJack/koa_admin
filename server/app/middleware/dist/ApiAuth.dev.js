@@ -10,7 +10,7 @@ var Schema = require('../model/Model');
 
 var path = require("path");
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 var redis = require(path.join(process.cwd(), "./config/Redis"));

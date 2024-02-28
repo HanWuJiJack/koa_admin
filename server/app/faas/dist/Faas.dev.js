@@ -14,7 +14,7 @@ var ApiRatelimit = require("../middleware/ApiRatelimit");
 
 var Tools = require("../utils/Tools");
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 exports.faas = function _callee(ctx, next, method) {

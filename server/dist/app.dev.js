@@ -15,7 +15,7 @@ var path = require("path"); // 在 Nginx 反向代理配置 proxy_pass 的部分
 // app.proxy = true
 
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger,
     accessLogger = _require.accessLogger;
 

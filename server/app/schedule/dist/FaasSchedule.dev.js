@@ -8,7 +8,7 @@ var vm2 = require("../utils/VM");
 
 var ExceptionCode = require('../utils/ExceptionCode');
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 exports.FaasSchedule = function _callee(code, method) {

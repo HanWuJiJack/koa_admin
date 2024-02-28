@@ -4,7 +4,7 @@ const Schema = require('../model/Model')
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 const redis = require(path.join(process.cwd(), "./config/Redis"))
 
 const ApiAuth = async (code, ctx, next) => {

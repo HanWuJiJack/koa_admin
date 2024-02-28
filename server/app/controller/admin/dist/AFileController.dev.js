@@ -35,7 +35,7 @@ var rootPath = process.cwd();
 var _require = require("../../utils/ModelSchemas"),
     modelSchemas = _require.modelSchemas;
 
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
+var _require2 = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require2.logger; //读取目录及文件
 
 

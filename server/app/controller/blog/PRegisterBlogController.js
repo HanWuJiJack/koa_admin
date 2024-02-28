@@ -12,7 +12,7 @@ const {
 const sendEmail = require('../../utils/Nodemailer')
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 const ApiAuth = require('../../utils/ApiAuth.js')
 const ApiRatelimit = require("../../middleware/ApiRatelimit")
 class LoginAdminController extends BaseController {

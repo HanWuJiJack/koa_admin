@@ -12,7 +12,7 @@ const path = require("path")
 const {
   logger,
   accessLogger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 const cors = require('koa2-cors')
 const {
   generator

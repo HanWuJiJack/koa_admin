@@ -6,7 +6,7 @@ const rootPath = process.cwd()
 const { modelSchemas } = require("../../utils/ModelSchemas");
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 
 //读取目录及文件

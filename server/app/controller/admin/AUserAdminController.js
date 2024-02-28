@@ -6,7 +6,7 @@ const {
 const path = require("path")
 const {
     logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 const AutoID = require('./../../utils/AutoID')
 const ApiRatelimit = require("./../../middleware/ApiRatelimit")
 const ApiAuth = require("./../../middleware/ApiAuth")

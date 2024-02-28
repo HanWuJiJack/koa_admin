@@ -9,7 +9,7 @@ var Schema = require('../model/Model');
 
 var path = require("path");
 
-var _require2 = require(path.join(process.cwd(), "./config/logger")),
+var _require2 = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require2.logger;
 
 var mongoose = require('mongoose');

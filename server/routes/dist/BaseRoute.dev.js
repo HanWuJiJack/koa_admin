@@ -12,7 +12,7 @@ var path = require("path");
 
 var _ = require("lodash");
 
-var _require = require(path.join(process.cwd(), "./config/logger")),
+var _require = require(path.join(process.cwd(), "./config/Logger")),
     logger = _require.logger;
 
 module.exports = {

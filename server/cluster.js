@@ -9,7 +9,7 @@ var ip = require('ip');
 const path = require("path")
 const {
   logger
-} = require(path.join(process.cwd(), "./config/logger"))
+} = require(path.join(process.cwd(), "./config/Logger"))
 
 // 如果是主进程
 if (cluster.isMaster) {
