@@ -6,7 +6,7 @@ var moment = require("moment");
 
 var mongoose = require('mongoose');
 
-var Tools = require("./Tools");
+var Tools = require("./tools");
 
 var ApiAuth = require("./ApiAuth");
 

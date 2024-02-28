@@ -1,8 +1,8 @@
 const Auth = require("./../app/middleware/Auth");
 
-const Admin = require("./../app/controller/admin/Admin")
-const Blog = require("./../app/controller/blog/Blog")
-const WX = require("./../app/controller/wx/WX")
+const Admin = require("../app/controller/admin/Admin")
+const Blog = require("../app/controller/blog/Blog")
+const WX = require("../app/controller/wx/WX")
 
 
 const Route = require('./BaseRoute')

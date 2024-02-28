@@ -9,7 +9,7 @@ const EnvConfig = {
         wordTemUrl: '/public/doc/',
     },
     production: {
-        url: "http://localhost:3001/",
+        url: "http://s5.z100.vip:25258/",
         baseUrl: '/OA/',
         wordTemUrl: '/vue/doc/',
     }

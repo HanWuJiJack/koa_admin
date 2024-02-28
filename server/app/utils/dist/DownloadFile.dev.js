@@ -10,7 +10,7 @@ var path = require("path");
 
 var util = require('util');
 
-var Tools = require("./Tools");
+var Tools = require("./tools");
 /*
  * url 网络文件地址
  * filename 文件名
