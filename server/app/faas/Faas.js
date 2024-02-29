@@ -19,17 +19,15 @@ exports.faas = async (ctx, next, method) => {
         state: 1
     }) // 查询所有数据
     if (faasInfo) {
+        console.log("faasInfo._doc", faasInfo._doc)
         if (faasInfo._doc.isAuth === "1") {
-            await Auth(ctx, () => {})
+            await Auth(ctx, () => { })
         }
         if (faasInfo._doc.isRatelimit === "1") {
             const time = faasInfo._doc.time ? parseInt(faasInfo._doc.time) : 1
             const max = faasInfo._doc.max ? parseInt(faasInfo._doc.max) : 10
-            // const time = 1
-            // const max = 3
-            // console.log(time, max)
             const ApiRatelimit_ = ApiRatelimit(time, max)
-            await ApiRatelimit_(ctx, () => {})
+            await ApiRatelimit_(ctx, () => { })
             if (ctx.status === 429) {
                 ctx.body = Tools.fail({
                     msg: "操作过快，请稍后再试！"
