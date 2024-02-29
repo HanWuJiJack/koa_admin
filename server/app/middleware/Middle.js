@@ -7,8 +7,9 @@ const Limit = require("./Ratelimit")
 module.exports = app => {
     app.use(BodyParser({
         enableTypes: ['json', 'form', 'text', 'xml'],
-        formLimit:"10mb",
-        jsonLimit:"10mb",
+        'formLimit':'10mb',
+        'jsonLimit':'10mb',
+        'textLimit':'10mb',
     }));
     // 处理 POST 请求数据, 将数据挂载到 ctx.request.body 上
     app.use(Global);
