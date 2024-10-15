@@ -10,11 +10,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var Auth = require("./../app/middleware/Auth");
 
-var Admin = require("./../app/controller/admin/Admin");
+var Admin = require("../app/controller/admin/Admin");
 
-var Blog = require("./../app/controller/blog/Blog");
+var Blog = require("../app/controller/blog/Blog");
 
-var WX = require("./../app/controller/wx/WX");
+var WX = require("../app/controller/wx/WX");
 
 var Route = require('./BaseRoute'); // "Get|list" Get "Get:id"
 // Update "Update:id"
