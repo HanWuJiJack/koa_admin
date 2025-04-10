@@ -1,5 +1,116 @@
-# 功能介绍 
-## 基础框架：
+# Koa-Admin 企业级后台管理系统
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yourname/koa-admin)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.20.2-brightgreen.svg)](https://nodejs.org/)
+
+## 项目背景
+基于 Koa 框架开发的后台管理系统解决方案，参考若依开源框架设计理念，提供 RBAC 权限管理、功能即服务(FaaS)、动态表单等核心功能模块。
+
+## 技术架构
+### 后端技术栈
+- **运行时**: Node.js 16.20.2
+- **框架**: Koa@2 + TypeScript
+- **数据库**: MongoDB + mongoose
+- **安全**: JWT + RSA 加密登录
+- **限流**: 接口级令牌桶限流算法
+
+### 前端技术栈
+- Vue3 + Element Plus
+- Axios 封装请求拦截
+- 动态路由加载
+- RBAC 权限控制
+
+## 核心功能
+### 权限管理系统
+```mermaid
+graph TD
+  A[路由洋葱模型] --> B[控制器装饰器]
+  B --> C{权限校验}
+  C -->|通过| D[业务逻辑]
+  C -->|拒绝| E[返回403]
+```
+
+#### 路由控制特性
+1. 动态路由命名规范：
+   - `Get|list` => GET /admin/route/list
+   - `Update:id` => PUT /admin/route/:id
+2. 中间件链式加载：
+```javascript
+middleLists: {
+  "Get|list": [
+    ApiAuth(["system:dictType:list"]), 
+    ApiRatelimit(1, 3)
+  ]
+}
+```
+
+### FaaS 功能即服务
+1. **动态模型创建**：
+```javascript
+modelSchemas.formSchema = mongoose.model('form', new Schema({
+  id: Number,
+  config: Schema.Types.Mixed
+}))
+```
+2. **服务函数热加载**：
+```javascript
+// 函数更新后自动重新挂载路由
+await FaasInit() 
+```
+
+### 特色功能
+- **自动ID生成**：分布式自增ID服务
+```javascript
+const currentIndex = await AutoID({ code: "dictTypeId" })
+```
+- **接口级限流**：支持 QPS 和并发数控制
+- **安全审计**：操作日志自动记录
+
+## 快速开始
+### 环境要求
+- Node.js 16.20.2
+- MongoDB 5.0+
+
+### 启动命令
+```bash
+# 安装依赖
+yarn
+
+# 开发模式
+yarn dev
+
+# 集群模式（CPU核心数/2）
+yarn cluster
+
+# 生产构建
+yarn build
+```
+
+## 架构设计
+### 路由洋葱模型
+```
+┌───────────────────────────────────┐
+│          API Request              │
+└───────────────────────────────────┘
+                   ▼
+┌───────────────────────────────────┐
+│        Rate Limiter Middleware    │
+└───────────────────────────────────┘
+                   ▼
+┌───────────────────────────────────┐
+│        Auth Middleware            │
+└───────────────────────────────────┘
+                   ▼
+┌───────────────────────────────────┐
+│      Business Controller          │
+└───────────────────────────────────┘
+```
+
+## 贡献指南
+欢迎提交 PR 或 issue，详细请参考[贡献文档](CONTRIBUTING.md)
+
+## 开源协议
+[MIT License](LICENSE.md)
 参考若依开源封装基于koa版本的前后端分离框架，若感觉对你有用请给个start吧！
 ### 后端：
 koa+mongodb;
